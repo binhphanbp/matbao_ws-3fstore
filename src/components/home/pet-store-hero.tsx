@@ -87,17 +87,12 @@ export function PetStoreHero() {
       return;
     }
 
-    const introLeftPanel = scope.querySelector<HTMLElement>(
-      "[data-intro-panel-left]",
+    const introPaws = scope.querySelectorAll<HTMLElement>("[data-intro-paw]");
+    const introRings = scope.querySelectorAll<HTMLElement>("[data-intro-ring]");
+    const introGlow = scope.querySelector<HTMLElement>("[data-intro-glow]");
+    const introRevealPaw = scope.querySelector<HTMLElement>(
+      "[data-intro-reveal-paw]",
     );
-    const introRightPanel = scope.querySelector<HTMLElement>(
-      "[data-intro-panel-right]",
-    );
-    const introLogo = scope.querySelector<HTMLElement>("[data-intro-logo]");
-    const introTagline = scope.querySelector<HTMLElement>(
-      "[data-intro-tagline]",
-    );
-    const introLine = scope.querySelector<HTMLElement>("[data-intro-line]");
     const previousBodyOverflow = document.body.style.overflow;
     let fallbackTimeout: number | undefined;
     let timeline: gsap.core.Timeline | null = null;
@@ -117,7 +112,7 @@ export function PetStoreHero() {
       showPageImmediately();
       gsap.set(intro, { display: "none" });
       releasePage();
-    }, 4500);
+    }, 3200);
 
     timeline = gsap.timeline({
       defaults: { ease: "power3.out" },
@@ -126,65 +121,96 @@ export function PetStoreHero() {
 
     timeline
       .addLabel("intro")
-      .from(
-        introLogo,
+      .set(introRevealPaw, { autoAlpha: 0 })
+      .set(introRevealPaw, {
+        xPercent: -50,
+        yPercent: -50,
+        scale: 0.1,
+        rotation: -12,
+        transformOrigin: "50% 58%",
+      })
+      .set(introPaws, { autoAlpha: 0, scale: 0.28, y: 36 })
+      .set(introRings, { autoAlpha: 0, scale: 0.28 })
+      .fromTo(
+        introGlow,
+        { scale: 0.58, autoAlpha: 0.16 },
         {
-          autoAlpha: 0,
-          scale: 0.62,
-          rotation: -5,
-          duration: 0.72,
-          ease: "back.out(1.55)",
+          scale: 1.05,
+          autoAlpha: 1,
+          duration: 0.78,
+          ease: "sine.out",
         },
         "intro",
       )
-      .from(
-        introTagline,
+      .to(
+        introPaws,
         {
-          autoAlpha: 0,
-          y: 16,
-          duration: 0.42,
+          autoAlpha: 1,
+          scale: 1,
+          y: 0,
+          duration: 0.22,
+          stagger: 0.055,
+          ease: "back.out(2.4)",
         },
-        "intro+=0.32",
+        "intro+=0.04",
+      )
+      .to(
+        introPaws,
+        {
+          autoAlpha: 0.58,
+          scale: 0.9,
+          duration: 0.34,
+          stagger: 0.045,
+          ease: "power2.out",
+        },
+        "intro+=0.46",
+      )
+      .to(
+        introRings,
+        {
+          autoAlpha: 1,
+          scale: 1.4,
+          duration: 0.48,
+          stagger: 0.06,
+          ease: "power3.out",
+        },
+        "intro+=0.72",
       )
       .fromTo(
-        introLine,
-        { scaleX: 0 },
+        introRevealPaw,
         {
-          scaleX: 1,
-          duration: 0.62,
-          ease: "power3.inOut",
+          autoAlpha: 1,
+          scale: 0.1,
+          rotation: -12,
         },
-        "intro+=0.34",
+        {
+          autoAlpha: 1,
+          scale: 34,
+          rotation: 4,
+          duration: 0.94,
+          ease: "expo.inOut",
+        },
+        "intro+=0.82",
       )
       .to(
-        scope.querySelector("[data-intro-content]"),
+        [introGlow, introPaws, introRings],
         {
           autoAlpha: 0,
-          y: -18,
-          duration: 0.34,
-          ease: "power2.in",
+          duration: 0.3,
+          ease: "power2.out",
         },
-        "intro+=1.1",
-      )
-      .addLabel("open", "intro+=1.25")
-      .to(
-        introLeftPanel,
-        {
-          xPercent: -100,
-          duration: 0.82,
-          ease: "power4.inOut",
-        },
-        "open",
+        "intro+=1.05",
       )
       .to(
-        introRightPanel,
+        intro,
         {
-          xPercent: 100,
-          duration: 0.82,
-          ease: "power4.inOut",
+          autoAlpha: 0,
+          duration: 0.24,
+          ease: "power1.out",
         },
-        "open",
+        "intro+=1.62",
       )
+      .addLabel("open", "intro+=1.46")
       .from(
         scope.querySelector("[data-hero-visual]"),
         {
@@ -325,52 +351,38 @@ export function PetStoreHero() {
     >
       <div
         data-page-intro
-        className="fixed inset-0 z-[100] overflow-hidden motion-reduce:hidden"
+        className="fixed inset-0 z-[100] overflow-hidden bg-[#073f42] motion-reduce:hidden"
         aria-hidden="true"
       >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_48%,rgba(189,233,226,0.2),transparent_30%),linear-gradient(135deg,rgba(255,117,88,0.14),transparent_34%,rgba(189,233,226,0.1)_70%,transparent)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:54px_54px]" />
         <div
-          data-intro-panel-left
-          className="absolute inset-y-0 left-0 w-1/2 bg-[#073f42] will-change-transform"
+          data-intro-glow
+          className="absolute top-1/2 left-1/2 size-[62vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#bde9e2]/18 blur-3xl"
         />
-        <div
-          data-intro-panel-right
-          className="absolute inset-y-0 right-0 w-1/2 bg-[#0a5558] will-change-transform"
+        <IntroRevealPaw />
+
+        <span
+          data-intro-ring
+          className="absolute top-1/2 left-1/2 size-32 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#ffb39f]/55"
+        />
+        <span
+          data-intro-ring
+          className="absolute top-1/2 left-1/2 size-52 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#bde9e2]/35"
+        />
+        <span
+          data-intro-ring
+          className="absolute top-1/2 left-1/2 size-72 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/14"
         />
 
-        <div
-          data-intro-content
-          className="absolute inset-0 z-10 grid place-items-center text-white will-change-transform"
-        >
-          <div className="flex flex-col items-center">
-            <div
-              data-intro-logo
-              className="relative h-[116px] w-[210px] overflow-hidden rounded-[24px] bg-white shadow-[0_26px_60px_rgba(0,0,0,0.22)] will-change-transform sm:h-[142px] sm:w-[260px]"
-            >
-              <Image
-                src="/logo/logo.webp"
-                alt=""
-                fill
-                sizes="260px"
-                className="object-contain p-3 sm:p-4"
-                priority
-              />
-            </div>
-
-            <p
-              data-intro-tagline
-              className="mt-6 text-sm font-bold text-[#bde9e2] sm:text-base"
-            >
-              Tốt hơn mỗi ngày cho thú cưng
-            </p>
-
-            <span className="mt-7 block h-0.5 w-44 overflow-hidden rounded-full bg-white/15 sm:w-56">
-              <span
-                data-intro-line
-                className="block h-full origin-left rounded-full bg-[#ff7558] will-change-transform"
-              />
-            </span>
-          </div>
-        </div>
+        <IntroPaw className="top-[82%] left-[5%] rotate-[-31deg] text-[#ffb39f]" />
+        <IntroPaw className="top-[72%] left-[16%] rotate-[-22deg] text-[#bde9e2]" />
+        <IntroPaw className="top-[63%] left-[27%] rotate-[-14deg] text-[#ffb39f]" />
+        <IntroPaw className="top-[54%] left-[39%] rotate-[-4deg] text-[#bde9e2]" />
+        <IntroPaw className="top-[44%] left-[51%] rotate-[8deg] text-[#ffb39f]" />
+        <IntroPaw className="top-[34%] left-[63%] rotate-[18deg] text-[#bde9e2]" />
+        <IntroPaw className="top-[24%] left-[75%] rotate-[27deg] text-[#ffb39f]" />
+        <IntroPaw className="top-[16%] left-[86%] rotate-[34deg] text-[#bde9e2]" />
       </div>
 
       <div className="mx-auto max-w-[1880px]">
@@ -653,6 +665,41 @@ function ProductCan({
         </span>
       </span>
       <span className="absolute inset-x-1 bottom-0 h-3 rounded-[50%] bg-[#0c4b4f]/18" />
+    </span>
+  );
+}
+
+function IntroPaw({ className }: { className?: string }) {
+  return (
+    <span
+      data-intro-paw
+      className={cn(
+        "absolute z-[6] block size-11 text-[#ffb39f] opacity-0 drop-shadow-[0_10px_18px_rgba(0,0,0,0.12)] will-change-transform sm:size-14",
+        className,
+      )}
+      aria-hidden="true"
+    >
+      <span className="absolute bottom-1 left-1/2 h-5 w-7 -translate-x-1/2 rounded-[52%_52%_48%_48%/58%_58%_42%_42%] bg-current sm:h-6 sm:w-8" />
+      <span className="absolute top-1 left-2 size-3 rounded-full bg-current sm:size-3.5" />
+      <span className="absolute top-0 left-1/2 size-3.5 -translate-x-1/2 rounded-full bg-current sm:size-4" />
+      <span className="absolute top-1 right-2 size-3 rounded-full bg-current sm:size-3.5" />
+      <span className="absolute top-4 right-0 size-2.5 rounded-full bg-current sm:size-3" />
+    </span>
+  );
+}
+
+function IntroRevealPaw() {
+  return (
+    <span
+      data-intro-reveal-paw
+      className="absolute top-1/2 left-1/2 z-20 block size-32 text-[#fbfffe] opacity-0 will-change-transform"
+      aria-hidden="true"
+    >
+      <span className="absolute bottom-1 left-1/2 h-14 w-20 -translate-x-1/2 rounded-[52%_52%_48%_48%/58%_58%_42%_42%] bg-current" />
+      <span className="absolute top-3 left-5 size-8 rounded-full bg-current" />
+      <span className="absolute top-0 left-1/2 size-9 -translate-x-1/2 rounded-full bg-current" />
+      <span className="absolute top-3 right-5 size-8 rounded-full bg-current" />
+      <span className="absolute top-11 right-0 size-7 rounded-full bg-current" />
     </span>
   );
 }
