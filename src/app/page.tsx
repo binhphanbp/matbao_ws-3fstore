@@ -3,7 +3,7 @@ import { PetStoreHero } from "@/components/home/pet-store-hero";
 import { getFeaturedProducts } from "@/data/products";
 
 export default function Home() {
-  const featuredProducts = getFeaturedProducts(10);
+  const featuredProducts = getFeaturedProducts(20);
 
   return (
     <>

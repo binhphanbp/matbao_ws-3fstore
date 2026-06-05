@@ -110,7 +110,7 @@ export function BundleSaveSection({
   const addItem = useCartStore((state) => state.addItem);
 
   const visibleProducts = useMemo(
-    () => products.filter((product) => product.image).slice(0, 10),
+    () => products.filter((product) => product.image).slice(0, 20),
     [products],
   );
 
@@ -179,20 +179,11 @@ export function BundleSaveSection({
     <section
       id="bundle-save"
       ref={scopeRef}
-      className="bg-[#fbfffe] px-4 py-14 text-[#1f1f1f] sm:px-6 lg:px-7"
+      className="bg-[#fbfffe] py-14 text-[#1f1f1f]"
       aria-labelledby="bundle-save-title"
     >
       <div className="mx-auto max-w-[1160px]">
-        <div className="relative px-5 py-6 sm:px-8 sm:py-7">
-          <div
-            className="pointer-events-none absolute inset-0 opacity-[0.42]"
-            style={{
-              backgroundImage:
-                "linear-gradient(#f3ece5 1px, transparent 1px), linear-gradient(90deg, #f3ece5 1px, transparent 1px)",
-              backgroundSize: "22px 22px",
-            }}
-          />
-
+        <div className="relative">
           <div className="relative">
             <header className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
               <div data-bundle-reveal>
@@ -268,15 +259,15 @@ export function BundleSaveSection({
 
             <div
               data-bundle-reveal
-              className="mt-5 flex flex-col gap-4 rounded-[24px] border border-[#e7e0db] bg-white p-3 shadow-[0_14px_40px_rgba(54,37,27,0.06)] lg:flex-row lg:items-center lg:justify-between"
+              className="mt-5 flex flex-col gap-4 rounded-[24px] border border-[#e7e0db] bg-white p-3 shadow-[0_14px_40px_rgba(54,37,27,0.06)] lg:flex-row lg:items-center lg:gap-8"
             >
-              <div className="bundle-scrollbar flex max-w-full snap-x snap-mandatory gap-2 overflow-x-auto overscroll-x-contain pb-3 lg:max-w-[520px]">
+              <div className="bundle-scrollbar flex max-w-full snap-x snap-mandatory gap-2 overflow-x-auto overscroll-x-contain pb-3 lg:min-w-0 lg:flex-1">
                 {visibleProducts.map((item) => (
                   <ProductThumb key={item.id} item={item} />
                 ))}
               </div>
 
-              <div className="flex flex-col gap-4 border-t border-[#eee3dc] pt-4 sm:flex-row sm:items-center lg:min-h-[104px] lg:border-t-0 lg:border-l lg:border-[#eee3dc] lg:pl-9">
+              <div className="flex flex-col gap-4 border-t border-[#eee3dc] pt-4 sm:flex-row sm:items-center lg:min-h-[104px] lg:shrink-0 lg:border-t-0 lg:border-l lg:border-[#eee3dc] lg:pl-9">
                 <div className="min-w-[190px]">
                   <p className="text-sm font-bold text-[#87776f]">Tổng cộng:</p>
                   <p className="mt-0.5 text-[25px] leading-none font-black text-[#3b3430]">
