@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Noto_Serif_Display, Plus_Jakarta_Sans } from "next/font/google";
 import type { ReactNode } from "react";
 
 import { AppProviders } from "@/components/providers/app-providers";
@@ -7,14 +7,16 @@ import { siteConfig } from "@/config/site";
 
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta-sans",
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const notoSerifDisplay = Noto_Serif_Display({
+  variable: "--font-noto-serif-display",
+  subsets: ["latin", "latin-ext", "vietnamese"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -35,7 +37,7 @@ export default function RootLayout({
     <html
       lang="vi"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${plusJakartaSans.variable} ${notoSerifDisplay.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <AppProviders>{children}</AppProviders>

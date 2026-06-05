@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
+    "import:shopee": "pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/import-shopee-products.ps1",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

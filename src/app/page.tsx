@@ -1,5 +1,14 @@
-import { AnimatedShowcase } from "@/components/home/animated-showcase";
+import { BundleSaveSection } from "@/components/home/bundle-save-section";
+import { PetStoreHero } from "@/components/home/pet-store-hero";
+import { getFeaturedProducts } from "@/data/products";
 
 export default function Home() {
-  return <AnimatedShowcase />;
+  const featuredProducts = getFeaturedProducts(10);
+
+  return (
+    <>
+      <PetStoreHero />
+      <BundleSaveSection products={featuredProducts} />
+    </>
+  );
 }

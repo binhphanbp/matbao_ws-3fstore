@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 export function useGsapContext<T extends HTMLElement>(
-  animation: (scope: T) => void,
+  animation: (scope: T) => void | (() => void),
 ) {
   const scopeRef = useRef<T>(null);
 
@@ -13,12 +13,15 @@ export function useGsapContext<T extends HTMLElement>(
       return;
     }
 
-    const context = gsap.context(
-      () => animation(scopeRef.current as T),
-      scopeRef,
-    );
+    let animationCleanup: void | (() => void);
+    const context = gsap.context(() => {
+      animationCleanup = animation(scopeRef.current as T);
+    }, scopeRef);
 
-    return () => context.revert();
+    return () => {
+      animationCleanup?.();
+      context.revert();
+    };
   }, [animation]);
 
   return scopeRef;

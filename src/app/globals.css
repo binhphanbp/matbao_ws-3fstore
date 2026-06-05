@@ -10,8 +10,8 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-ring: var(--ring);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-plus-jakarta-sans);
+  --font-serif: var(--font-noto-serif-display);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,10 +24,41 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-plus-jakarta-sans), Arial, Helvetica, sans-serif;
 }
 
 ::selection {
   background: #2454ff;
   color: #ffffff;
+}
+
+.bundle-scrollbar {
+  scrollbar-color: #ff6a58 #f4e9e3;
+  scrollbar-width: thin;
+}
+
+.bundle-scrollbar::-webkit-scrollbar {
+  height: 8px;
+}
+
+.bundle-scrollbar::-webkit-scrollbar-track {
+  border-radius: 999px;
+  background: #f4e9e3;
+}
+
+.bundle-scrollbar::-webkit-scrollbar-thumb {
+  min-width: 44px;
+  border: 2px solid #f4e9e3;
+  border-radius: 999px;
+  background: #ff6a58;
+}
+
+.bundle-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #e94b36;
+}
+
+.bundle-scrollbar::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
 }
