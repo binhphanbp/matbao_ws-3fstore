@@ -335,7 +335,7 @@ function BundleCard({
         ) : null}
       </div>
 
-      <div className="mt-2 rounded-[18px] bg-[#f8f5f2] px-3 py-3">
+      <div className="mt-2 overflow-hidden rounded-[18px] bg-[#f8f5f2] px-1 py-2">
         <BundleBox colors={bundle.colors} products={products} />
       </div>
 
@@ -386,16 +386,19 @@ function BundleBox({
   const visibleProducts = products.slice(0, 7);
 
   return (
-    <div className="relative mx-auto h-[116px] w-[150px]" aria-hidden>
-      <div className="absolute bottom-2 left-1/2 h-[55px] w-[108px] -translate-x-1/2 rounded-b-[16px] bg-[#d8643f] shadow-[0_16px_22px_rgba(88,45,25,0.18)]">
+    <div
+      className="relative mx-auto h-[132px] w-full max-w-[178px]"
+      aria-hidden
+    >
+      <div className="absolute bottom-1 left-1/2 h-[60px] w-[124px] -translate-x-1/2 rounded-b-[18px] bg-[#d8643f] shadow-[0_16px_22px_rgba(88,45,25,0.18)]">
         <div className="absolute inset-x-0 top-0 h-7 rounded-t-[6px] bg-[#f27a4b]" />
         <div className="absolute inset-x-4 bottom-3 rounded-full bg-white/22 py-1 text-center text-[12px] font-black text-white">
           3F
         </div>
       </div>
 
-      <div className="absolute right-5 bottom-[50px] h-10 w-12 rotate-[18deg] rounded-[10px] bg-[#c64f32]" />
-      <div className="absolute bottom-[48px] left-5 h-10 w-12 -rotate-[18deg] rounded-[10px] bg-[#e9754a]" />
+      <div className="absolute right-5 bottom-[55px] h-11 w-[52px] rotate-[18deg] rounded-[11px] bg-[#c64f32]" />
+      <div className="absolute bottom-[54px] left-5 h-11 w-[52px] -rotate-[18deg] rounded-[11px] bg-[#e9754a]" />
 
       {visibleProducts.length > 0
         ? visibleProducts.map((product, index) => {
@@ -404,19 +407,21 @@ function BundleBox({
             return (
               <span
                 key={product.id}
-                className="absolute bottom-[48px] left-1/2 h-[64px] w-[34px] origin-bottom overflow-hidden rounded-[8px] border border-white/80 bg-white shadow-[0_8px_12px_rgba(55,35,22,0.14)]"
+                className="absolute bottom-[52px] left-1/2 h-[78px] w-[48px] origin-bottom overflow-hidden rounded-[10px] border border-white bg-white shadow-[0_12px_16px_rgba(55,35,22,0.18)]"
                 style={{
-                  transform: `translateX(calc(-50% + ${offset * 17}px)) rotate(${offset * 5}deg)`,
+                  transform: `translateX(calc(-50% + ${offset * 17}px)) translateY(${Math.abs(offset) * 3}px) rotate(${offset * 5}deg)`,
                   zIndex: 10 + index,
                 }}
               >
-                <Image
-                  src={product.image ?? ""}
-                  alt=""
-                  fill
-                  sizes="34px"
-                  className="object-contain p-1"
-                />
+                {product.image ? (
+                  <Image
+                    src={product.image}
+                    alt=""
+                    fill
+                    sizes="48px"
+                    className="object-cover"
+                  />
+                ) : null}
               </span>
             );
           })

@@ -43,7 +43,47 @@ export function getFeaturedProducts(limit = 10): ProductPreview[] {
     }
   }
 
-  return featured.slice(0, limit).map((product) => ({
+  return featured.slice(0, limit).map(toProductPreview);
+}
+
+export function getTrendingSnackProducts(limit = 6): ProductPreview[] {
+  const usedIds = new Set<string>();
+  const snackProducts = storeProducts.filter(
+    (product) => product.category === "Snack & bánh thưởng" && product.image,
+  );
+  const supportProducts = storeProducts.filter((product) => {
+    if (!product.image || product.category === "Snack & bánh thưởng") {
+      return false;
+    }
+
+    const searchable =
+      `${product.shortName} ${product.category} ${product.brand}`.toLowerCase();
+
+    return (
+      product.category === "Pate & thức ăn ướt" ||
+      searchable.includes("snack") ||
+      searchable.includes("bánh") ||
+      searchable.includes("thưởng") ||
+      searchable.includes("ciao") ||
+      searchable.includes("nekko")
+    );
+  });
+
+  return [...snackProducts, ...supportProducts]
+    .filter((product) => {
+      if (usedIds.has(product.id)) {
+        return false;
+      }
+
+      usedIds.add(product.id);
+      return true;
+    })
+    .slice(0, limit)
+    .map(toProductPreview);
+}
+
+function toProductPreview(product: StoreProduct): ProductPreview {
+  return {
     id: product.id,
     slug: product.slug,
     name: product.name,
@@ -55,5 +95,5 @@ export function getFeaturedProducts(limit = 10): ProductPreview[] {
     priceRange: product.priceRange,
     image: product.image,
     audience: product.audience,
-  }));
+  };
 }
