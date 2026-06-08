@@ -13,6 +13,7 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { useGsapContext } from "@/hooks/use-gsap-context";
+import { trackAnalyticsEvent } from "@/lib/analytics/tracker";
 import { cn } from "@/lib/utils";
 import { useCartStore } from "@/store/cart-store";
 import type { Product, ProductPreview } from "@/types/product";
@@ -83,6 +84,18 @@ export function TrendingSnacksSection({
     };
 
     addItem(cartProduct);
+    trackAnalyticsEvent("add_to_cart", {
+      sectionId: "snacks",
+      elementId: `snacks:add-to-cart:${product.id}`,
+      productId: product.id,
+      productName: product.shortName,
+      category: product.category,
+      brand: product.brand,
+      audience: product.audience,
+      price: product.price,
+      quantity: 1,
+      cartValue: product.price,
+    });
   };
 
   if (!leftFeature || !rightFeature) {
@@ -93,6 +106,7 @@ export function TrendingSnacksSection({
     <section
       id="trending-snacks"
       ref={scopeRef}
+      data-track-section="snacks"
       className="scroll-mt-10 text-[#171717]"
       aria-labelledby="trending-snacks-title"
     >
@@ -187,10 +201,35 @@ function FeatureSnackCard({
   onAdd: (product: ProductPreview) => void;
 }) {
   const isRed = tone === "red";
+  const handleProductClick = (target: EventTarget | null) => {
+    if ((target as HTMLElement | null)?.closest("button")) {
+      return;
+    }
+
+    trackAnalyticsEvent("product_click", {
+      sectionId: "snacks",
+      elementId: `snacks:feature:${product.id}`,
+      productId: product.id,
+      productName: product.shortName,
+      category: product.category,
+      brand: product.brand,
+      audience: product.audience,
+      price: product.price,
+    });
+  };
 
   return (
     <article
       data-snack-reveal
+      data-track-action="true"
+      data-track-brand={product.brand}
+      data-track-category={product.category}
+      data-track-id={`snacks:feature:${product.id}`}
+      data-track-price={product.price}
+      data-track-product-id={product.id}
+      data-track-product-name={product.shortName}
+      data-track-section="snacks"
+      onClick={(event) => handleProductClick(event.target)}
       className={cn(
         "group relative min-h-[408px] overflow-hidden rounded-[21px] border-[6px] border-white p-4 text-white shadow-[0_18px_34px_rgba(37,31,25,0.16)] will-change-transform",
         rotation,
@@ -246,9 +285,35 @@ function SmallSnackCard({
   showHeart?: boolean;
   onAdd: (product: ProductPreview) => void;
 }) {
+  const handleProductClick = (target: EventTarget | null) => {
+    if ((target as HTMLElement | null)?.closest("button")) {
+      return;
+    }
+
+    trackAnalyticsEvent("product_click", {
+      sectionId: "snacks",
+      elementId: `snacks:card:${product.id}`,
+      productId: product.id,
+      productName: product.shortName,
+      category: product.category,
+      brand: product.brand,
+      audience: product.audience,
+      price: product.price,
+    });
+  };
+
   return (
     <article
       data-snack-reveal
+      data-track-action="true"
+      data-track-brand={product.brand}
+      data-track-category={product.category}
+      data-track-id={`snacks:card:${product.id}`}
+      data-track-price={product.price}
+      data-track-product-id={product.id}
+      data-track-product-name={product.shortName}
+      data-track-section="snacks"
+      onClick={(event) => handleProductClick(event.target)}
       className="group relative min-h-[198px] rounded-[17px] border border-[#ece5df] bg-white p-3 shadow-[0_10px_24px_rgba(39,32,23,0.08)] will-change-transform"
     >
       {showNew ? <NewBurst className="top-[-16px] right-[-10px]" /> : null}
@@ -303,6 +368,14 @@ function CartButton({
   return (
     <button
       type="button"
+      data-track-action="true"
+      data-track-brand={product.brand}
+      data-track-category={product.category}
+      data-track-id={`snacks:add-to-cart:${product.id}`}
+      data-track-price={product.price}
+      data-track-product-id={product.id}
+      data-track-product-name={product.shortName}
+      data-track-section="snacks"
       className={cn(
         "grid shrink-0 place-items-center rounded-full text-[#191714] shadow-[0_10px_22px_rgba(27,22,15,0.12)] transition-transform hover:scale-105",
         variant === "yellow" ? "bg-[#ffe500]" : "bg-white",

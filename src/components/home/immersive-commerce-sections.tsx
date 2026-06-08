@@ -24,6 +24,7 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { useGsapContext } from "@/hooks/use-gsap-context";
+import { trackAnalyticsEvent } from "@/lib/analytics/tracker";
 import { cn } from "@/lib/utils";
 import type { ProductPreview } from "@/types/product";
 
@@ -332,22 +333,23 @@ export function ImmersiveCommerceSections({
         },
       });
 
-      timeline
-        .fromTo(
-          introItems,
-          {
-            autoAlpha: 0,
-            y: 30,
-            clipPath: "inset(0% 0% 18% 0%)",
-          },
-          {
-            autoAlpha: 1,
-            y: 0,
-            clipPath: "inset(0% 0% 0% 0%)",
-            stagger: 0.08,
-          },
-        )
-        .to(
+      timeline.fromTo(
+        introItems,
+        {
+          autoAlpha: 0,
+          y: 30,
+          clipPath: "inset(0% 0% 18% 0%)",
+        },
+        {
+          autoAlpha: 1,
+          y: 0,
+          clipPath: "inset(0% 0% 0% 0%)",
+          stagger: 0.08,
+        },
+      );
+
+      if (introDrawLines.length > 0) {
+        timeline.to(
           introDrawLines,
           {
             drawSVG: "0% 100%",
@@ -357,6 +359,7 @@ export function ImmersiveCommerceSections({
           } as gsap.TweenVars,
           "-=0.36",
         );
+      }
     });
 
     parallaxItems.forEach((item, index) => {
@@ -681,6 +684,7 @@ function ShopByNeedSection({ cards }: { cards: NeedCard[] }) {
   return (
     <section
       data-horizontal-section
+      data-track-section="care-journey"
       className="relative overflow-hidden bg-[#fbfffe] py-16 lg:min-h-[100dvh] lg:py-20"
       aria-labelledby="shop-by-need-title"
     >
@@ -833,6 +837,7 @@ function CareRoutineSection({
   return (
     <section
       data-care-stage
+      data-track-section="care-journey"
       className="relative overflow-hidden bg-[#073f42] py-20 text-white"
       aria-labelledby="routine-title"
     >
@@ -979,6 +984,7 @@ function ServiceStudioSection({ products }: { products: ProductPreview[] }) {
   return (
     <section
       data-service-journey
+      data-track-section="services"
       className="relative overflow-hidden bg-[#fbfffe] py-20 text-[#073f42]"
       aria-labelledby="service-title"
     >
@@ -1165,6 +1171,7 @@ function CommunityProofSection({ products }: { products: ProductPreview[] }) {
 
   return (
     <section
+      data-track-section="proof"
       className="overflow-hidden bg-[#fbfffe] pt-8 pb-20 text-[#073f42]"
       aria-labelledby="proof-title"
     >
@@ -1279,7 +1286,20 @@ function CommunityProofSection({ products }: { products: ProductPreview[] }) {
           </h3>
         </div>
 
-        <Button className="h-[60px] rounded-full bg-[#ff4f3c] px-8 text-[14px] font-black text-white shadow-[0_20px_40px_rgba(255,79,60,0.22)] hover:bg-[#e94427]">
+        <Button
+          data-track-action="true"
+          data-track-category="Dịch vụ"
+          data-track-id="proof:start-shopping"
+          data-track-section="proof"
+          className="h-[60px] rounded-full bg-[#ff4f3c] px-8 text-[14px] font-black text-white shadow-[0_20px_40px_rgba(255,79,60,0.22)] hover:bg-[#e94427]"
+          onClick={() =>
+            trackAnalyticsEvent("service_interest", {
+              sectionId: "proof",
+              elementId: "proof:start-shopping",
+              category: "Dịch vụ",
+            })
+          }
+        >
           Bắt đầu chọn món
           <ChevronRight className="size-5" aria-hidden />
         </Button>

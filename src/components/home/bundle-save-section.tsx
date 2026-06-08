@@ -7,6 +7,7 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { useGsapContext } from "@/hooks/use-gsap-context";
+import { trackAnalyticsEvent } from "@/lib/analytics/tracker";
 import { cn } from "@/lib/utils";
 import { useCartStore } from "@/store/cart-store";
 import type { Product, ProductPreview } from "@/types/product";
@@ -163,6 +164,22 @@ export function BundleSaveSection({
 
   const scopeRef = useGsapContext<HTMLElement>(animate);
 
+  const handleSelectBundle = (bundle: Bundle) => {
+    setSelectedBundleId(bundle.id);
+    trackAnalyticsEvent("bundle_selected", {
+      sectionId: "bundle",
+      elementId: `bundle:${bundle.itemCount}-items`,
+      category: "Combo 3FStore",
+      price: bundle.price,
+      cartValue: bundle.price,
+      metadata: {
+        title: bundle.title,
+        discount: bundle.discount,
+        itemCount: bundle.itemCount,
+      },
+    });
+  };
+
   const handleAddBundle = () => {
     const bundleProduct: Product = {
       id: selectedBundle.id,
@@ -173,12 +190,36 @@ export function BundleSaveSection({
     };
 
     addItem(bundleProduct);
+    trackAnalyticsEvent("bundle_add_to_cart", {
+      sectionId: "bundle",
+      elementId: "bundle:add-to-cart",
+      category: "Combo 3FStore",
+      price: selectedBundle.price,
+      quantity: 1,
+      cartValue: selectedBundle.price,
+      metadata: {
+        title: selectedBundle.title,
+        discount: selectedBundle.discount,
+        itemCount: selectedBundle.itemCount,
+      },
+    });
+    trackAnalyticsEvent("add_to_cart", {
+      sectionId: "bundle",
+      elementId: "bundle:add-to-cart",
+      productId: selectedBundle.id,
+      productName: `Combo tiết kiệm ${selectedBundle.title}`,
+      category: "Combo 3FStore",
+      price: selectedBundle.price,
+      quantity: 1,
+      cartValue: selectedBundle.price,
+    });
   };
 
   return (
     <section
       id="bundle-save"
       ref={scopeRef}
+      data-track-section="bundle"
       className="bg-[#fbfffe] py-14 text-[#1f1f1f]"
       aria-labelledby="bundle-save-title"
     >
@@ -251,7 +292,7 @@ export function BundleSaveSection({
                       Math.min(bundle.itemCount, 7),
                     )}
                     isSelected={selectedBundleId === bundle.id}
-                    onSelect={() => setSelectedBundleId(bundle.id)}
+                    onSelect={() => handleSelectBundle(bundle)}
                   />
                 ))}
               </div>
@@ -280,6 +321,13 @@ export function BundleSaveSection({
                 </div>
 
                 <Button
+                  data-track-action="true"
+                  data-track-category="Combo 3FStore"
+                  data-track-id="bundle:add-to-cart"
+                  data-track-price={selectedBundle.price}
+                  data-track-product-id={selectedBundle.id}
+                  data-track-product-name={`Combo tiết kiệm ${selectedBundle.title}`}
+                  data-track-section="bundle"
                   className="h-[62px] rounded-full bg-[#ff4f3c] px-9 text-[15px] font-black text-white shadow-[0_18px_34px_rgba(255,79,60,0.24)] hover:bg-[#ea422f]"
                   onClick={handleAddBundle}
                 >
@@ -311,6 +359,10 @@ function BundleCard({
   return (
     <article
       data-bundle-reveal
+      data-track-category="Combo 3FStore"
+      data-track-id={`bundle:${bundle.itemCount}-items`}
+      data-track-price={bundle.price}
+      data-track-section="bundle"
       className={cn(
         "relative flex min-h-[342px] flex-col rounded-[24px] border bg-white p-4 text-center shadow-[0_14px_34px_rgba(54,37,27,0.06)] transition-all duration-300",
         isSelected
@@ -360,6 +412,11 @@ function BundleCard({
 
       <button
         type="button"
+        data-track-action="true"
+        data-track-category="Combo 3FStore"
+        data-track-id={`bundle:${bundle.itemCount}-items:select`}
+        data-track-price={bundle.price}
+        data-track-section="bundle"
         onClick={onSelect}
         className={cn(
           "mt-auto inline-flex h-11 items-center justify-center gap-2 rounded-full border px-4 text-[12px] font-black transition-colors",
@@ -450,9 +507,30 @@ function BundleBox({
 
 function ProductThumb({ item }: { item: ProductPreview }) {
   return (
-    <div
+    <button
+      type="button"
+      data-track-action="true"
+      data-track-brand={item.brand}
+      data-track-category={item.category}
+      data-track-id={`bundle:thumb:${item.id}`}
+      data-track-price={item.price}
+      data-track-product-id={item.id}
+      data-track-product-name={item.shortName}
+      data-track-section="bundle"
       className="relative grid size-[76px] shrink-0 snap-start place-items-center rounded-[16px] border border-[#eee2dc] bg-[#fff8f2]"
       title={item.shortName}
+      onClick={() =>
+        trackAnalyticsEvent("product_click", {
+          sectionId: "bundle",
+          elementId: `bundle:thumb:${item.id}`,
+          productId: item.id,
+          productName: item.shortName,
+          category: item.category,
+          brand: item.brand,
+          audience: item.audience,
+          price: item.price,
+        })
+      }
     >
       <span
         aria-hidden="true"
@@ -471,6 +549,6 @@ function ProductThumb({ item }: { item: ProductPreview }) {
           />
         ) : null}
       </span>
-    </div>
+    </button>
   );
 }

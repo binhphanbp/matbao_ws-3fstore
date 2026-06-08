@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useMemo } from "react";
-import type { ReactNode } from "react";
+import { useCallback, useMemo, useRef } from "react";
+import type { KeyboardEvent, ReactNode } from "react";
 import gsap from "gsap";
 import {
   ArrowUpRight,
@@ -16,6 +16,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { useGsapContext } from "@/hooks/use-gsap-context";
+import { trackAnalyticsEvent } from "@/lib/analytics/tracker";
 import { cn } from "@/lib/utils";
 import { useCartStore } from "@/store/cart-store";
 import type { Product } from "@/types/product";
@@ -30,20 +31,29 @@ const heroProduct: Product = {
 
 const productPicks = [
   {
+    id: "hero-pate-ca-ngu",
     name: "Pate cá ngừ",
     label: "CÁ",
+    category: "Pate & thức ăn ướt",
+    price: 59000,
     className: "border-[#138a8d] bg-[#d7f4ef]",
     can: "from-[#ffe26b] via-[#f2b24e] to-[#e55c32]",
   },
   {
+    id: "hero-sup-ga",
     name: "Súp gà",
     label: "SÚP",
+    category: "Snack & bánh thưởng",
+    price: 49000,
     className: "border-[#ff7256] bg-[#fff0e9]",
     can: "from-[#8ee2d2] via-[#49b8a9] to-[#247d74]",
   },
   {
+    id: "hero-hat-dinh-duong",
     name: "Hạt dinh dưỡng",
     label: "HẠT",
+    category: "Hạt & thức ăn khô",
+    price: 89000,
     className: "border-[#9c55ff] bg-[#f2eaff]",
     can: "from-[#f6efe3] via-[#c6b5ff] to-[#7357dc]",
   },
@@ -55,6 +65,7 @@ const utilityNav = ["Giao hàng", "Đổi trả", "Hỏi đáp"];
 
 export function PetStoreHero() {
   const addItem = useCartStore((state) => state.addItem);
+  const lastSearchQueryRef = useRef("");
   const cartCount = useCartStore((state) =>
     state.items.reduce((total, item) => total + item.quantity, 0),
   );
@@ -344,6 +355,43 @@ export function PetStoreHero() {
     [cartCount],
   );
 
+  const trackSearch = (query: string) => {
+    const cleanQuery = query.trim();
+
+    if (!cleanQuery || lastSearchQueryRef.current === cleanQuery) {
+      return;
+    }
+
+    lastSearchQueryRef.current = cleanQuery;
+    trackAnalyticsEvent("search_performed", {
+      sectionId: "hero",
+      elementId: "hero:search",
+      metadata: {
+        query: cleanQuery,
+      },
+    });
+  };
+
+  const handleSearchKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      trackSearch(event.currentTarget.value);
+    }
+  };
+
+  const handleHeroAddItem = () => {
+    addItem(heroProduct);
+    trackAnalyticsEvent("add_to_cart", {
+      sectionId: "hero",
+      elementId: "hero:collection-cta",
+      productId: heroProduct.id,
+      productName: heroProduct.name,
+      category: heroProduct.category,
+      price: heroProduct.price,
+      quantity: 1,
+      cartValue: heroProduct.price,
+    });
+  };
+
   return (
     <div
       ref={scopeRef}
@@ -405,6 +453,9 @@ export function PetStoreHero() {
 
             <div className="flex min-w-0 items-center rounded-full bg-[#f3f6f5] px-4 py-3.5 shadow-[inset_0_0_0_1px_rgba(8,63,66,0.03)] sm:px-5">
               <button
+                data-track-action="true"
+                data-track-id="header:category-select"
+                data-track-section="header"
                 className="flex min-w-24 items-center justify-between border-r border-[#d9e5e2] pr-3 text-sm font-bold text-[#183f41] sm:min-w-32 sm:pr-5"
                 type="button"
               >
@@ -416,9 +467,14 @@ export function PetStoreHero() {
               </label>
               <input
                 id="site-search"
+                data-track-action="true"
+                data-track-id="hero:search"
+                data-track-section="hero"
                 className="min-w-0 flex-1 bg-transparent px-4 text-sm font-medium text-[#183f41] outline-none placeholder:text-[#78918f] sm:px-6"
                 placeholder="Tìm pate, hạt, đồ chơi, spa thú cưng"
                 type="search"
+                onBlur={(event) => trackSearch(event.currentTarget.value)}
+                onKeyDown={handleSearchKeyDown}
               />
             </div>
 
@@ -475,6 +531,7 @@ export function PetStoreHero() {
 
         <main
           data-hero-visual
+          data-track-section="hero"
           className="relative overflow-hidden rounded-[22px] bg-[#eafdfe] shadow-[inset_0_0_0_1px_rgba(7,88,93,0.06)] lg:min-h-[760px] xl:min-h-[805px]"
         >
           <div className="pointer-events-none absolute top-[18%] right-[13.5%] size-32 rounded-full bg-[#bde9e2]" />
@@ -565,12 +622,18 @@ export function PetStoreHero() {
                 className="mt-9 flex flex-wrap items-center gap-5"
               >
                 <Button
+                  data-track-action="true"
+                  data-track-id="hero:collection-cta"
+                  data-track-section="hero"
                   className="h-[58px] rounded-full bg-[#ff4f2e] px-10 text-[15px] font-black text-white shadow-[0_24px_44px_rgba(255,79,46,0.24)] hover:bg-[#e94427]"
-                  onClick={() => addItem(heroProduct)}
+                  onClick={handleHeroAddItem}
                 >
                   Tất cả bộ sưu tập
                 </Button>
                 <Button
+                  data-track-action="true"
+                  data-track-id="hero:wishlist"
+                  data-track-section="hero"
                   variant="secondary"
                   size="icon"
                   className="size-[58px] rounded-full border-[#ff9f8c] bg-transparent text-[#ff4f2e] hover:bg-white/70"
@@ -588,11 +651,30 @@ export function PetStoreHero() {
                 {productPicks.map((product) => (
                   <button
                     key={product.name}
+                    data-track-action="true"
+                    data-track-brand="3FStore"
+                    data-track-category={product.category}
+                    data-track-id={`hero:pick:${product.id}`}
+                    data-track-price={product.price}
+                    data-track-product-id={product.id}
+                    data-track-product-name={product.name}
+                    data-track-section="hero"
                     className={cn(
                       "grid size-[86px] place-items-center rounded-full border-2 transition-transform hover:-translate-y-1",
                       product.className,
                     )}
                     aria-label={product.name}
+                    onClick={() =>
+                      trackAnalyticsEvent("product_click", {
+                        sectionId: "hero",
+                        elementId: `hero:pick:${product.id}`,
+                        productId: product.id,
+                        productName: product.name,
+                        category: product.category,
+                        brand: "3FStore",
+                        price: product.price,
+                      })
+                    }
                     type="button"
                   >
                     <ProductCan label={product.label} className={product.can} />
