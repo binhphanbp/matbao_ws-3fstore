@@ -297,7 +297,7 @@ export function ProductDetailPage({
 
                 {product.variants.length > 0 ? (
                   <div className="mt-4 sm:mt-5">
-                    <p className="mb-3 text-sm font-black text-[#073f42]">
+                    <p className="mb-2 text-sm font-black text-[#073f42] sm:mb-3">
                       Chọn phân loại
                     </p>
                     <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none] sm:mx-0 sm:grid sm:max-h-none sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden">
@@ -308,14 +308,14 @@ export function ProductDetailPage({
                           data-testid="variant-option"
                           aria-pressed={selectedVariant?.id === variant.id}
                           onClick={() => selectVariant(variant)}
-                          className={`min-h-[76px] w-[78vw] max-w-[330px] shrink-0 rounded-2xl border px-3 py-3 text-left text-sm leading-5 font-extrabold transition sm:w-auto sm:max-w-none ${
+                          className={`min-h-[46px] w-[44vw] max-w-[160px] shrink-0 rounded-[14px] border px-3 py-2 text-left text-xs leading-4 font-extrabold transition sm:min-h-[64px] sm:w-auto sm:max-w-none sm:rounded-2xl sm:px-3.5 sm:py-3 sm:text-sm sm:leading-5 ${
                             selectedVariant?.id === variant.id
                               ? "border-[#ff4f3c] bg-[#fff0ee] text-[#073f42] shadow-[0_10px_26px_rgba(255,79,60,0.10)]"
                               : "border-[#d9e9e6] bg-white text-[#426765] hover:border-[#0d7773]"
                           }`}
                         >
                           <span className="line-clamp-2">{variant.name}</span>
-                          <span className="mt-1 block text-[#ff4f3c]">
+                          <span className="mt-1 block text-sm text-[#ff4f3c] sm:text-base">
                             {formatCurrency(variant.price)}
                           </span>
                         </button>
@@ -324,21 +324,21 @@ export function ProductDetailPage({
                   </div>
                 ) : null}
 
-                <div className="mt-4 flex flex-col gap-3 sm:mt-5 sm:flex-row">
-                  <label className="shrink-0">
-                    <span className="mb-2 block text-sm font-black text-[#073f42]">
+                <div className="mt-4 grid gap-3 sm:mt-5 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-end">
+                  <label className="flex items-center justify-between gap-3 sm:block">
+                    <span className="block text-sm font-black text-[#073f42] sm:mb-2">
                       Số lượng
                     </span>
-                    <div className="flex h-12 w-full items-center rounded-full border border-[#d7e8e5] bg-white sm:w-36">
+                    <div className="flex h-9 w-[108px] shrink-0 items-center rounded-full border border-[#d7e8e5] bg-white sm:h-12 sm:w-36">
                       <button
                         type="button"
                         aria-label="Giảm số lượng"
                         onClick={() =>
                           setQuantity((current) => clampQuantity(current - 1))
                         }
-                        className="grid size-12 place-items-center text-[#0d7773]"
+                        className="grid size-9 shrink-0 place-items-center text-[#0d7773] sm:size-12"
                       >
-                        <Minus className="size-4" />
+                        <Minus className="size-3.5 sm:size-4" />
                       </button>
                       <input
                         aria-label="Số lượng"
@@ -346,7 +346,7 @@ export function ProductDetailPage({
                         onChange={(event) =>
                           setQuantity(clampQuantity(Number(event.target.value)))
                         }
-                        className="min-w-0 flex-1 bg-transparent text-center text-sm font-black text-[#073f42] outline-none"
+                        className="min-w-0 flex-1 bg-transparent text-center text-sm font-black text-[#073f42] outline-none sm:text-base"
                       />
                       <button
                         type="button"
@@ -354,26 +354,26 @@ export function ProductDetailPage({
                         onClick={() =>
                           setQuantity((current) => clampQuantity(current + 1))
                         }
-                        className="grid size-12 place-items-center text-[#0d7773]"
+                        className="grid size-9 shrink-0 place-items-center text-[#0d7773] sm:size-12"
                       >
-                        <Plus className="size-4" />
+                        <Plus className="size-3.5 sm:size-4" />
                       </button>
                     </div>
                   </label>
 
-                  <div className="grid flex-1 gap-2 sm:grid-cols-2 sm:items-end sm:gap-3">
+                  <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
                     <button
                       type="button"
                       onClick={() => addToCart("add")}
-                      className="inline-flex h-12 items-center justify-center gap-2 rounded-[14px] border border-[#ff4f3c] bg-white px-5 text-sm font-black text-[#ff4f3c] transition hover:bg-[#fff0ee]"
+                      className="grid size-11 shrink-0 place-items-center rounded-full border border-[#ff4f3c] bg-white text-[#ff4f3c] transition hover:bg-[#fff0ee] sm:size-12"
+                      aria-label="Thêm giỏ hàng"
                     >
                       <ShoppingBag className="size-5" />
-                      Thêm giỏ hàng
                     </button>
                     <button
                       type="button"
                       onClick={() => addToCart("buy")}
-                      className="inline-flex h-12 items-center justify-center gap-2 rounded-[14px] bg-[#ff4f3c] px-5 text-sm font-black text-white shadow-[0_14px_35px_rgba(255,79,60,0.25)] transition hover:bg-[#e84231]"
+                      className="inline-flex h-11 min-w-0 flex-1 items-center justify-center gap-2 rounded-[14px] bg-[#ff4f3c] px-4 text-sm font-black text-white shadow-[0_14px_35px_rgba(255,79,60,0.25)] transition hover:bg-[#e84231] sm:h-12"
                     >
                       Mua ngay
                     </button>
@@ -406,17 +406,17 @@ export function ProductDetailPage({
 
           <div className="mt-3 grid gap-3 sm:mt-6 sm:gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
             <section className="rounded-[18px] border border-[#d3e9e5] bg-white p-4 shadow-[0_10px_34px_rgba(7,63,66,0.05)] sm:rounded-[24px] sm:p-6">
-              <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-[#e7fbf7] px-4 py-2 text-sm font-black text-[#0b6b68]">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-[#e7fbf7] px-4 py-2 text-sm font-black text-[#0b6b68]">
                 <Sparkles className="size-4" />
                 Thông tin sản phẩm
               </div>
-              <details className="group" open>
+              <details className="group">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-xl font-black text-[#073f42] sm:text-2xl [&::-webkit-details-marker]:hidden">
                   Thông tin cần biết
                   <ChevronRight className="size-5 transition group-open:rotate-90" />
                 </summary>
                 <div className="mt-4 grid gap-3 text-sm leading-7 font-semibold text-[#426765]">
-                  {descriptionLines.slice(0, 8).map((line) => (
+                  {descriptionLines.slice(0, 4).map((line) => (
                     <p key={line}>{line}</p>
                   ))}
                 </div>
@@ -424,7 +424,7 @@ export function ProductDetailPage({
             </section>
 
             <section className="rounded-[18px] border border-[#d3e9e5] bg-white p-4 shadow-[0_10px_34px_rgba(7,63,66,0.05)] sm:rounded-[24px] sm:p-6">
-              <details className="group" open>
+              <details className="group">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-xl font-black text-[#073f42] sm:text-2xl [&::-webkit-details-marker]:hidden">
                   Chốt đơn nhanh
                   <ChevronRight className="size-5 transition group-open:rotate-90" />
@@ -435,7 +435,9 @@ export function ProductDetailPage({
                     "Phù hợp mua lẻ hoặc gom combo theo tuần.",
                     "3FStore hỗ trợ tư vấn theo giống, tuổi và nhu cầu.",
                     "Đóng gói kỹ, ưu tiên hạn dùng tốt.",
-                  ].map((item) => (
+                  ]
+                  .slice(0, 2)
+                    .map((item) => (
                     <div
                       key={item}
                       className="flex gap-3 rounded-2xl bg-[#f5fbfa] p-4 text-sm leading-6 font-bold text-[#426765]"
@@ -499,13 +501,23 @@ export function ProductDetailPage({
                 {formatCurrency(price * quantity)}
               </p>
             </div>
-            <button
-              type="button"
-              onClick={() => addToCart("buy")}
-              className="h-12 shrink-0 rounded-[14px] bg-[#ff4f3c] px-5 text-sm font-black text-white shadow-[0_14px_35px_rgba(255,79,60,0.25)]"
-            >
-              Mua ngay
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => addToCart("add")}
+                aria-label="Thêm giỏ hàng"
+                className="grid size-12 shrink-0 place-items-center rounded-full border border-[#ff4f3c] bg-white text-[#ff4f3c]"
+              >
+                <ShoppingBag className="size-5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => addToCart("buy")}
+                className="h-12 shrink-0 rounded-[14px] bg-[#ff4f3c] px-5 text-sm font-black text-white shadow-[0_14px_35px_rgba(255,79,60,0.25)]"
+              >
+                Mua ngay
+              </button>
+            </div>
           </div>
         </div>
       </main>

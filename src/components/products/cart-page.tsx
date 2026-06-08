@@ -28,14 +28,14 @@ export function CartPage() {
 
   return (
     <StorefrontPageShell>
-      <main className="mx-auto grid w-full max-w-[1480px] gap-4 px-3 pt-4 pb-32 sm:gap-6 sm:px-6 sm:py-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:px-8 lg:pb-8">
-        <section className="min-w-0 rounded-[24px] border border-[#d7e8e5] bg-white p-4 shadow-[0_14px_48px_rgba(7,63,66,0.07)] sm:rounded-[30px] sm:p-5 sm:shadow-[0_18px_60px_rgba(7,63,66,0.08)]">
-          <div className="mb-4 flex flex-wrap items-center justify-between gap-3 sm:mb-6">
+      <main className="mx-auto grid w-full max-w-[1480px] gap-3 px-3 pt-3 pb-32 sm:gap-6 sm:px-6 sm:py-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:px-8 lg:pb-8">
+        <section className="min-w-0 rounded-[18px] border border-[#d7e8e5] bg-white p-3 shadow-[0_10px_34px_rgba(7,63,66,0.06)] sm:rounded-[30px] sm:p-5 sm:shadow-[0_18px_60px_rgba(7,63,66,0.08)]">
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-3 sm:mb-6">
             <div>
               <p className="text-sm font-black tracking-[0.14em] text-[#0d7773] uppercase">
                 Checkout demo
               </p>
-              <h1 className="mt-1 text-2xl font-black text-[#073f42] sm:mt-2 sm:text-3xl">
+              <h1 className="mt-1 text-xl font-black text-[#073f42] sm:mt-2 sm:text-3xl">
                 Giỏ hàng của bạn
               </h1>
             </div>
@@ -51,13 +51,13 @@ export function CartPage() {
           </div>
 
           {items.length > 0 ? (
-            <div className="grid gap-3 sm:gap-4">
+            <div className="grid gap-2.5 sm:gap-4">
               {items.map((item) => (
                 <article
                   key={item.id}
-                  className="grid grid-cols-[92px_minmax(0,1fr)] gap-3 rounded-[22px] border border-[#dcebe8] bg-[#f8fcfb] p-3 sm:grid-cols-[120px_minmax(0,1fr)_160px] sm:gap-4 sm:rounded-[24px] sm:p-4"
+                  className="grid grid-cols-[82px_minmax(0,1fr)] gap-3 rounded-[16px] border border-[#dcebe8] bg-[#f8fcfb] p-2.5 sm:grid-cols-[120px_minmax(0,1fr)_160px] sm:gap-4 sm:rounded-[24px] sm:p-4"
                 >
-                  <div className="aspect-square overflow-hidden rounded-[20px] bg-white">
+                  <div className="aspect-square overflow-hidden rounded-[14px] bg-white sm:rounded-[20px]">
                     {item.image ? (
                       <img
                         src={item.image}
@@ -77,19 +77,19 @@ export function CartPage() {
                     <p className="mt-1 text-xs font-bold text-[#6d8a88] sm:mt-2 sm:text-sm">
                       {item.category}
                     </p>
-                    <p className="mt-2 text-lg font-black text-[#ff4f3c] sm:mt-3 sm:text-xl">
+                    <p className="mt-1.5 text-base font-black text-[#ff4f3c] sm:mt-3 sm:text-xl">
                       {formatCurrency(item.price)}
                     </p>
                   </div>
                   <div className="col-span-2 flex items-center justify-between gap-3 sm:col-span-1 sm:flex-col sm:items-end">
-                    <div className="flex h-11 items-center rounded-full border border-[#d7e8e5] bg-white">
+                    <div className="flex h-9 items-center rounded-full border border-[#d7e8e5] bg-white sm:h-11">
                       <button
                         type="button"
                         aria-label="Giảm số lượng"
                         onClick={() =>
                           setItemQuantity(item.id, item.quantity - 1)
                         }
-                        className="grid size-11 place-items-center"
+                          className="grid size-9 place-items-center sm:size-11"
                       >
                         <Minus className="size-4" />
                       </button>
@@ -102,7 +102,7 @@ export function CartPage() {
                         onClick={() =>
                           setItemQuantity(item.id, item.quantity + 1)
                         }
-                        className="grid size-11 place-items-center"
+                          className="grid size-9 place-items-center sm:size-11"
                       >
                         <Plus className="size-4" />
                       </button>
@@ -110,7 +110,7 @@ export function CartPage() {
                     <button
                       type="button"
                       onClick={() => removeItem(item.id)}
-                      className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-black text-[#8d6d68] hover:bg-[#fff0ee] hover:text-[#ff4f3c]"
+                      className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-2 text-xs font-black text-[#8d6d68] hover:bg-[#fff0ee] hover:text-[#ff4f3c] sm:text-sm"
                     >
                       <Trash2 className="size-4" />
                       Xóa

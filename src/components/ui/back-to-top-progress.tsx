@@ -76,10 +76,10 @@ export function BackToTopProgress() {
             behavior: prefersReducedMotion ? "auto" : "smooth",
           });
         }}
-        className="pointer-events-auto fixed right-4 bottom-[calc(6rem+env(safe-area-inset-bottom))] grid size-12 translate-y-4 scale-95 place-items-center rounded-full bg-[conic-gradient(#ff4f3c_var(--scroll-angle),#dcefeb_0deg)] p-[3px] text-[#073f42] opacity-0 shadow-[0_12px_28px_rgba(7,63,66,0.18)] transition duration-300 hover:-translate-y-0.5 data-[visible=true]:translate-y-0 data-[visible=true]:scale-100 data-[visible=true]:opacity-100 sm:right-6 sm:bottom-6 sm:size-13"
+        className="pointer-events-auto fixed right-3 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] grid size-11 translate-y-4 scale-95 place-items-center rounded-full bg-[conic-gradient(#ff4f3c_var(--scroll-angle),#dcefeb_0deg)] p-[3px] text-[#073f42] opacity-0 shadow-[0_12px_28px_rgba(7,63,66,0.18)] transition duration-300 hover:-translate-y-0.5 data-[visible=true]:translate-y-0 data-[visible=true]:scale-100 data-[visible=true]:opacity-100 sm:right-6 sm:bottom-6 sm:size-13"
       >
         <span className="grid size-full place-items-center rounded-full border border-[#d9ece8] bg-[#f8fffd] text-[#073f42]">
-          <ArrowUp className="size-5" strokeWidth={2.4} aria-hidden />
+          <ArrowUp className="size-4" strokeWidth={2.4} aria-hidden />
         </span>
       </button>
     </div>

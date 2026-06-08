@@ -465,7 +465,7 @@ export function PetStoreHero() {
   return (
     <div
       ref={scopeRef}
-      className="min-h-[100dvh] bg-[#fbfffe] px-3 py-3 text-[#083f42] sm:px-6 sm:py-5 lg:px-7"
+      className="min-h-[100dvh] bg-[#fbfffe] px-3 py-2 text-[#083f42] sm:px-6 sm:py-5 lg:px-7"
     >
       <div
         data-page-intro
@@ -506,26 +506,26 @@ export function PetStoreHero() {
       <div className="mx-auto max-w-[1880px]">
         <header
           data-header
-          className="fixed inset-x-0 top-0 z-[70] mx-auto w-full max-w-[1880px] rounded-b-[22px] border-b border-[#d9ece8] bg-white/96 px-3 py-2 shadow-[0_14px_44px_rgba(7,63,66,0.10)] backdrop-blur sm:rounded-b-[24px] sm:px-4 sm:py-2.5"
+          className="fixed inset-x-0 top-0 z-[70] mx-auto w-full max-w-[1880px] rounded-b-[18px] border-b border-[#d9ece8] bg-white/96 px-3 py-2 shadow-[0_10px_32px_rgba(7,63,66,0.10)] backdrop-blur sm:rounded-b-[24px] sm:px-4 sm:py-2.5"
         >
-          <div className="grid min-h-[48px] grid-cols-[64px_minmax(0,1fr)_44px] items-center gap-2 sm:min-h-[56px] sm:grid-cols-[112px_minmax(0,1fr)_auto] sm:gap-4 lg:grid-cols-[150px_minmax(340px,1fr)_230px]">
+          <div className="grid min-h-[44px] grid-cols-[46px_minmax(0,1fr)_42px] items-center gap-2 sm:min-h-[56px] sm:grid-cols-[112px_minmax(0,1fr)_auto] sm:gap-4 lg:grid-cols-[150px_minmax(340px,1fr)_230px]">
             <a
               href="#"
-              className="relative block h-11 w-16 sm:h-12 sm:w-28 lg:w-36"
+              className="relative block h-10 w-[46px] sm:h-12 sm:w-28 lg:w-36"
               aria-label="3FStore"
             >
               <Image
                 src="/logo/logo.webp"
                 alt="3FStore"
                 fill
-                sizes="(min-width: 1024px) 144px, (min-width: 640px) 112px, 64px"
+                sizes="(min-width: 1024px) 144px, (min-width: 640px) 112px, 46px"
                 className="object-contain object-left"
                 priority
               />
             </a>
 
             <form
-              className="flex min-w-0 items-center rounded-full bg-[#f3f6f5] px-3 py-2 shadow-[inset_0_0_0_1px_rgba(8,63,66,0.03)] sm:px-4 sm:py-2.5"
+              className="flex h-10 min-w-0 items-center rounded-full bg-[#f3f6f5] px-2.5 shadow-[inset_0_0_0_1px_rgba(8,63,66,0.03)] sm:h-auto sm:px-4 sm:py-2.5"
               onSubmit={handleSearchSubmit}
             >
               <button
@@ -547,8 +547,8 @@ export function PetStoreHero() {
                 data-track-action="true"
                 data-track-id="hero:search"
                 data-track-section="hero"
-                className="min-w-0 flex-1 bg-transparent px-1 text-[13px] font-medium text-[#183f41] outline-none placeholder:text-[#78918f] sm:px-6 sm:text-sm"
-                placeholder="Tìm đồ cho boss"
+                className="min-w-0 flex-1 bg-transparent px-1 text-[13px] font-semibold text-[#183f41] outline-none placeholder:text-[#78918f] sm:px-6 sm:text-sm"
+                placeholder="Tìm pate, cát..."
                 type="search"
                 onBlur={(event) => trackSearch(event.currentTarget.value)}
               />
@@ -573,7 +573,7 @@ export function PetStoreHero() {
                 <UserRound className="size-5" />
               </HeaderIcon>
               <HeaderIcon
-                className="size-11 md:size-12"
+                className="size-[42px] md:size-12"
                 href="/cart"
                 label={`Giỏ hàng có ${cartCount} sản phẩm`}
               >
@@ -595,7 +595,7 @@ export function PetStoreHero() {
                   key={item.label}
                   href={item.href}
                   className={cn(
-                    "inline-flex h-10 items-center rounded-[14px] border border-[#d7e8e5] bg-white px-3 transition-colors active:scale-[0.98]",
+                    "inline-flex h-9 items-center rounded-[12px] border border-[#d7e8e5] bg-white px-3 transition-colors active:scale-[0.98]",
                     "highlight" in item && item.highlight
                       ? "border-[#ffb8aa] bg-[#fff3ef] text-[#ff4f2e]"
                       : "text-[#073f42]",
@@ -700,14 +700,14 @@ export function PetStoreHero() {
         </header>
 
         <div
-          className="h-[112px] sm:h-[128px] lg:h-[124px]"
+          className="h-[100px] sm:h-[128px] lg:h-[124px]"
           aria-hidden="true"
         />
 
         <main
           data-hero-visual
           data-track-section="hero"
-          className="relative overflow-hidden rounded-[16px] bg-[#eafdfe] shadow-[inset_0_0_0_1px_rgba(7,88,93,0.06)] sm:rounded-[22px] lg:min-h-[760px] xl:min-h-[805px]"
+          className="relative overflow-hidden rounded-[18px] bg-[#eafdfe] shadow-[inset_0_0_0_1px_rgba(7,88,93,0.06)] sm:rounded-[22px] lg:min-h-[760px] xl:min-h-[805px]"
         >
           <div className="pointer-events-none absolute top-[18%] right-[13.5%] hidden size-32 rounded-full bg-[#bde9e2] sm:block" />
           <div className="pointer-events-none absolute top-[42%] right-[5.5%] hidden size-14 rounded-full bg-[#bde9e2] sm:block" />
@@ -715,14 +715,14 @@ export function PetStoreHero() {
           <div className="pointer-events-none absolute top-[29%] left-[18%] hidden h-24 w-28 rounded-[34px] bg-white/20 lg:block" />
           <div className="pointer-events-none absolute bottom-[21%] left-[5%] hidden size-24 rounded-[28px] bg-white/18 lg:block" />
 
-          <div className="grid min-h-0 gap-4 px-4 py-5 sm:min-h-[760px] sm:px-10 sm:py-8 lg:grid-cols-[40%_40%_20%] lg:px-12 lg:py-12 xl:px-16">
+          <div className="grid min-h-0 gap-3 px-4 py-4 sm:min-h-[760px] sm:px-10 sm:py-8 lg:grid-cols-[40%_40%_20%] lg:px-12 lg:py-12 xl:px-16">
             <section
-              className="relative order-1 min-h-[320px] sm:min-h-[520px] lg:order-1 lg:min-h-0"
+              className="relative order-2 min-h-[292px] sm:min-h-[520px] lg:order-1 lg:min-h-0"
               aria-label="Thú cưng nổi bật"
             >
               <div
                 data-main-pet
-                className="absolute top-0 left-1/2 w-[84%] max-w-[360px] -translate-x-1/2 sm:top-[2%] sm:left-[2%] sm:w-[77%] sm:max-w-[520px] sm:translate-x-0"
+                className="absolute top-1 left-1/2 w-[78%] max-w-[290px] -translate-x-1/2 sm:top-[2%] sm:left-[2%] sm:w-[77%] sm:max-w-[520px] sm:translate-x-0"
               >
                 <div className="pointer-events-none absolute -bottom-8 -left-5 h-[calc(100%+46px)] w-[calc(100%+38px)] rounded-[47%_47%_43%_43%/35%_35%_47%_47%] border-2 border-[#8ed8d5]" />
                 <div className="relative aspect-[0.76] overflow-hidden rounded-[47%_47%_43%_43%/35%_35%_47%_47%] bg-[#b7e6e7] shadow-[0_34px_80px_rgba(8,83,88,0.13)]">
@@ -741,13 +741,13 @@ export function PetStoreHero() {
 
               <div
                 data-reveal
-                className="absolute right-2 bottom-2 left-2 z-30 rounded-[18px] border border-white/80 bg-white/92 p-3 shadow-[0_18px_44px_rgba(7,63,66,0.14)] backdrop-blur sm:hidden"
+                className="absolute right-3 bottom-3 left-3 z-30 rounded-[14px] border border-white/80 bg-white/92 p-2.5 shadow-[0_12px_28px_rgba(7,63,66,0.12)] backdrop-blur sm:hidden"
               >
                 <p className="text-[13px] leading-none font-black text-[#073f42]">
                   3FStore pet shop
                 </p>
-                <p className="mt-1 text-[12px] leading-5 font-bold text-[#52716f]">
-                  Pate, hạt, cát vệ sinh, snack, phụ kiện và spa.
+                <p className="mt-1 text-[12px] leading-4 font-bold text-[#52716f]">
+                  Pate, hạt, cát, snack, phụ kiện và spa.
                 </p>
               </div>
 
@@ -774,17 +774,17 @@ export function PetStoreHero() {
               </div>
             </section>
 
-            <section className="relative z-10 order-2 flex flex-col justify-center pt-1 lg:order-2 lg:pt-0">
+            <section className="relative z-10 order-1 flex flex-col justify-center pt-1 lg:order-2 lg:pt-0">
               <div
                 data-reveal
-                className="mb-3 inline-flex w-fit items-center rounded-full bg-white/78 px-3 py-1.5 text-[11px] font-black tracking-[0.08em] text-[#ff4f2e] uppercase shadow-[0_10px_28px_rgba(7,63,66,0.08)] sm:mb-4 sm:text-xs"
+                className="mb-2 inline-flex w-fit items-center rounded-full bg-white/78 px-3 py-1.5 text-[11px] font-black tracking-[0.08em] text-[#ff4f2e] uppercase shadow-[0_10px_28px_rgba(7,63,66,0.08)] sm:mb-4 sm:text-xs"
               >
                 Shop đồ ăn, phụ kiện & spa thú cưng
               </div>
 
               <div
                 data-reveal
-                className="mb-3 flex flex-wrap gap-2 text-[11px] font-black text-[#0b7773] sm:mb-4"
+                className="mb-3 flex flex-wrap gap-1.5 text-[11px] font-black text-[#0b7773] sm:mb-4 sm:gap-2"
               >
                 <span className="rounded-full bg-white/75 px-2.5 py-1.5">
                   Pate
@@ -800,21 +800,21 @@ export function PetStoreHero() {
                 </span>
               </div>
 
-              <h1 className="max-w-[760px] text-[34px] leading-[1.05] font-black tracking-normal text-[#073f42] sm:text-[68px] lg:text-[58px] xl:text-[74px] 2xl:text-[88px]">
+              <h1 className="max-w-[760px] text-[31px] leading-[1.04] font-black tracking-normal text-[#073f42] sm:text-[68px] lg:text-[58px] xl:text-[74px] 2xl:text-[88px]">
                 <span className="block overflow-hidden py-1">
-                  <span data-headline-line className="block whitespace-nowrap">
+                  <span data-headline-line className="block sm:whitespace-nowrap">
                     Đồ ăn, phụ kiện
                   </span>
                 </span>
                 <span className="block overflow-hidden py-1">
-                  <span data-headline-line className="block whitespace-nowrap">
+                  <span data-headline-line className="block sm:whitespace-nowrap">
                     và spa cho
                   </span>
                 </span>
                 <span className="block overflow-hidden pt-1 pb-3">
                   <span
                     data-headline-line
-                    className="block font-serif text-[0.82em] whitespace-nowrap italic"
+                    className="block font-serif text-[0.82em] sm:whitespace-nowrap italic"
                   >
                     boss.
                   </span>
@@ -823,7 +823,7 @@ export function PetStoreHero() {
 
               <p
                 data-reveal
-                className="mt-3 max-w-[520px] text-sm leading-6 font-bold text-[#3a6566] sm:mt-6 sm:text-lg sm:leading-8"
+                className="mt-1 max-w-[520px] text-[13px] leading-5 font-bold text-[#3a6566] sm:mt-6 sm:text-lg sm:leading-8"
               >
                 Pate, hạt, cát vệ sinh, snack, đồ chơi và dịch vụ grooming.
                 Chọn nhanh, thêm giỏ trong một chạm.
@@ -831,14 +831,14 @@ export function PetStoreHero() {
 
               <div
                 data-reveal
-                className="mt-5 flex flex-wrap items-center gap-3 sm:mt-9 sm:gap-5"
+                className="mt-4 flex flex-wrap items-center gap-2.5 sm:mt-9 sm:gap-5"
               >
                 <Link
                   href="/products"
                   data-track-action="true"
                   data-track-id="hero:collection-cta"
                   data-track-section="hero"
-                  className="inline-flex h-12 items-center justify-center rounded-full bg-[#ff4f2e] px-6 text-sm font-black text-white shadow-[0_18px_34px_rgba(255,79,46,0.22)] transition hover:bg-[#e94427] sm:h-[58px] sm:px-10 sm:text-[15px] sm:shadow-[0_24px_44px_rgba(255,79,46,0.24)]"
+                  className="inline-flex h-11 items-center justify-center rounded-full bg-[#ff4f2e] px-5 text-sm font-black text-white shadow-[0_18px_34px_rgba(255,79,46,0.22)] transition hover:bg-[#e94427] sm:h-[58px] sm:px-10 sm:text-[15px] sm:shadow-[0_24px_44px_rgba(255,79,46,0.24)]"
                 >
                   Mua sắm ngay
                 </Link>
@@ -847,7 +847,7 @@ export function PetStoreHero() {
                   data-track-action="true"
                   data-track-id="hero:bundle-cta"
                   data-track-section="hero"
-                  className="inline-flex h-12 items-center justify-center rounded-full border border-[#ff9f8c] bg-white/40 px-5 text-sm font-black text-[#ff4f2e] transition hover:bg-white/75 sm:h-[58px] sm:px-7 sm:text-[15px]"
+                  className="inline-flex h-11 items-center justify-center rounded-full border border-[#ff9f8c] bg-white/40 px-4 text-sm font-black text-[#ff4f2e] transition hover:bg-white/75 sm:h-[58px] sm:px-7 sm:text-[15px]"
                 >
                   Combo tiết kiệm
                 </Link>

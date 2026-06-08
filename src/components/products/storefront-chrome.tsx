@@ -141,27 +141,27 @@ export function StorefrontHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[#d9ece8] bg-[#f8fffd]/95 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-[1480px] flex-col gap-2 px-3 py-2 sm:px-6 lg:h-[72px] lg:flex-row lg:items-center lg:gap-2.5 lg:px-8 lg:py-0">
-        <div className="flex min-w-0 items-center gap-2.5">
+      <div className="mx-auto flex w-full max-w-[1480px] flex-col gap-1.5 px-3 py-2 sm:px-6 lg:h-[72px] lg:flex-row lg:items-center lg:gap-2.5 lg:px-8 lg:py-0">
+        <div className="flex min-w-0 items-center gap-2">
           <Link
             href="/"
             className="flex min-w-0 shrink-0 items-center gap-2 text-[#073f42]"
             aria-label="3FStore về trang chủ"
           >
-            <span className="grid size-10 place-items-center overflow-hidden rounded-2xl bg-white shadow-sm sm:size-11">
+            <span className="grid size-9 place-items-center overflow-hidden rounded-2xl bg-white shadow-sm sm:size-11">
               <img
                 src="/logo/logo.webp"
                 alt=""
                 className="h-full w-full object-contain p-1"
               />
             </span>
-            <span className="hidden text-[26px] leading-none font-black tracking-tight sm:block">
+            <span className="hidden text-[24px] leading-none font-black tracking-tight sm:block">
               3FStore
             </span>
           </Link>
 
           <form
-            className="ml-auto flex h-10 min-w-0 flex-1 items-center gap-2 rounded-full border border-[#d7e8e5] bg-white px-3 text-[#073f42] shadow-sm lg:hidden"
+            className="ml-auto flex h-9 min-w-0 flex-1 items-center gap-2 rounded-full border border-[#d7e8e5] bg-white px-2.5 text-[#073f42] shadow-sm lg:hidden"
             onSubmit={handleSearchSubmit}
           >
             <button
@@ -180,14 +180,14 @@ export function StorefrontHeader() {
               onChange={(event) => setSearchQuery(event.target.value)}
               placeholder="Tìm pate, cát..."
               type="search"
-              className="min-w-0 flex-1 bg-transparent text-sm font-bold outline-none placeholder:text-[#7da09e]"
+              className="min-w-0 flex-1 bg-transparent text-sm font-semibold outline-none placeholder:text-[#7da09e]"
             />
           </form>
 
           <Link
             href="/cart"
             aria-label={`Giỏ hàng có ${cartCount} sản phẩm`}
-            className="relative grid size-10 shrink-0 place-items-center rounded-full border border-[#d7e8e5] bg-white text-[#073f42] lg:hidden"
+            className="relative grid size-9 shrink-0 place-items-center rounded-full border border-[#d7e8e5] bg-white text-[#073f42] lg:hidden"
           >
             <ShoppingBag className="size-5" />
             {cartCount > 0 ? (
@@ -321,13 +321,13 @@ export function StorefrontHeader() {
 
         <nav
           aria-label="Menu nhanh"
-          className="-mx-1 flex [scrollbar-width:none] gap-2 overflow-x-auto px-1 pb-0.5 text-sm font-black whitespace-nowrap text-[#315f5d] lg:hidden [&::-webkit-scrollbar]:hidden"
+          className="-mx-1 flex [scrollbar-width:none] gap-2 overflow-x-auto px-1 pb-0.5 text-xs font-black whitespace-nowrap text-[#315f5d] lg:hidden [&::-webkit-scrollbar]:hidden"
         >
           {navGroups.map((group) => (
             <Link
               key={group.label}
               href={group.href}
-              className="rounded-full border border-[#d7e8e5] bg-white px-3 py-2"
+              className="rounded-full border border-[#d7e8e5] bg-white px-2.5 py-2"
             >
               {group.label}
             </Link>
@@ -335,7 +335,7 @@ export function StorefrontHeader() {
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen(true)}
-            className="rounded-full border border-[#d7e8e5] bg-white px-3 py-2"
+            className="rounded-full border border-[#d7e8e5] bg-white px-2.5 py-2"
           >
             Thêm
           </button>

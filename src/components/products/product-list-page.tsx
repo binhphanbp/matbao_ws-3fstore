@@ -9,8 +9,6 @@ import {
   Eye,
   Filter,
   Heart,
-  PackageSearch,
-  Search,
   ShoppingBag,
   SlidersHorizontal,
   Star,
@@ -274,17 +272,6 @@ export function ProductListPage({
     window.setTimeout(() => setToast(""), 2600);
   };
 
-  const handleSearch = (value: string) => {
-    updateQuery("q", value);
-    if (value.trim()) {
-      trackAnalyticsEvent("product_search", {
-        sectionId: "products-list",
-        elementId: "product-search",
-        metadata: { query: value.trim() },
-      });
-    }
-  };
-
   const handleFilter = (key: string, value: string) => {
     updateQuery(key, value);
     trackAnalyticsEvent("product_filter_used", {
@@ -345,45 +332,7 @@ export function ProductListPage({
   return (
     <StorefrontPageShell>
       <main data-track-section="products-list">
-        <section className="border-b border-[#d9ece8] bg-white">
-          <div className="mx-auto grid w-full max-w-[1480px] gap-3 px-3 py-4 sm:gap-5 sm:px-6 sm:py-6 lg:grid-cols-[1fr_420px] lg:px-8">
-            <div className="min-w-0">
-              <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-[#e7fbf7] px-3 py-1.5 text-[11px] font-black text-[#0b6b68] sm:mb-3 sm:px-4 sm:py-2 sm:text-xs">
-                <PackageSearch className="size-4" />
-                Chọn nhanh, chốt gọn
-              </div>
-              <h1 className="text-2xl leading-tight font-black tracking-normal text-[#073f42] sm:text-4xl lg:text-5xl">
-                Chọn nhanh cho boss
-              </h1>
-              <p className="mt-3 hidden max-w-2xl text-sm leading-6 font-semibold text-[#587a78] sm:block sm:text-base">
-                Danh sách được tối ưu để khách lọc nhanh bên trái, so sánh trên
-                grid, xem nhanh ngay tại trang và thêm giỏ trong một chạm.
-              </p>
-            </div>
-
-            <div className="self-end rounded-[22px] border border-[#d7e8e5] bg-[#f3faf8] p-2.5 sm:rounded-[26px] sm:p-3">
-              <label
-                htmlFor="product-search"
-                className="mb-2 block text-sm font-black text-[#073f42]"
-              >
-                Tìm sản phẩm
-              </label>
-              <div className="flex h-12 items-center gap-3 rounded-2xl bg-white px-4 shadow-sm">
-                <Search className="size-5 shrink-0 text-[#0d7773]" />
-                <input
-                  id="product-search"
-                  value={query}
-                  onChange={(event) => handleSearch(event.target.value)}
-                  placeholder="Pate mèo, cát vệ sinh, snack..."
-                  className="min-w-0 flex-1 bg-transparent text-sm font-bold text-[#073f42] outline-none placeholder:text-[#7da09e]"
-                  data-track-id="product-search"
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="mx-auto grid w-full max-w-[1480px] gap-4 px-3 py-4 sm:gap-6 sm:px-6 sm:py-6 lg:grid-cols-[286px_minmax(0,1fr)] lg:px-8">
+        <section className="mx-auto grid w-full max-w-[1480px] gap-4 px-3 py-3 sm:gap-6 sm:px-6 sm:py-5 lg:grid-cols-[286px_minmax(0,1fr)] lg:px-8">
           <ProductFilters
             categories={categories}
             brands={brands}
@@ -450,7 +399,7 @@ export function ProductListPage({
 
             {visibleProducts.length > 0 ? (
               <>
-                <div className="grid grid-cols-2 gap-2.5 sm:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
+                <div className="grid grid-cols-2 gap-2 sm:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
                   {visibleProducts.map((product) => (
                     <ProductCard
                       key={product.id}
@@ -784,9 +733,9 @@ function ProductCard({
         </button>
       </div>
 
-      <div className="flex min-w-0 flex-1 flex-col gap-2 p-2.5 sm:gap-3 sm:p-4">
+      <div className="flex min-w-0 flex-1 flex-col gap-1.5 p-2 sm:gap-3 sm:p-4">
         <div className="min-w-0">
-          <div className="mb-1.5 flex items-center justify-between gap-1.5 sm:mb-2 sm:gap-2">
+          <div className="mb-1 flex items-center justify-between gap-1.5 sm:mb-2 sm:gap-2">
             <span className="min-w-0 truncate rounded-full bg-[#e9f8f5] px-2 py-0.5 text-[10px] font-black text-[#0d7773] sm:px-2.5 sm:py-1 sm:text-[11px]">
               {product.category}
             </span>
@@ -812,7 +761,7 @@ function ProductCard({
                 price: product.price,
               })
             }
-            className="line-clamp-2 min-h-[38px] text-[13px] leading-[1.45] font-black text-[#073f42] sm:min-h-11 sm:text-sm sm:leading-[1.45]"
+            className="line-clamp-2 min-h-[34px] text-[13px] leading-[1.35] font-black text-[#073f42] sm:min-h-11 sm:text-sm sm:leading-[1.45]"
             title={product.shortName}
           >
             {cardTitle}
@@ -834,7 +783,7 @@ function ProductCard({
             <button
               type="button"
               onClick={onQuickView}
-              className="grid size-8 shrink-0 place-items-center rounded-full border border-[#d7e8e5] text-[#073f42] transition hover:border-[#ff4f3c] hover:text-[#ff4f3c] sm:size-10"
+            className="hidden size-8 shrink-0 place-items-center rounded-full border border-[#d7e8e5] text-[#073f42] transition hover:border-[#ff4f3c] hover:text-[#ff4f3c] sm:grid sm:size-10"
             >
               <span className="sr-only">Xem nhanh</span>
               <Eye className="size-4 sm:size-5" />

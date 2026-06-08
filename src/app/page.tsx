@@ -2,6 +2,7 @@ import { BundleSaveSection } from "@/components/home/bundle-save-section";
 import { ImmersiveCommerceSections } from "@/components/home/immersive-commerce-sections";
 import { PetStoreHero } from "@/components/home/pet-store-hero";
 import { TrendingSnacksSection } from "@/components/home/trending-snacks-section";
+import { VoucherStripSection } from "@/components/home/voucher-strip-section";
 import { getFeaturedProducts, getTrendingSnackProducts } from "@/data/products";
 
 export default function Home() {
@@ -11,6 +12,7 @@ export default function Home() {
   return (
     <>
       <PetStoreHero />
+      <VoucherStripSection />
       <BundleSaveSection products={featuredProducts} />
       <TrendingSnacksSection products={trendingSnackProducts} />
       <ImmersiveCommerceSections products={featuredProducts} />
