@@ -220,10 +220,10 @@ export function BundleSaveSection({
       id="bundle-save"
       ref={scopeRef}
       data-track-section="bundle"
-      className="bg-[#fbfffe] py-14 text-[#1f1f1f]"
+      className="bg-[#fbfffe] py-8 text-[#1f1f1f] sm:py-12"
       aria-labelledby="bundle-save-title"
     >
-      <div className="mx-auto max-w-[1160px]">
+      <div className="mx-auto max-w-[1160px] px-4 sm:px-0">
         <div className="relative">
           <div className="relative">
             <header className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
@@ -257,7 +257,7 @@ export function BundleSaveSection({
             <div className="mt-6 grid gap-4 lg:grid-cols-[255px_minmax(0,1fr)]">
               <aside
                 data-bundle-reveal
-                className="rounded-[24px] bg-white/55 p-2 lg:pt-9"
+                className="hidden rounded-[24px] bg-white/55 p-2 lg:block lg:pt-9"
                 aria-label="Cách mua combo"
               >
                 <div className="space-y-3">
@@ -282,7 +282,7 @@ export function BundleSaveSection({
                 </div>
               </aside>
 
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="-mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 xl:grid-cols-4 [&::-webkit-scrollbar]:hidden">
                 {bundles.map((bundle) => (
                   <BundleCard
                     key={bundle.id}
@@ -364,7 +364,7 @@ function BundleCard({
       data-track-price={bundle.price}
       data-track-section="bundle"
       className={cn(
-        "relative flex min-h-[342px] flex-col rounded-[24px] border bg-white p-4 text-center shadow-[0_14px_34px_rgba(54,37,27,0.06)] transition-all duration-300",
+        "relative flex min-h-[328px] w-[258px] shrink-0 snap-start flex-col rounded-[24px] border bg-white p-4 text-center shadow-[0_14px_34px_rgba(54,37,27,0.06)] transition-all duration-300 sm:w-auto",
         isSelected
           ? "border-[#ff6b58] bg-[#fff3ef] pt-7 shadow-[0_20px_44px_rgba(255,79,60,0.15)]"
           : "border-[#e9e2dd]",
