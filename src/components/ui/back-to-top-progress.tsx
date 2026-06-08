@@ -61,11 +61,6 @@ export function BackToTopProgress() {
       ref={rootRef}
       className="pointer-events-none fixed inset-x-0 top-0 z-[95] [--scroll-angle:0deg] [--scroll-ratio:0]"
     >
-      <div
-        aria-hidden="true"
-        className="h-1 origin-left scale-x-[var(--scroll-ratio)] bg-[#ff4f3c] shadow-[0_0_18px_rgba(255,79,60,0.45)]"
-      />
-
       <button
         ref={buttonRef}
         type="button"

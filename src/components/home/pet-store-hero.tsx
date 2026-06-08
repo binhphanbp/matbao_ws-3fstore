@@ -9,27 +9,16 @@ import gsap from "gsap";
 import {
   ArrowUpRight,
   ChevronDown,
-  Heart,
   Mail,
   Search,
   ShoppingBag,
   UserRound,
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { useGsapContext } from "@/hooks/use-gsap-context";
 import { trackAnalyticsEvent } from "@/lib/analytics/tracker";
 import { cn } from "@/lib/utils";
 import { useCartStore } from "@/store/cart-store";
-import type { Product } from "@/types/product";
-
-const heroProduct: Product = {
-  id: "pate-ca-ngu-3f",
-  name: "Pate cá ngừ 3F",
-  category: "Thức ăn mèo",
-  price: 59000,
-  accent: "bg-[#ff4f2e]",
-};
 
 const productPicks = [
   {
@@ -128,7 +117,6 @@ const mobileNav = [
 
 export function PetStoreHero() {
   const router = useRouter();
-  const addItem = useCartStore((state) => state.addItem);
   const lastSearchQueryRef = useRef("");
   const navCloseTimerRef = useRef<number | null>(null);
   const [openNavLabel, setOpenNavLabel] = useState<string | null>(null);
@@ -474,20 +462,6 @@ export function PetStoreHero() {
     }, 160);
   }, [clearNavCloseTimer]);
 
-  const handleHeroAddItem = () => {
-    addItem(heroProduct);
-    trackAnalyticsEvent("add_to_cart", {
-      sectionId: "hero",
-      elementId: "hero:collection-cta",
-      productId: heroProduct.id,
-      productName: heroProduct.name,
-      category: heroProduct.category,
-      price: heroProduct.price,
-      quantity: 1,
-      cartValue: heroProduct.price,
-    });
-  };
-
   return (
     <div
       ref={scopeRef}
@@ -733,7 +707,7 @@ export function PetStoreHero() {
         <main
           data-hero-visual
           data-track-section="hero"
-          className="relative overflow-hidden rounded-[20px] bg-[#eafdfe] shadow-[inset_0_0_0_1px_rgba(7,88,93,0.06)] sm:rounded-[22px] lg:min-h-[760px] xl:min-h-[805px]"
+          className="relative overflow-hidden rounded-[16px] bg-[#eafdfe] shadow-[inset_0_0_0_1px_rgba(7,88,93,0.06)] sm:rounded-[22px] lg:min-h-[760px] xl:min-h-[805px]"
         >
           <div className="pointer-events-none absolute top-[18%] right-[13.5%] size-32 rounded-full bg-[#bde9e2]" />
           <div className="pointer-events-none absolute top-[42%] right-[5.5%] size-14 rounded-full bg-[#bde9e2]" />
@@ -741,14 +715,14 @@ export function PetStoreHero() {
           <div className="pointer-events-none absolute top-[29%] left-[18%] hidden h-24 w-28 rounded-[34px] bg-white/20 lg:block" />
           <div className="pointer-events-none absolute bottom-[21%] left-[5%] hidden size-24 rounded-[28px] bg-white/18 lg:block" />
 
-          <div className="grid min-h-[660px] gap-2 px-4 py-6 sm:min-h-[760px] sm:px-10 sm:py-8 lg:grid-cols-[40%_40%_20%] lg:px-12 lg:py-12 xl:px-16">
+          <div className="grid min-h-0 gap-4 px-4 py-5 sm:min-h-[760px] sm:px-10 sm:py-8 lg:grid-cols-[40%_40%_20%] lg:px-12 lg:py-12 xl:px-16">
             <section
-              className="relative order-2 min-h-[330px] sm:min-h-[520px] lg:order-1 lg:min-h-0"
+              className="relative order-2 min-h-[270px] sm:min-h-[520px] lg:order-1 lg:min-h-0"
               aria-label="Thú cưng nổi bật"
             >
               <div
                 data-main-pet
-                className="absolute top-[3%] left-[7%] w-[70%] max-w-[420px] sm:top-[2%] sm:left-[2%] sm:w-[77%] sm:max-w-[520px]"
+                className="absolute top-[1%] left-[3%] w-[64%] max-w-[340px] sm:top-[2%] sm:left-[2%] sm:w-[77%] sm:max-w-[520px]"
               >
                 <div className="pointer-events-none absolute -bottom-8 -left-5 h-[calc(100%+46px)] w-[calc(100%+38px)] rounded-[47%_47%_43%_43%/35%_35%_47%_47%] border-2 border-[#8ed8d5]" />
                 <div className="relative aspect-[0.76] overflow-hidden rounded-[47%_47%_43%_43%/35%_35%_47%_47%] bg-[#b7e6e7] shadow-[0_34px_80px_rgba(8,83,88,0.13)]">
@@ -789,15 +763,22 @@ export function PetStoreHero() {
             </section>
 
             <section className="relative z-10 order-1 flex flex-col justify-center pt-4 lg:order-2 lg:pt-0">
-              <h1 className="max-w-[760px] text-[42px] leading-[1.08] font-black tracking-normal text-[#073f42] sm:text-[68px] lg:text-[58px] xl:text-[74px] 2xl:text-[88px]">
+              <div
+                data-reveal
+                className="mb-3 inline-flex w-fit items-center rounded-full bg-white/78 px-3 py-1.5 text-[11px] font-black tracking-[0.08em] text-[#ff4f2e] uppercase shadow-[0_10px_28px_rgba(7,63,66,0.08)] sm:mb-4 sm:text-xs"
+              >
+                Shop đồ ăn, phụ kiện & spa thú cưng
+              </div>
+
+              <h1 className="max-w-[760px] text-[34px] leading-[1.05] font-black tracking-normal text-[#073f42] sm:text-[68px] lg:text-[58px] xl:text-[74px] 2xl:text-[88px]">
                 <span className="block overflow-hidden py-1">
                   <span data-headline-line className="block whitespace-nowrap">
-                    Chăm sóc tốt
+                    Đồ ăn, phụ kiện
                   </span>
                 </span>
                 <span className="block overflow-hidden py-1">
                   <span data-headline-line className="block whitespace-nowrap">
-                    hơn cho
+                    và spa cho
                   </span>
                 </span>
                 <span className="block overflow-hidden pt-1 pb-3">
@@ -805,43 +786,41 @@ export function PetStoreHero() {
                     data-headline-line
                     className="block font-serif text-[0.82em] whitespace-nowrap italic"
                   >
-                    thú cưng.
+                    boss.
                   </span>
                 </span>
               </h1>
 
               <p
                 data-reveal
-                className="mt-4 max-w-[520px] text-base leading-7 font-bold text-[#3a6566] sm:mt-6 sm:text-lg sm:leading-8"
+                className="mt-3 max-w-[520px] text-sm leading-6 font-bold text-[#3a6566] sm:mt-6 sm:text-lg sm:leading-8"
               >
-                Đồ ăn, phụ kiện và dịch vụ chăm sóc giúp thú cưng luôn khỏe mạnh
-                mỗi ngày.
+                Pate, hạt, cát vệ sinh, snack, đồ chơi và dịch vụ grooming.
+                Chọn nhanh, thêm giỏ trong một chạm.
               </p>
 
               <div
                 data-reveal
-                className="mt-6 flex flex-wrap items-center gap-3 sm:mt-9 sm:gap-5"
+                className="mt-5 flex flex-wrap items-center gap-3 sm:mt-9 sm:gap-5"
               >
-                <Button
+                <Link
+                  href="/products"
                   data-track-action="true"
                   data-track-id="hero:collection-cta"
                   data-track-section="hero"
-                  className="h-12 rounded-full bg-[#ff4f2e] px-6 text-sm font-black text-white shadow-[0_18px_34px_rgba(255,79,46,0.22)] hover:bg-[#e94427] sm:h-[58px] sm:px-10 sm:text-[15px] sm:shadow-[0_24px_44px_rgba(255,79,46,0.24)]"
-                  onClick={handleHeroAddItem}
+                  className="inline-flex h-12 items-center justify-center rounded-full bg-[#ff4f2e] px-6 text-sm font-black text-white shadow-[0_18px_34px_rgba(255,79,46,0.22)] transition hover:bg-[#e94427] sm:h-[58px] sm:px-10 sm:text-[15px] sm:shadow-[0_24px_44px_rgba(255,79,46,0.24)]"
                 >
-                  Tất cả bộ sưu tập
-                </Button>
-                <Button
+                  Mua sắm ngay
+                </Link>
+                <Link
+                  href="/#bundle-save"
                   data-track-action="true"
-                  data-track-id="hero:wishlist"
+                  data-track-id="hero:bundle-cta"
                   data-track-section="hero"
-                  variant="secondary"
-                  size="icon"
-                  className="size-12 rounded-full border-[#ff9f8c] bg-transparent text-[#ff4f2e] hover:bg-white/70 sm:size-[58px]"
-                  aria-label="Thêm vào yêu thích"
+                  className="inline-flex h-12 items-center justify-center rounded-full border border-[#ff9f8c] bg-white/40 px-5 text-sm font-black text-[#ff4f2e] transition hover:bg-white/75 sm:h-[58px] sm:px-7 sm:text-[15px]"
                 >
-                  <Heart className="size-6" strokeWidth={1.8} />
-                </Button>
+                  Combo tiết kiệm
+                </Link>
               </div>
 
               <div
@@ -850,8 +829,9 @@ export function PetStoreHero() {
                 aria-label="Sản phẩm gợi ý"
               >
                 {productPicks.map((product) => (
-                  <button
+                  <Link
                     key={product.name}
+                    href={`/products?category=${encodeURIComponent(product.category)}`}
                     data-track-action="true"
                     data-track-brand="3FStore"
                     data-track-category={product.category}
@@ -876,10 +856,9 @@ export function PetStoreHero() {
                         price: product.price,
                       })
                     }
-                    type="button"
                   >
                     <ProductCan label={product.label} className={product.can} />
-                  </button>
+                  </Link>
                 ))}
               </div>
             </section>

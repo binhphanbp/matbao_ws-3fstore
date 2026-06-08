@@ -4,6 +4,7 @@
 import {
   BadgeCheck,
   ChevronLeft,
+  ChevronRight,
   Minus,
   PackageCheck,
   Plus,
@@ -197,17 +198,11 @@ export function ProductDetailPage({
   return (
     <StorefrontPageShell>
       <main className="pb-32 lg:pb-0" data-track-section="product-detail">
-        <section className="mx-auto w-full max-w-[1480px] px-3 py-4 sm:px-6 sm:py-5 lg:px-8">
-          <Link
-            href="/products"
-            className="mb-3 inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-sm font-black text-[#0c595b] shadow-sm transition hover:text-[#ff4f3c] sm:mb-4 sm:px-4"
-          >
-            <ChevronLeft className="size-4" />
-            Quay lại sản phẩm
-          </Link>
+        <section className="mx-auto w-full max-w-[1480px] px-4 py-4 sm:px-6 sm:py-5 lg:px-8">
+          <ProductBreadcrumb product={product} />
 
-          <div className="grid gap-4 sm:gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.95fr)]">
-            <div className="min-w-0 rounded-[24px] border border-[#d3e9e5] bg-white p-3 shadow-[0_18px_58px_rgba(7,63,66,0.07)] sm:rounded-[32px] sm:p-6 sm:shadow-[0_24px_80px_rgba(7,63,66,0.08)]">
+          <div className="grid overflow-hidden rounded-[24px] border border-[#d3e9e5] bg-white p-3 shadow-[0_18px_58px_rgba(7,63,66,0.07)] sm:rounded-[32px] sm:p-6 sm:shadow-[0_24px_80px_rgba(7,63,66,0.08)] lg:overflow-visible lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.95fr)] lg:gap-6">
+            <div className="min-w-0 lg:rounded-[32px] lg:border lg:border-[#d3e9e5] lg:bg-white lg:p-6 lg:shadow-[0_24px_80px_rgba(7,63,66,0.08)]">
               <div className="grid gap-3 sm:gap-4 md:grid-cols-[92px_minmax(0,1fr)]">
                 <div className="order-2 flex [scrollbar-width:none] gap-2 overflow-x-auto pb-1 md:order-1 md:flex-col md:overflow-visible md:pb-0 [&::-webkit-scrollbar]:hidden">
                   {images.slice(0, 8).map((image) => (
@@ -253,8 +248,8 @@ export function ProductDetailPage({
               </div>
             </div>
 
-            <aside className="min-w-0 lg:sticky lg:top-6 lg:self-start">
-              <div className="rounded-[24px] border border-[#d3e9e5] bg-white p-4 shadow-[0_18px_58px_rgba(7,63,66,0.07)] sm:rounded-[32px] sm:p-7 sm:shadow-[0_24px_80px_rgba(7,63,66,0.08)]">
+            <aside className="mt-4 min-w-0 lg:sticky lg:top-6 lg:mt-0 lg:self-start">
+              <div className="lg:rounded-[32px] lg:border lg:border-[#d3e9e5] lg:bg-white lg:p-7 lg:shadow-[0_24px_80px_rgba(7,63,66,0.08)]">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="rounded-full bg-[#e9f8f5] px-3 py-1 text-xs font-black text-[#0d7773]">
                     {product.category}
@@ -305,7 +300,7 @@ export function ProductDetailPage({
                     <p className="mb-3 text-sm font-black text-[#073f42]">
                       Chọn phân loại
                     </p>
-                    <div className="grid max-h-44 gap-2 overflow-y-auto pr-1 sm:max-h-56 sm:grid-cols-2">
+                    <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none] sm:mx-0 sm:grid sm:max-h-none sm:grid-cols-2 sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden">
                       {product.variants.slice(0, 16).map((variant) => (
                         <button
                           key={variant.id}
@@ -313,9 +308,9 @@ export function ProductDetailPage({
                           data-testid="variant-option"
                           aria-pressed={selectedVariant?.id === variant.id}
                           onClick={() => selectVariant(variant)}
-                          className={`min-w-0 rounded-2xl border px-3 py-3 text-left text-sm leading-5 font-extrabold transition ${
+                          className={`min-h-[76px] w-[78vw] max-w-[330px] shrink-0 rounded-2xl border px-3 py-3 text-left text-sm leading-5 font-extrabold transition sm:w-auto sm:max-w-none ${
                             selectedVariant?.id === variant.id
-                              ? "border-[#ff4f3c] bg-[#fff0ee] text-[#073f42]"
+                              ? "border-[#ff4f3c] bg-[#fff0ee] text-[#073f42] shadow-[0_10px_26px_rgba(255,79,60,0.10)]"
                               : "border-[#d9e9e6] bg-white text-[#426765] hover:border-[#0d7773]"
                           }`}
                         >
@@ -370,7 +365,7 @@ export function ProductDetailPage({
                     <button
                       type="button"
                       onClick={() => addToCart("add")}
-                      className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-[#ff4f3c] bg-white px-5 text-sm font-black text-[#ff4f3c] transition hover:bg-[#fff0ee]"
+                      className="inline-flex h-12 items-center justify-center gap-2 rounded-[14px] border border-[#ff4f3c] bg-white px-5 text-sm font-black text-[#ff4f3c] transition hover:bg-[#fff0ee]"
                     >
                       <ShoppingBag className="size-5" />
                       Thêm giỏ hàng
@@ -378,7 +373,7 @@ export function ProductDetailPage({
                     <button
                       type="button"
                       onClick={() => addToCart("buy")}
-                      className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#ff4f3c] px-5 text-sm font-black text-white shadow-[0_14px_35px_rgba(255,79,60,0.25)] transition hover:bg-[#e84231]"
+                      className="inline-flex h-12 items-center justify-center gap-2 rounded-[14px] bg-[#ff4f3c] px-5 text-sm font-black text-white shadow-[0_14px_35px_rgba(255,79,60,0.25)] transition hover:bg-[#e84231]"
                     >
                       Mua ngay
                     </button>
@@ -409,66 +404,72 @@ export function ProductDetailPage({
             </aside>
           </div>
 
-          <div className="mt-4 grid gap-4 sm:mt-6 sm:gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-            <section className="rounded-[24px] border border-[#d3e9e5] bg-white p-4 shadow-[0_14px_45px_rgba(7,63,66,0.05)] sm:rounded-[32px] sm:p-7 sm:shadow-[0_18px_60px_rgba(7,63,66,0.06)]">
+          <div className="mt-3 grid gap-3 sm:mt-6 sm:gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+            <section className="rounded-[18px] border border-[#d3e9e5] bg-white p-4 shadow-[0_10px_34px_rgba(7,63,66,0.05)] sm:rounded-[24px] sm:p-6">
               <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-[#e7fbf7] px-4 py-2 text-sm font-black text-[#0b6b68]">
                 <Sparkles className="size-4" />
                 Thông tin sản phẩm
               </div>
-              <h2 className="text-xl font-black text-[#073f42] sm:text-2xl">
-                Thông tin sản phẩm
-              </h2>
-              <div className="mt-5 grid gap-3 text-sm leading-7 font-semibold text-[#426765]">
-                {descriptionLines.map((line) => (
-                  <p key={line}>{line}</p>
-                ))}
-              </div>
+              <details className="group" open>
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-xl font-black text-[#073f42] sm:text-2xl [&::-webkit-details-marker]:hidden">
+                  Thông tin cần biết
+                  <ChevronRight className="size-5 transition group-open:rotate-90" />
+                </summary>
+                <div className="mt-4 grid gap-3 text-sm leading-7 font-semibold text-[#426765]">
+                  {descriptionLines.slice(0, 8).map((line) => (
+                    <p key={line}>{line}</p>
+                  ))}
+                </div>
+              </details>
             </section>
 
-            <section className="rounded-[24px] border border-[#d3e9e5] bg-white p-4 shadow-[0_14px_45px_rgba(7,63,66,0.05)] sm:rounded-[32px] sm:p-7 sm:shadow-[0_18px_60px_rgba(7,63,66,0.06)]">
-              <h2 className="text-xl font-black text-[#073f42] sm:text-2xl">
-                Điểm chốt đơn nhanh
-              </h2>
-              <div className="mt-5 grid gap-3">
-                {[
-                  "Chọn đúng phân loại trước khi đặt.",
-                  "Phù hợp mua lẻ hoặc gom combo theo tuần.",
-                  "3FStore hỗ trợ tư vấn theo giống, tuổi và nhu cầu.",
-                  "Đóng gói kỹ, ưu tiên sản phẩm còn hạn dùng tốt.",
-                ].map((item) => (
-                  <div
-                    key={item}
-                    className="flex gap-3 rounded-2xl bg-[#f5fbfa] p-4 text-sm leading-6 font-bold text-[#426765]"
-                  >
-                    <PackageCheck className="mt-0.5 size-5 shrink-0 text-[#0d7773]" />
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
+            <section className="rounded-[18px] border border-[#d3e9e5] bg-white p-4 shadow-[0_10px_34px_rgba(7,63,66,0.05)] sm:rounded-[24px] sm:p-6">
+              <details className="group" open>
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-xl font-black text-[#073f42] sm:text-2xl [&::-webkit-details-marker]:hidden">
+                  Chốt đơn nhanh
+                  <ChevronRight className="size-5 transition group-open:rotate-90" />
+                </summary>
+                <div className="mt-4 grid gap-3">
+                  {[
+                    "Chọn đúng phân loại trước khi đặt.",
+                    "Phù hợp mua lẻ hoặc gom combo theo tuần.",
+                    "3FStore hỗ trợ tư vấn theo giống, tuổi và nhu cầu.",
+                    "Đóng gói kỹ, ưu tiên hạn dùng tốt.",
+                  ].map((item) => (
+                    <div
+                      key={item}
+                      className="flex gap-3 rounded-2xl bg-[#f5fbfa] p-4 text-sm leading-6 font-bold text-[#426765]"
+                    >
+                      <PackageCheck className="mt-0.5 size-5 shrink-0 text-[#0d7773]" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </details>
             </section>
           </div>
 
           {relatedProducts.length > 0 ? (
-            <section className="mt-4 rounded-[24px] border border-[#d3e9e5] bg-white p-4 shadow-[0_14px_45px_rgba(7,63,66,0.05)] sm:mt-6 sm:rounded-[32px] sm:p-7 sm:shadow-[0_18px_60px_rgba(7,63,66,0.06)]">
+            <section className="mt-3 rounded-[18px] border border-[#d3e9e5] bg-white p-4 shadow-[0_10px_34px_rgba(7,63,66,0.05)] sm:mt-6 sm:rounded-[24px] sm:p-6">
               <div className="mb-5 flex items-center justify-between gap-3">
-                <h2 className="text-xl font-black text-[#073f42] sm:text-2xl">
+                <h2 className="min-w-0 text-xl leading-tight font-black text-[#073f42] sm:text-2xl">
                   Sản phẩm nên mua kèm
                 </h2>
                 <Link
                   href="/products"
-                  className="rounded-full border border-[#d7e8e5] px-4 py-2 text-sm font-black text-[#073f42] transition hover:border-[#ff4f3c] hover:text-[#ff4f3c]"
+                  className="shrink-0 whitespace-nowrap rounded-full border border-[#d7e8e5] px-3.5 py-2 text-sm font-black text-[#073f42] transition hover:border-[#ff4f3c] hover:text-[#ff4f3c] sm:px-4"
                 >
                   Xem tất cả
                 </Link>
               </div>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
                 {relatedProducts.slice(0, 4).map((item) => (
                   <Link
                     key={item.id}
                     href={`/products/${item.slug}`}
-                    className="group rounded-[24px] border border-[#d9e9e6] bg-[#f8fcfb] p-4 transition hover:border-[#ff4f3c]"
+                    className="group rounded-[14px] border border-[#d9e9e6] bg-[#f8fcfb] p-2.5 transition hover:border-[#ff4f3c] sm:rounded-[18px] sm:p-4"
                   >
-                    <div className="aspect-square rounded-2xl bg-white p-4">
+                    <div className="aspect-square rounded-[12px] bg-white p-2 sm:rounded-2xl sm:p-4">
                       {item.image ? (
                         <img
                           src={item.image}
@@ -477,10 +478,10 @@ export function ProductDetailPage({
                         />
                       ) : null}
                     </div>
-                    <p className="mt-3 line-clamp-2 min-h-[44px] text-sm leading-5 font-black text-[#073f42]">
+                    <p className="mt-2 line-clamp-2 min-h-[40px] text-xs leading-5 font-black text-[#073f42] sm:mt-3 sm:text-sm">
                       {item.shortName}
                     </p>
-                    <p className="mt-2 text-lg font-black text-[#ff4f3c]">
+                    <p className="mt-1 text-base font-black text-[#ff4f3c] sm:mt-2 sm:text-lg">
                       {formatCurrency(item.price)}
                     </p>
                   </Link>
@@ -491,7 +492,7 @@ export function ProductDetailPage({
         </section>
 
         <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#d5e8e4] bg-white/96 px-3 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-18px_40px_rgba(7,63,66,0.12)] backdrop-blur lg:hidden">
-          <div className="mx-auto grid max-w-[720px] grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2">
+          <div className="mx-auto grid max-w-[720px] grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
             <div className="min-w-0 flex-1">
               <p className="text-xs font-black text-[#66817f]">Tổng tạm tính</p>
               <p className="truncate text-xl font-black text-[#111827]">
@@ -500,15 +501,8 @@ export function ProductDetailPage({
             </div>
             <button
               type="button"
-              onClick={() => addToCart("add")}
-              className="h-12 shrink-0 rounded-full border border-[#ff4f3c] bg-white px-4 text-xs font-black text-[#ff4f3c]"
-            >
-              Thêm giỏ hàng
-            </button>
-            <button
-              type="button"
               onClick={() => addToCart("buy")}
-              className="h-12 shrink-0 rounded-full bg-[#ff4f3c] px-5 text-sm font-black text-white shadow-[0_14px_35px_rgba(255,79,60,0.25)]"
+              className="h-12 shrink-0 rounded-[14px] bg-[#ff4f3c] px-5 text-sm font-black text-white shadow-[0_14px_35px_rgba(255,79,60,0.25)]"
             >
               Mua ngay
             </button>
@@ -519,9 +513,65 @@ export function ProductDetailPage({
   );
 }
 
+function ProductBreadcrumb({ product }: { product: StoreProduct }) {
+  return (
+    <nav
+      aria-label="Breadcrumb"
+      className="mb-3 min-w-0 text-sm font-bold text-[#66817f] sm:mb-4"
+    >
+      <div className="sm:hidden">
+        <Link
+          href="/products"
+          className="inline-flex h-8 items-center gap-1.5 rounded-full bg-white/80 px-2.5 text-xs font-black text-[#0c595b] shadow-sm"
+        >
+          <ChevronLeft className="size-4 shrink-0" />
+          <span>Quay lại</span>
+        </Link>
+      </div>
+
+      <ol className="hidden min-w-0 items-center gap-2 sm:flex">
+        <li>
+          <Link href="/" className="hover:text-[#ff4f3c]">
+            Trang chủ
+          </Link>
+        </li>
+        <li aria-hidden="true">
+          <ChevronRight className="size-4" />
+        </li>
+        <li>
+          <Link href="/products" className="hover:text-[#ff4f3c]">
+            Sản phẩm
+          </Link>
+        </li>
+        <li aria-hidden="true">
+          <ChevronRight className="size-4" />
+        </li>
+        <li className="max-w-[180px] truncate lg:max-w-[240px]">
+          <Link
+            href={`/products?category=${encodeURIComponent(product.category)}`}
+            className="hover:text-[#ff4f3c]"
+          >
+            {product.category}
+          </Link>
+        </li>
+        <li aria-hidden="true">
+          <ChevronRight className="size-4" />
+        </li>
+        <li
+          aria-current="page"
+          className="min-w-0 flex-1 truncate font-black text-[#073f42]"
+          title={product.shortName}
+        >
+          {product.shortName}
+        </li>
+      </ol>
+    </nav>
+  );
+}
+
 function TrustBadge({ icon, label }: { icon: ReactNode; label: string }) {
   return (
-    <div className="flex min-h-16 items-center gap-2 rounded-2xl bg-[#f5fbfa] px-3 text-sm font-black text-[#0c595b]">
+    <div className="flex min-h-14 items-center gap-2 rounded-[14px] bg-[#f5fbfa] px-2.5 text-xs font-black text-[#0c595b] sm:min-h-16 sm:rounded-2xl sm:px-3 sm:text-sm">
       {icon}
       <span>{label}</span>
     </div>

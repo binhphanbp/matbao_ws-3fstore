@@ -2,19 +2,11 @@
 
 import { useCallback } from "react";
 import gsap from "gsap";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Flame,
-  Heart,
-  ShoppingCart,
-} from "lucide-react";
+import { ArrowRight, Flame, ShoppingCart } from "lucide-react";
 import Image from "next/image";
-
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { useGsapContext } from "@/hooks/use-gsap-context";
 import { trackAnalyticsEvent } from "@/lib/analytics/tracker";
-import { cn } from "@/lib/utils";
 import { useCartStore } from "@/store/cart-store";
 import type { Product, ProductPreview } from "@/types/product";
 
@@ -27,10 +19,8 @@ export function TrendingSnacksSection({
   products: ProductPreview[];
 }) {
   const addItem = useCartStore((state) => state.addItem);
-  const displayProducts = products.slice(0, 6);
-  const leftFeature = displayProducts[0];
-  const rightFeature = displayProducts[1] ?? displayProducts[0];
-  const centerProducts = displayProducts.slice(2, 6);
+  const openCart = useCartStore((state) => state.openCart);
+  const displayProducts = products.slice(0, 8);
 
   const animate = useCallback((scope: HTMLElement) => {
     const prefersReducedMotion = window.matchMedia(
@@ -84,6 +74,7 @@ export function TrendingSnacksSection({
     };
 
     addItem(cartProduct);
+    openCart();
     trackAnalyticsEvent("add_to_cart", {
       sectionId: "snacks",
       elementId: `snacks:add-to-cart:${product.id}`,
@@ -98,7 +89,7 @@ export function TrendingSnacksSection({
     });
   };
 
-  if (!leftFeature || !rightFeature) {
+  if (displayProducts.length === 0) {
     return null;
   }
 
@@ -110,105 +101,81 @@ export function TrendingSnacksSection({
       className="scroll-mt-10 text-[#171717]"
       aria-labelledby="trending-snacks-title"
     >
-      <div className="mx-auto max-w-[1160px]">
-        <header className="mb-4 flex items-start justify-between gap-5">
+      <div className="mx-auto max-w-[1160px] px-4 sm:px-0">
+        <header className="mb-4 flex items-end justify-between gap-4 sm:mb-5">
           <div data-snack-reveal>
             <div className="flex items-center gap-2">
               <Flame
-                className="size-9 fill-[#ff4b3f] text-[#ff4b3f] sm:size-10"
+                className="size-7 fill-[#ff4b3f] text-[#ff4b3f] sm:size-9"
                 aria-hidden
               />
               <h2
                 id="trending-snacks-title"
-                className="origin-left scale-x-[0.9] text-[31px] leading-none font-black tracking-[-0.045em] text-[#151515] italic [word-spacing:0.12em] sm:text-[41px]"
+                className="text-[26px] leading-none font-black tracking-[-0.035em] text-[#151515] italic sm:text-[38px]"
               >
                 MÓN THƯỞNG HOT
               </h2>
             </div>
-            <p className="mt-1.5 text-[14px] font-bold text-[#786b62]">
-              Món thưởng đang hot, mua ngay kẻo lỡ!
+            <p className="mt-1.5 max-w-[560px] text-[13px] font-bold text-[#786b62] sm:text-[15px]">
+              Snack, pate thưởng và đồ ăn vặt boss dễ mê. Chọn nhanh, thêm giỏ
+              ngay.
             </p>
           </div>
 
-          <div
+          <Link
+            href="/products?category=Snack+%26+b%C3%A1nh+th%C6%B0%E1%BB%9Fng"
             data-snack-reveal
-            className="hidden items-center gap-4 pt-1 sm:flex"
+            className="hidden h-10 items-center gap-2 rounded-full bg-[#ffe500] px-5 text-xs font-black text-[#1b1b16] shadow-[0_12px_22px_rgba(215,190,0,0.18)] transition hover:bg-[#f6dc00] sm:inline-flex"
           >
-            <Button className="h-9 rounded-full bg-[#ffe500] px-6 text-[11px] font-black text-[#1b1b16] shadow-[0_12px_22px_rgba(215,190,0,0.18)] hover:bg-[#f6dc00]">
-              XEM TẤT CẢ
-              <ArrowRight className="size-4" aria-hidden />
-            </Button>
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                className="grid size-10 place-items-center rounded-full bg-white text-[#b9b4ae] shadow-[0_9px_22px_rgba(35,28,20,0.12)] transition-colors hover:text-[#171717]"
-                aria-label="Sản phẩm trước"
-              >
-                <ArrowLeft className="size-4" aria-hidden />
-              </button>
-              <button
-                type="button"
-                className="grid size-10 place-items-center rounded-full bg-white text-[#171717] shadow-[0_9px_22px_rgba(35,28,20,0.14)] transition-transform hover:scale-105"
-                aria-label="Sản phẩm tiếp theo"
-              >
-                <ArrowRight className="size-4" aria-hidden />
-              </button>
-            </div>
-          </div>
+            Xem tất cả
+            <ArrowRight className="size-4" aria-hidden />
+          </Link>
         </header>
 
-        <div className="grid gap-3 lg:grid-cols-[245px_minmax(0,1fr)_245px]">
-          <FeatureSnackCard
-            product={leftFeature}
-            tone="red"
-            rotation="-rotate-[2.5deg]"
-            onAdd={handleAddProduct}
-          />
-
-          <div className="grid min-h-[408px] grid-cols-1 gap-3 sm:grid-cols-2">
-            {centerProducts.map((product, index) => (
-              <SmallSnackCard
-                key={product.id}
-                product={product}
-                showNew={index === 0}
-                showHeart={index === centerProducts.length - 1}
-                onAdd={handleAddProduct}
-              />
-            ))}
-          </div>
-
-          <FeatureSnackCard
-            product={rightFeature}
-            tone="green"
-            rotation="rotate-[2.5deg]"
-            onAdd={handleAddProduct}
-          />
+        <div className="grid grid-cols-2 gap-2.5 sm:gap-4 lg:grid-cols-4">
+          {displayProducts.map((product, index) => (
+            <SnackShopCard
+              key={product.id}
+              product={product}
+              priority={index < 4}
+              onAdd={handleAddProduct}
+            />
+          ))}
         </div>
+
+        <Link
+          href="/products?category=Snack+%26+b%C3%A1nh+th%C6%B0%E1%BB%9Fng"
+          className="mt-3 inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-[#eadfd7] bg-white text-sm font-black text-[#073f42] sm:hidden"
+        >
+          Xem thêm món thưởng
+          <ArrowRight className="size-4" aria-hidden />
+        </Link>
       </div>
     </section>
   );
 }
 
-function FeatureSnackCard({
+function SnackShopCard({
   product,
-  tone,
-  rotation,
+  priority,
   onAdd,
 }: {
   product: ProductPreview;
-  tone: "red" | "green";
-  rotation: string;
+  priority: boolean;
   onAdd: (product: ProductPreview) => void;
 }) {
-  const isRed = tone === "red";
-  const handleProductClick = (target: EventTarget | null) => {
-    if ((target as HTMLElement | null)?.closest("button")) {
-      return;
-    }
+  const discount =
+    product.compareAtPrice && product.compareAtPrice > product.price
+      ? Math.round(
+          ((product.compareAtPrice - product.price) / product.compareAtPrice) *
+            100,
+        )
+      : 0;
 
+  const trackProductClick = () => {
     trackAnalyticsEvent("product_click", {
       sectionId: "snacks",
-      elementId: `snacks:feature:${product.id}`,
+      elementId: `snacks:shop-card:${product.id}`,
       productId: product.id,
       productName: product.shortName,
       category: product.category,
@@ -224,216 +191,103 @@ function FeatureSnackCard({
       data-track-action="true"
       data-track-brand={product.brand}
       data-track-category={product.category}
-      data-track-id={`snacks:feature:${product.id}`}
+      data-track-id={`snacks:shop-card:${product.id}`}
       data-track-price={product.price}
       data-track-product-id={product.id}
       data-track-product-name={product.shortName}
       data-track-section="snacks"
-      onClick={(event) => handleProductClick(event.target)}
-      className={cn(
-        "group relative min-h-[408px] overflow-hidden rounded-[21px] border-[6px] border-white p-4 text-white shadow-[0_18px_34px_rgba(37,31,25,0.16)] will-change-transform",
-        rotation,
-        isRed ? "bg-[#ff6065]" : "bg-[#94bd57]",
-      )}
+      className="group overflow-hidden rounded-[14px] border border-[#eadfd7] bg-white shadow-[0_10px_28px_rgba(39,32,23,0.07)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_36px_rgba(39,32,23,0.10)] sm:rounded-[16px]"
     >
-      <SnackDoodles tone={tone} />
-      {!isRed ? <NewBurst className="top-[-7px] right-[-8px]" /> : null}
-
-      <div className="relative z-10 flex h-full min-h-[364px] flex-col">
-        <div className="relative mx-auto mt-1 h-[238px] w-full transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-[1.03]">
-          {product.image ? (
-            <Image
-              src={product.image}
-              alt={product.shortName}
-              fill
-              sizes="240px"
-              className="object-contain drop-shadow-[0_20px_16px_rgba(0,0,0,0.2)]"
-            />
-          ) : null}
-        </div>
-
-        <div className="mt-auto">
-          <h3 className="line-clamp-3 max-w-[174px] text-[17px] leading-[1.08] font-black tracking-[-0.025em]">
-            {displaySnackName(product.shortName)}
-          </h3>
-
-          <div className="mt-6 flex items-end justify-between gap-4">
-            <p className="text-[18px] leading-none font-black">
-              {formatCurrency(product.price)}
-            </p>
-            <CartButton
-              product={product}
-              onAdd={onAdd}
-              variant="white"
-              size="lg"
-            />
-          </div>
-        </div>
-      </div>
-    </article>
-  );
-}
-
-function SmallSnackCard({
-  product,
-  showNew,
-  showHeart,
-  onAdd,
-}: {
-  product: ProductPreview;
-  showNew?: boolean;
-  showHeart?: boolean;
-  onAdd: (product: ProductPreview) => void;
-}) {
-  const handleProductClick = (target: EventTarget | null) => {
-    if ((target as HTMLElement | null)?.closest("button")) {
-      return;
-    }
-
-    trackAnalyticsEvent("product_click", {
-      sectionId: "snacks",
-      elementId: `snacks:card:${product.id}`,
-      productId: product.id,
-      productName: product.shortName,
-      category: product.category,
-      brand: product.brand,
-      audience: product.audience,
-      price: product.price,
-    });
-  };
-
-  return (
-    <article
-      data-snack-reveal
-      data-track-action="true"
-      data-track-brand={product.brand}
-      data-track-category={product.category}
-      data-track-id={`snacks:card:${product.id}`}
-      data-track-price={product.price}
-      data-track-product-id={product.id}
-      data-track-product-name={product.shortName}
-      data-track-section="snacks"
-      onClick={(event) => handleProductClick(event.target)}
-      className="group relative min-h-[198px] rounded-[17px] border border-[#ece5df] bg-white p-3 shadow-[0_10px_24px_rgba(39,32,23,0.08)] will-change-transform"
-    >
-      {showNew ? <NewBurst className="top-[-16px] right-[-10px]" /> : null}
-
-      <div className="relative h-[122px] rounded-[13px] bg-[#f1efe9]">
-        <span className="absolute top-3 left-3 size-1.5 rounded-full bg-white" />
-        <span className="absolute top-5 right-5 size-1 rounded-full bg-white" />
+      <Link
+        href={`/products/${product.slug}`}
+        onClick={trackProductClick}
+        className="relative block aspect-square bg-[#f3f0eb]"
+        aria-label={product.shortName}
+      >
+        {discount > 0 ? (
+          <span className="absolute top-2 left-2 z-10 rounded-full bg-[#ff4b3f] px-2.5 py-1 text-[11px] font-black text-white">
+            -{discount}%
+          </span>
+        ) : null}
         {product.image ? (
           <Image
             src={product.image}
             alt={product.shortName}
             fill
-            sizes="210px"
-            className="object-contain p-2.5 drop-shadow-[0_12px_12px_rgba(0,0,0,0.12)] transition-transform duration-300 group-hover:scale-[1.06]"
+            sizes="(min-width: 1024px) 260px, 50vw"
+            priority={priority}
+            className="object-cover transition duration-300 group-hover:scale-[1.035]"
           />
         ) : null}
-      </div>
+      </Link>
 
-      <div className="mt-2.5 grid grid-cols-[1fr_38px] items-end gap-3">
-        <div>
-          <h3 className="line-clamp-2 min-h-[31px] text-[12px] leading-[1.2] font-extrabold tracking-[-0.01em] text-[#2b2926]">
+      <div className="grid min-h-[148px] grid-rows-[auto_1fr_auto] p-2.5 sm:min-h-[178px] sm:p-4">
+        <div className="mb-2 flex min-w-0 items-center justify-between gap-2">
+          <span
+            className="min-w-0 truncate rounded-full bg-[#e6f8f4] px-2.5 py-1 text-[11px] font-black text-[#087c78]"
+            title={product.category}
+          >
+            {displayCategoryName(product.category)}
+          </span>
+          <span className="shrink-0 text-xs font-black text-[#f2ae00]">
+            ★ 4.8
+          </span>
+        </div>
+
+        <Link href={`/products/${product.slug}`} onClick={trackProductClick}>
+          <h3 className="line-clamp-2 min-h-10 text-[13px] leading-[1.25] font-black tracking-[-0.015em] text-[#083f42] sm:text-[15px]">
             {displaySnackName(product.shortName)}
           </h3>
-          <p className="mt-2 text-[13px] leading-none font-black text-[#171717]">
+        </Link>
+
+        <div className="mt-2 self-end border-t border-[#edf0ee] pt-2 sm:mt-3 sm:pt-3">
+          {product.compareAtPrice && product.compareAtPrice > product.price ? (
+            <p className="text-xs font-bold text-[#99a4a1] line-through">
+              {formatCurrency(product.compareAtPrice)}
+            </p>
+          ) : (
+            <p className="text-xs font-bold text-[#99a4a1]">Giá tốt hôm nay</p>
+          )}
+          <p className="mt-0.5 text-[17px] leading-none font-black text-[#07141f] sm:text-[20px]">
             {formatCurrency(product.price)}
           </p>
         </div>
 
-        <CartButton product={product} onAdd={onAdd} variant="yellow" />
+        <button
+          type="button"
+          data-track-action="true"
+          data-track-brand={product.brand}
+          data-track-category={product.category}
+          data-track-id={`snacks:add-to-cart:${product.id}`}
+          data-track-price={product.price}
+          data-track-product-id={product.id}
+          data-track-product-name={product.shortName}
+          data-track-section="snacks"
+          className="mt-3 inline-flex h-10 items-center justify-center gap-1.5 rounded-[12px] bg-[#ff4f3c] px-2 text-[13px] font-black text-white shadow-[0_12px_22px_rgba(255,79,60,0.18)] transition hover:bg-[#e94736] sm:h-11 sm:gap-2 sm:px-3 sm:text-sm"
+          onClick={() => onAdd(product)}
+        >
+          <ShoppingCart className="size-4" aria-hidden />
+          Thêm giỏ hàng
+        </button>
       </div>
-
-      {showHeart ? (
-        <div className="absolute -right-2 -bottom-3 rotate-[-17deg] text-[#ff4f47] drop-shadow-[0_4px_0_white]">
-          <Heart className="size-10 fill-[#ff4f47]" aria-hidden />
-        </div>
-      ) : null}
     </article>
   );
 }
 
-function CartButton({
-  product,
-  onAdd,
-  variant,
-  size = "md",
-}: {
-  product: ProductPreview;
-  onAdd: (product: ProductPreview) => void;
-  variant: "white" | "yellow";
-  size?: "md" | "lg";
-}) {
-  return (
-    <button
-      type="button"
-      data-track-action="true"
-      data-track-brand={product.brand}
-      data-track-category={product.category}
-      data-track-id={`snacks:add-to-cart:${product.id}`}
-      data-track-price={product.price}
-      data-track-product-id={product.id}
-      data-track-product-name={product.shortName}
-      data-track-section="snacks"
-      className={cn(
-        "grid shrink-0 place-items-center rounded-full text-[#191714] shadow-[0_10px_22px_rgba(27,22,15,0.12)] transition-transform hover:scale-105",
-        variant === "yellow" ? "bg-[#ffe500]" : "bg-white",
-        size === "lg" ? "size-14" : "size-10",
-      )}
-      aria-label={`Thêm ${product.shortName} vào giỏ`}
-      onClick={() => onAdd(product)}
-    >
-      <ShoppingCart className={size === "lg" ? "size-6" : "size-5"} />
-    </button>
-  );
-}
-
-function NewBurst({ className }: { className?: string }) {
-  return (
-    <div
-      className={cn(
-        "absolute z-20 grid size-[60px] rotate-[-10deg] place-items-center",
-        className,
-      )}
-      aria-hidden
-    >
-      <div
-        className="absolute inset-0 bg-[#ffe500]"
-        style={{
-          clipPath:
-            "polygon(50% 0%, 58% 25%, 82% 10%, 72% 36%, 100% 42%, 75% 54%, 92% 78%, 64% 69%, 53% 100%, 43% 70%, 15% 88%, 27% 61%, 0% 50%, 27% 39%, 11% 13%, 39% 26%)",
-        }}
-      />
-      <span className="relative text-[10px] font-black text-[#191714]">
-        NEW
-      </span>
-    </div>
-  );
-}
-
-function SnackDoodles({ tone }: { tone: "red" | "green" }) {
-  if (tone === "red") {
-    return (
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <span className="absolute top-10 left-8 h-16 w-5 -rotate-45 rounded-full bg-[#ffe85c]" />
-        <span className="absolute top-11 left-20 h-11 w-3 rotate-[25deg] rounded-full bg-[#ffe85c]" />
-        <span className="absolute top-16 right-9 h-8 w-2 rotate-[38deg] rounded-full bg-white/80" />
-        <span className="absolute top-24 right-10 h-12 w-2 rotate-[38deg] rounded-full bg-white/80" />
-        <span className="absolute bottom-28 left-9 h-10 w-1.5 rotate-[22deg] rounded-full bg-[#ffe85c]" />
-      </div>
-    );
+function displayCategoryName(category: string) {
+  if (/snack|bánh thưởng/i.test(category)) {
+    return "Snack";
   }
 
-  return (
-    <div className="pointer-events-none absolute inset-0" aria-hidden>
-      <span className="absolute top-9 left-9 size-2 rounded-full bg-white" />
-      <span className="absolute top-24 right-12 size-3 rounded-full bg-white/80" />
-      <span className="absolute bottom-28 left-7 h-16 w-1.5 rotate-[42deg] rounded-full bg-white/75" />
-      <span className="absolute bottom-24 left-14 h-10 w-1.5 rotate-[18deg] rounded-full bg-white/75" />
-      <span className="absolute right-10 bottom-24 h-12 w-2 rotate-[-24deg] rounded-full bg-[#efffd2]" />
-    </div>
-  );
+  if (/pate|ướt/i.test(category)) {
+    return "Pate";
+  }
+
+  if (/hạt|khô/i.test(category)) {
+    return "Hạt";
+  }
+
+  return category;
 }
 
 function compactTitle(title: string) {
