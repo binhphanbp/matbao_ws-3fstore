@@ -7,6 +7,9 @@ export type Product = {
   image?: string | null;
   slug?: string;
   brand?: string;
+  compareAtPrice?: number | null;
+  variantId?: string;
+  variantName?: string;
 };
 
 export type ProductAudience = "cat" | "dog" | "both" | "all-pets";
@@ -58,4 +61,8 @@ export type ProductPreview = Pick<
   | "priceRange"
   | "image"
   | "audience"
->;
+  | "sold"
+  | "tags"
+> & {
+  shortDescription: string;
+};

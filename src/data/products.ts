@@ -7,6 +7,54 @@ export const productCategories = Array.from(
   new Set(storeProducts.map((product) => product.category)),
 );
 
+export const productBrands = Array.from(
+  new Set(
+    storeProducts
+      .map((product) => product.brand)
+      .filter((brand): brand is string => Boolean(brand)),
+  ),
+).sort((a, b) => a.localeCompare(b, "vi"));
+
+export function getAllProductPreviews(): ProductPreview[] {
+  return storeProducts.map(toProductPreview);
+}
+
+export function getProductBySlug(slug: string): StoreProduct | undefined {
+  return storeProducts.find((product) => product.slug === slug);
+}
+
+export function getRelatedProducts(
+  product: StoreProduct,
+  limit = 8,
+): ProductPreview[] {
+  const related = storeProducts
+    .filter((item) => item.id !== product.id)
+    .map((item) => {
+      let score = 0;
+
+      if (item.category === product.category) {
+        score += 4;
+      }
+
+      if (item.audience === product.audience || item.audience === "both") {
+        score += 2;
+      }
+
+      if (item.brand === product.brand) {
+        score += 2;
+      }
+
+      score += Math.min(2, item.sold / 100);
+
+      return { item, score };
+    })
+    .sort((a, b) => b.score - a.score || a.item.price - b.item.price)
+    .slice(0, limit)
+    .map(({ item }) => toProductPreview(item));
+
+  return related;
+}
+
 export function getFeaturedProducts(limit = 10): ProductPreview[] {
   const preferredCategories = [
     "Pate & thức ăn ướt",
@@ -82,7 +130,7 @@ export function getTrendingSnackProducts(limit = 6): ProductPreview[] {
     .map(toProductPreview);
 }
 
-function toProductPreview(product: StoreProduct): ProductPreview {
+export function toProductPreview(product: StoreProduct): ProductPreview {
   return {
     id: product.id,
     slug: product.slug,
@@ -95,5 +143,8 @@ function toProductPreview(product: StoreProduct): ProductPreview {
     priceRange: product.priceRange,
     image: product.image,
     audience: product.audience,
+    shortDescription: product.shortDescription,
+    sold: product.sold,
+    tags: product.tags,
   };
 }

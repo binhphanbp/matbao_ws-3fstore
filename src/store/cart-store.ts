@@ -9,7 +9,7 @@ type CartItem = Product & {
 
 type CartState = {
   items: CartItem[];
-  addItem: (product: Product) => void;
+  addItem: (product: Product, quantity?: number) => void;
   removeItem: (productId: string) => void;
   clearCart: () => void;
 };
@@ -18,8 +18,9 @@ export const useCartStore = create<CartState>()(
   persist(
     (set) => ({
       items: [],
-      addItem: (product) =>
+      addItem: (product, quantity = 1) =>
         set((state) => {
+          const normalizedQuantity = Math.max(1, Math.floor(quantity));
           const existingItem = state.items.find(
             (item) => item.id === product.id,
           );
@@ -28,14 +29,20 @@ export const useCartStore = create<CartState>()(
             return {
               items: state.items.map((item) =>
                 item.id === product.id
-                  ? { ...item, quantity: item.quantity + 1 }
+                  ? {
+                      ...item,
+                      quantity: item.quantity + normalizedQuantity,
+                    }
                   : item,
               ),
             };
           }
 
           return {
-            items: [...state.items, { ...product, quantity: 1 }],
+            items: [
+              ...state.items,
+              { ...product, quantity: normalizedQuantity },
+            ],
           };
         }),
       removeItem: (productId) =>
