@@ -129,6 +129,7 @@ export function ProductListPage({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const addItem = useCartStore((state) => state.addItem);
+  const openCart = useCartStore((state) => state.openCart);
   const [wishlist, setWishlist] = useState<Set<string>>(() => new Set());
   const [quickViewProduct, setQuickViewProduct] =
     useState<ProductPreview | null>(null);
@@ -298,6 +299,7 @@ export function ProductListPage({
     mode: "add" | "buy" = "add",
   ) => {
     addItem(product);
+    openCart();
     trackAnalyticsEvent(mode === "buy" ? "buy_now" : "add_to_cart", {
       sectionId: "products-list",
       elementId: mode === "buy" ? "quick-buy" : "quick-add",
@@ -313,7 +315,7 @@ export function ProductListPage({
     showToast(
       mode === "buy"
         ? "Đã thêm vào giỏ, sẵn sàng thanh toán nhanh."
-        : "Đã thêm vào giỏ.",
+        : "Đã thêm vào giỏ. Kiểm tra giỏ hàng bên phải.",
     );
   };
 
@@ -351,7 +353,7 @@ export function ProductListPage({
                 Chọn nhanh, chốt gọn
               </div>
               <h1 className="text-3xl leading-tight font-black tracking-normal text-[#073f42] sm:text-4xl lg:text-5xl">
-                Mua sắm 3FStore
+                Chọn nhanh cho boss
               </h1>
               <p className="mt-3 max-w-2xl text-sm leading-6 font-semibold text-[#587a78] sm:text-base">
                 Danh sách được tối ưu để khách lọc nhanh bên trái, so sánh trên
@@ -531,9 +533,9 @@ export function ProductListPage({
       {toast ? (
         <div
           role="status"
-          className="fixed right-4 bottom-5 z-[80] flex max-w-sm items-center gap-3 rounded-2xl border border-[#b9e1dc] bg-white px-4 py-3 text-sm font-black text-[#073f42] shadow-[0_20px_60px_rgba(7,63,66,0.18)]"
+          className="fixed right-5 bottom-5 z-[95] flex max-w-md items-center gap-3 rounded-[22px] border-2 border-[#ffb4a8] bg-[#ff4f3c] px-5 py-4 text-base font-black text-white shadow-[0_24px_70px_rgba(255,79,60,0.34)]"
         >
-          <CheckCircle2 className="size-5 shrink-0 text-[#0d7773]" />
+          <CheckCircle2 className="size-6 shrink-0" />
           <span>{toast}</span>
         </div>
       ) : null}
@@ -720,7 +722,23 @@ function ProductCard({
       data-track-price={product.price}
       className="group flex min-w-0 flex-col overflow-hidden rounded-[22px] border border-[#d9e9e6] bg-white shadow-[0_14px_42px_rgba(7,63,66,0.07)] transition hover:-translate-y-0.5 hover:border-[#b9dcd7]"
     >
-      <div className="relative aspect-square bg-[#eef8f6] p-4">
+      <Link
+        href={`/products/${product.slug}`}
+        aria-label="Mở chi tiết sản phẩm"
+        onClick={() =>
+          trackAnalyticsEvent("product_click", {
+            sectionId: "products-list",
+            elementId: "product-image-link",
+            productId: product.id,
+            productName: product.shortName,
+            category: product.category,
+            brand: product.brand,
+            audience: product.audience,
+            price: product.price,
+          })
+        }
+        className="relative block aspect-square overflow-hidden bg-white"
+      >
         {discount > 0 ? (
           <span className="absolute top-3 left-3 z-10 rounded-full bg-[#ff4f3c] px-2.5 py-1 text-xs font-black text-white">
             -{discount}%
@@ -742,7 +760,7 @@ function ProductCard({
           <img
             src={product.image}
             alt={product.shortName}
-            className="h-full w-full object-contain transition duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
             loading="lazy"
           />
         ) : (
@@ -750,7 +768,7 @@ function ProductCard({
             3F
           </div>
         )}
-      </div>
+      </Link>
 
       <div className="flex flex-1 flex-col gap-3 p-4">
         <div className="min-w-0">
@@ -765,12 +783,26 @@ function ProductCard({
               )}
             </span>
           </div>
-          <h2
+          <Link
+            href={`/products/${product.slug}`}
+            aria-label="Mở chi tiết sản phẩm"
+            onClick={() =>
+              trackAnalyticsEvent("product_click", {
+                sectionId: "products-list",
+                elementId: "product-name-link",
+                productId: product.id,
+                productName: product.shortName,
+                category: product.category,
+                brand: product.brand,
+                audience: product.audience,
+                price: product.price,
+              })
+            }
             className="line-clamp-2 min-h-11 text-sm leading-[1.45] font-black text-[#073f42]"
             title={product.shortName}
           >
             {cardTitle}
-          </h2>
+          </Link>
         </div>
 
         <div className="mt-auto border-t border-[#e1eeeb] pt-3">
@@ -795,35 +827,16 @@ function ProductCard({
             </button>
           </div>
 
-          <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-2">
+          <div>
             <button
               type="button"
-              aria-label="Thêm nhanh vào giỏ"
+              aria-label="Thêm giỏ hàng"
               onClick={onQuickAdd}
-              className="inline-flex h-11 min-w-0 items-center justify-center gap-2 rounded-full bg-[#ff4f3c] px-3 text-sm font-black whitespace-nowrap text-white shadow-[0_12px_28px_rgba(255,79,60,0.22)] transition hover:bg-[#e84231]"
+              className="inline-flex h-11 w-full min-w-0 items-center justify-center gap-2 rounded-full bg-[#ff4f3c] px-3 text-sm font-black whitespace-nowrap text-white shadow-[0_12px_28px_rgba(255,79,60,0.22)] transition hover:bg-[#e84231]"
             >
               <ShoppingBag className="size-4" />
-              <span>Thêm giỏ</span>
+              <span>Thêm giỏ hàng</span>
             </button>
-            <Link
-              href={`/products/${product.slug}`}
-              aria-label="Xem chi tiết sản phẩm"
-              onClick={() =>
-                trackAnalyticsEvent("product_click", {
-                  sectionId: "products-list",
-                  elementId: "product-detail-link",
-                  productId: product.id,
-                  productName: product.shortName,
-                  category: product.category,
-                  brand: product.brand,
-                  audience: product.audience,
-                  price: product.price,
-                })
-              }
-              className="inline-flex h-11 items-center justify-center rounded-full border border-[#cfe3df] px-3 text-sm font-black whitespace-nowrap text-[#073f42] transition hover:border-[#ff4f3c] hover:text-[#ff4f3c]"
-            >
-              Chi tiết
-            </Link>
           </div>
         </div>
       </div>

@@ -12,8 +12,9 @@ test("product list supports search, filters, sorting, and quick add", async ({
     page.getByRole("banner").getByRole("link", { name: /3FStore/i }),
   ).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: /Mua sắm 3FStore/i }),
+    page.getByRole("heading", { name: /Chọn nhanh cho boss/i }),
   ).toBeVisible();
+  await expect(page.getByText(/Mua sắm 3FStore/i)).toHaveCount(0);
   await expect(page.getByLabel("Tìm sản phẩm")).toBeVisible();
   await expect(
     page.getByRole("complementary", { name: "Bộ lọc sản phẩm" }),
@@ -37,13 +38,16 @@ test("product list supports search, filters, sorting, and quick add", async ({
   await expect(page).toHaveURL(/sort=price-asc/);
 
   await page
-    .getByRole("button", { name: /Thêm nhanh/i })
+    .getByRole("button", { name: /Thêm giỏ hàng/i })
     .first()
     .click();
   await expect(page.getByText(/Đã thêm vào giỏ/i)).toBeVisible();
+  await expect(
+    page.getByRole("dialog", { name: /Giỏ hàng của bạn/i }),
+  ).toBeVisible();
 
   const quickAddWhiteSpace = await page
-    .getByRole("button", { name: /Thêm nhanh/i })
+    .getByRole("button", { name: /Thêm giỏ hàng/i })
     .first()
     .evaluate((button) => window.getComputedStyle(button).whiteSpace);
   expect(quickAddWhiteSpace).toBe("nowrap");
@@ -69,6 +73,12 @@ test("product list supports search, filters, sorting, and quick add", async ({
   expect(events.some((event) => event.name === "add_to_cart")).toBe(true);
   expect(events.some((event) => event.source === "google")).toBe(true);
   expect(events.some((event) => event.campaign === "shopping_demo")).toBe(true);
+
+  await page.getByRole("link", { name: /Xem giỏ hàng/i }).click();
+  await expect(page).toHaveURL(/\/cart$/);
+  await expect(
+    page.getByRole("heading", { name: /Giỏ hàng của bạn/i }),
+  ).toBeVisible();
   await expect(page.getByRole("contentinfo")).toBeVisible();
 });
 
@@ -104,8 +114,9 @@ test("product detail renders purchase UX and records add to cart plus buy now", 
 }) => {
   await page.goto("/products");
 
+  await expect(page.getByText("Chi tiết")).toHaveCount(0);
   await page
-    .getByRole("link", { name: /Xem chi tiết/i })
+    .getByRole("link", { name: /Mở chi tiết sản phẩm/i })
     .first()
     .click();
   await expect(page).toHaveURL(/\/products\/[^/]+$/);
@@ -156,7 +167,7 @@ test("product pages stay usable on mobile without horizontal overflow", async ({
   await page.goto("/products");
 
   await expect(
-    page.getByRole("button", { name: /Thêm nhanh/i }).first(),
+    page.getByRole("button", { name: /Thêm giỏ hàng/i }).first(),
   ).toBeVisible();
 
   let overflow = await page.evaluate(
@@ -165,7 +176,7 @@ test("product pages stay usable on mobile without horizontal overflow", async ({
   expect(overflow).toBe(false);
 
   await page
-    .getByRole("link", { name: /Xem chi tiết/i })
+    .getByRole("link", { name: /Mở chi tiết sản phẩm/i })
     .first()
     .click();
   await expect(
@@ -176,4 +187,34 @@ test("product pages stay usable on mobile without horizontal overflow", async ({
     () => document.documentElement.scrollWidth > window.innerWidth + 1,
   );
   expect(overflow).toBe(false);
+});
+
+test("homepage header is sticky, has useful dropdowns, and links to products", async ({
+  page,
+}) => {
+  await page.goto("/?skipIntro=1");
+
+  const header = page.getByRole("banner").first();
+  await expect(header).toBeVisible();
+
+  const position = await header.evaluate(
+    (element) => window.getComputedStyle(element).position,
+  );
+  expect(["sticky", "fixed"]).toContain(position);
+
+  await page.getByRole("button", { name: "Sản phẩm", exact: true }).hover();
+  await expect(
+    page.getByRole("link", { name: "Pate & thức ăn ướt", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: /Xem tất cả sản phẩm/i }),
+  ).toHaveAttribute("href", "/products");
+
+  await page.getByRole("link", { name: /Giỏ hàng có/i }).click();
+  await expect(page).toHaveURL(/\/cart$/);
+
+  await page.goto("/?skipIntro=1");
+  await page.getByRole("button", { name: "Sản phẩm", exact: true }).hover();
+  await page.getByRole("link", { name: /Xem tất cả sản phẩm/i }).click();
+  await expect(page).toHaveURL(/\/products$/);
 });

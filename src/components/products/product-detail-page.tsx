@@ -75,6 +75,7 @@ export function ProductDetailPage({
   relatedProducts,
 }: ProductDetailPageProps) {
   const addItem = useCartStore((state) => state.addItem);
+  const openCart = useCartStore((state) => state.openCart);
   const firstVariant = product.variants[0] ?? null;
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     firstVariant?.id ?? null,
@@ -167,6 +168,9 @@ export function ProductDetailPage({
 
   const addToCart = (mode: "add" | "buy") => {
     addItem(cartProduct, quantity);
+    if (mode === "buy") {
+      openCart();
+    }
     trackAnalyticsEvent(mode === "buy" ? "buy_now" : "add_to_cart", {
       sectionId: "product-detail",
       elementId: mode === "buy" ? "buy-now" : "add-to-cart",

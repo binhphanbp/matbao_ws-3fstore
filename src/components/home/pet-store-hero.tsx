@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useMemo, useRef } from "react";
+import Link from "next/link";
+import { useCallback, useMemo, useRef, useState } from "react";
 import type { KeyboardEvent, ReactNode } from "react";
 import gsap from "gsap";
 import {
@@ -59,13 +60,68 @@ const productPicks = [
   },
 ];
 
-const primaryNav = ["Sản phẩm", "Ưu đãi", "Thế giới 3F", "Dịch vụ", "Cẩm nang"];
+const primaryNav = [
+  {
+    label: "Sản phẩm",
+    href: "/products",
+    items: [
+      [
+        "Pate & thức ăn ướt",
+        "/products?category=Pate+%26+th%E1%BB%A9c+%C4%83n+%C6%B0%E1%BB%9Bt",
+      ],
+      [
+        "Hạt & thức ăn khô",
+        "/products?category=H%E1%BA%A1t+%26+th%E1%BB%A9c+%C4%83n+kh%C3%B4",
+      ],
+      ["Cát vệ sinh", "/products?category=C%C3%A1t+v%E1%BB%87+sinh"],
+      ["Phụ kiện", "/products?category=Ph%E1%BB%A5+ki%E1%BB%87n"],
+    ],
+  },
+  {
+    label: "Ưu đãi",
+    href: "/#bundle",
+    items: [
+      ["Combo tiết kiệm", "/#bundle"],
+      ["Sản phẩm giảm sâu", "/products?sort=sale"],
+      ["Gói 5 món bán chạy", "/#bundle"],
+    ],
+  },
+  {
+    label: "Thế giới 3F",
+    href: "/#proof",
+    items: [
+      ["Review cộng đồng", "/#proof"],
+      ["Snack hot", "/#snacks"],
+      ["Sản phẩm bán chạy", "/products?sort=popular"],
+    ],
+  },
+  {
+    label: "Dịch vụ",
+    href: "/#services",
+    items: [
+      ["Spa & grooming", "/#services"],
+      ["Tư vấn dinh dưỡng", "/#services"],
+      ["Giao hàng trong ngày", "/#services"],
+    ],
+  },
+  {
+    label: "Cẩm nang",
+    href: "/#care-journey",
+    items: [
+      ["Chăm mèo mới nuôi", "/#care-journey"],
+      ["Chọn cát vệ sinh", "/products?category=C%C3%A1t+v%E1%BB%87+sinh"],
+      ["Lịch grooming", "/#services"],
+    ],
+  },
+] as const;
 
 const utilityNav = ["Giao hàng", "Đổi trả", "Hỏi đáp"];
 
 export function PetStoreHero() {
   const addItem = useCartStore((state) => state.addItem);
   const lastSearchQueryRef = useRef("");
+  const navCloseTimerRef = useRef<number | null>(null);
+  const [openNavLabel, setOpenNavLabel] = useState<string | null>(null);
   const cartCount = useCartStore((state) =>
     state.items.reduce((total, item) => total + item.quantity, 0),
   );
@@ -378,6 +434,29 @@ export function PetStoreHero() {
     }
   };
 
+  const clearNavCloseTimer = useCallback(() => {
+    if (navCloseTimerRef.current !== null) {
+      window.clearTimeout(navCloseTimerRef.current);
+      navCloseTimerRef.current = null;
+    }
+  }, []);
+
+  const openNavDropdown = useCallback(
+    (label: string) => {
+      clearNavCloseTimer();
+      setOpenNavLabel(label);
+    },
+    [clearNavCloseTimer],
+  );
+
+  const scheduleNavClose = useCallback(() => {
+    clearNavCloseTimer();
+    navCloseTimerRef.current = window.setTimeout(() => {
+      setOpenNavLabel(null);
+      navCloseTimerRef.current = null;
+    }, 160);
+  }, [clearNavCloseTimer]);
+
   const handleHeroAddItem = () => {
     addItem(heroProduct);
     trackAnalyticsEvent("add_to_cart", {
@@ -434,11 +513,14 @@ export function PetStoreHero() {
       </div>
 
       <div className="mx-auto max-w-[1880px]">
-        <header data-header className="mb-6 bg-white">
-          <div className="grid min-h-16 items-center gap-5 lg:grid-cols-[240px_minmax(360px,1fr)_260px]">
+        <header
+          data-header
+          className="sticky top-0 z-[70] mb-5 rounded-[24px] border border-[#d9ece8] bg-white/95 px-3 py-2.5 shadow-[0_16px_54px_rgba(7,63,66,0.10)] backdrop-blur sm:px-4"
+        >
+          <div className="grid min-h-[56px] items-center gap-4 lg:grid-cols-[210px_minmax(340px,1fr)_230px]">
             <a
               href="#"
-              className="relative block h-[68px] w-[170px]"
+              className="relative block h-[56px] w-[150px]"
               aria-label="3FStore"
             >
               <Image
@@ -451,12 +533,12 @@ export function PetStoreHero() {
               />
             </a>
 
-            <div className="flex min-w-0 items-center rounded-full bg-[#f3f6f5] px-4 py-3.5 shadow-[inset_0_0_0_1px_rgba(8,63,66,0.03)] sm:px-5">
+            <div className="flex min-w-0 items-center rounded-full bg-[#f3f6f5] px-3 py-2.5 shadow-[inset_0_0_0_1px_rgba(8,63,66,0.03)] sm:px-4">
               <button
                 data-track-action="true"
                 data-track-id="header:category-select"
                 data-track-section="header"
-                className="flex min-w-24 items-center justify-between border-r border-[#d9e5e2] pr-3 text-sm font-bold text-[#183f41] sm:min-w-32 sm:pr-5"
+                className="flex min-w-24 items-center justify-between border-r border-[#d9e5e2] pr-3 text-sm font-bold text-[#183f41] sm:min-w-[7.5rem] sm:pr-4"
                 type="button"
               >
                 Tất cả
@@ -478,15 +560,18 @@ export function PetStoreHero() {
               />
             </div>
 
-            <div className="hidden justify-self-end md:flex md:items-center md:gap-3">
+            <div className="hidden justify-self-end md:flex md:items-center md:gap-2.5">
               <HeaderIcon label="Tìm kiếm">
-                <Search className="size-6" />
+                <Search className="size-5" />
               </HeaderIcon>
               <HeaderIcon label="Tài khoản">
-                <UserRound className="size-6" />
+                <UserRound className="size-5" />
               </HeaderIcon>
-              <HeaderIcon label="Giỏ hàng">
-                <ShoppingBag className="size-6" />
+              <HeaderIcon
+                href="/cart"
+                label={`Giỏ hàng có ${cartCount} sản phẩm`}
+              >
+                <ShoppingBag className="size-5" />
                 <span className="absolute -top-1.5 -right-1.5 grid size-6 place-items-center rounded-full bg-[#ff3f2d] text-xs font-black text-white">
                   {formattedCartCount}
                 </span>
@@ -494,23 +579,82 @@ export function PetStoreHero() {
             </div>
           </div>
 
-          <div className="mt-5 flex min-h-9 flex-wrap items-center justify-between gap-4">
-            <nav className="grid w-full min-w-0 grid-cols-2 items-center gap-x-4 gap-y-3 text-sm font-black text-[#173e40] sm:flex sm:flex-wrap sm:gap-x-8 sm:text-[15px] xl:w-auto">
-              {primaryNav.map((item) => (
-                <a
-                  key={item}
-                  href="#"
-                  className="inline-flex items-center gap-1 transition-colors hover:text-[#ff4f2e]"
-                >
-                  {item}
-                  {item !== "Cẩm nang" ? (
-                    <ChevronDown className="size-4" aria-hidden />
-                  ) : null}
-                </a>
-              ))}
+          <div className="mt-3 flex min-h-9 flex-wrap items-center justify-between gap-3">
+            <nav className="grid w-full min-w-0 grid-cols-2 items-center gap-x-4 gap-y-2 text-sm font-black text-[#173e40] sm:flex sm:flex-wrap sm:gap-x-6 xl:w-auto">
+              {primaryNav.map((item) => {
+                const isOpen = openNavLabel === item.label;
+
+                return (
+                  <div
+                    key={item.label}
+                    className="relative"
+                    onBlur={(event) => {
+                      const nextTarget = event.relatedTarget;
+
+                      if (
+                        !(nextTarget instanceof Node) ||
+                        !event.currentTarget.contains(nextTarget)
+                      ) {
+                        scheduleNavClose();
+                      }
+                    }}
+                    onFocus={() => openNavDropdown(item.label)}
+                    onPointerEnter={() => openNavDropdown(item.label)}
+                    onPointerLeave={scheduleNavClose}
+                  >
+                    <button
+                      aria-expanded={isOpen}
+                      type="button"
+                      className={cn(
+                        "inline-flex items-center gap-1 rounded-full px-1.5 py-1 transition-colors hover:text-[#ff4f2e]",
+                        isOpen && "text-[#ff4f2e]",
+                      )}
+                      onClick={() =>
+                        setOpenNavLabel((current) =>
+                          current === item.label ? null : item.label,
+                        )
+                      }
+                    >
+                      {item.label}
+                      <ChevronDown className="size-4" aria-hidden />
+                    </button>
+                    <div
+                      className={cn(
+                        "absolute top-full left-0 z-50 w-72 pt-2 transition duration-150",
+                        isOpen
+                          ? "visible translate-y-0 opacity-100"
+                          : "pointer-events-none invisible translate-y-1 opacity-0",
+                      )}
+                    >
+                      <div className="rounded-[24px] border border-[#d7e8e5] bg-white p-3 shadow-[0_24px_80px_rgba(7,63,66,0.16)]">
+                        <div className="grid gap-1">
+                          {item.items.map(([label, href]) => (
+                            <Link
+                              key={label}
+                              href={href}
+                              className="flex items-center justify-between rounded-2xl px-3 py-2.5 text-sm font-black text-[#073f42] hover:bg-[#f3faf8] hover:text-[#ff4f2e]"
+                            >
+                              {label}
+                              <ArrowUpRight className="size-4" />
+                            </Link>
+                          ))}
+                        </div>
+                        <Link
+                          href={item.href}
+                          className="mt-2 flex items-center justify-center rounded-full bg-[#073f42] px-4 py-2.5 text-sm font-black text-white"
+                        >
+                          {item.label === "Sản phẩm"
+                            ? "Xem tất cả sản phẩm"
+                            : `Xem ${item.label.toLowerCase()}`}
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </nav>
 
-            <nav className="hidden items-center gap-7 text-[15px] font-black text-[#173e40] xl:flex">
+            <nav className="hidden items-center gap-5 text-sm font-black text-[#173e40] xl:flex">
               {utilityNav.map((item) => (
                 <a key={item} href="#" className="hover:text-[#ff4f2e]">
                   {item}
@@ -518,7 +662,7 @@ export function PetStoreHero() {
               ))}
               <a
                 href="mailto:support@3fstore.vn"
-                className="inline-flex items-center gap-2 rounded-full bg-[#edf9f7] px-4 py-2 hover:text-[#ff4f2e]"
+                className="inline-flex items-center gap-2 rounded-full bg-[#edf9f7] px-3.5 py-1.5 hover:text-[#ff4f2e]"
               >
                 <span className="grid size-6 place-items-center rounded-full bg-[#073f42] text-white">
                   <Mail className="size-4" />
@@ -540,7 +684,7 @@ export function PetStoreHero() {
           <div className="pointer-events-none absolute top-[29%] left-[18%] hidden h-24 w-28 rounded-[34px] bg-white/20 lg:block" />
           <div className="pointer-events-none absolute bottom-[21%] left-[5%] hidden size-24 rounded-[28px] bg-white/18 lg:block" />
 
-          <div className="grid min-h-[760px] gap-2 px-6 py-8 sm:px-10 lg:grid-cols-[41%_37%_22%] lg:px-12 lg:py-12 xl:px-16">
+          <div className="grid min-h-[760px] gap-2 px-6 py-8 sm:px-10 lg:grid-cols-[40%_40%_20%] lg:px-12 lg:py-12 xl:px-16">
             <section
               className="relative order-2 min-h-[520px] lg:order-1 lg:min-h-0"
               aria-label="Thú cưng nổi bật"
@@ -588,18 +732,18 @@ export function PetStoreHero() {
             </section>
 
             <section className="relative z-10 order-1 flex flex-col justify-center pt-4 lg:order-2 lg:pt-0">
-              <h1 className="max-w-[760px] text-[52px] leading-[0.99] font-black tracking-normal text-[#073f42] sm:text-[72px] lg:text-[76px] xl:text-[88px]">
-                <span className="block overflow-hidden">
-                  <span data-headline-line className="block">
+              <h1 className="max-w-[760px] text-[48px] leading-[1.07] font-black tracking-normal text-[#073f42] sm:text-[68px] lg:text-[58px] xl:text-[74px] 2xl:text-[88px]">
+                <span className="block overflow-hidden py-1">
+                  <span data-headline-line className="block whitespace-nowrap">
                     Chăm sóc tốt
                   </span>
                 </span>
-                <span className="block overflow-hidden">
-                  <span data-headline-line className="block">
+                <span className="block overflow-hidden py-1">
+                  <span data-headline-line className="block whitespace-nowrap">
                     hơn cho
                   </span>
                 </span>
-                <span className="block overflow-hidden pb-2">
+                <span className="block overflow-hidden pt-1 pb-3">
                   <span
                     data-headline-line
                     className="block font-serif text-[0.82em] whitespace-nowrap italic"
@@ -789,16 +933,25 @@ function IntroRevealPaw() {
 function HeaderIcon({
   label,
   children,
+  href,
 }: {
   label: string;
   children: ReactNode;
+  href?: string;
 }) {
+  const className =
+    "relative grid size-12 place-items-center rounded-full border border-[#d8e7e4] bg-white text-[#073f42] transition-colors hover:border-[#ffb6a5] hover:text-[#ff4f2e]";
+
+  if (href) {
+    return (
+      <Link className={className} aria-label={label} href={href}>
+        {children}
+      </Link>
+    );
+  }
+
   return (
-    <button
-      className="relative grid size-14 place-items-center rounded-full border border-[#d8e7e4] bg-white text-[#073f42] transition-colors hover:border-[#ffb6a5] hover:text-[#ff4f2e]"
-      aria-label={label}
-      type="button"
-    >
+    <button className={className} aria-label={label} type="button">
       {children}
     </button>
   );
