@@ -515,7 +515,7 @@ export function PetStoreHero() {
       <div className="mx-auto max-w-[1880px]">
         <header
           data-header
-          className="fixed inset-x-3 top-3 z-[70] mx-auto max-w-[1880px] rounded-[22px] border border-[#d9ece8] bg-white/95 px-3 py-2 shadow-[0_14px_44px_rgba(7,63,66,0.10)] backdrop-blur sm:inset-x-6 sm:top-5 sm:rounded-[24px] sm:px-4 sm:py-2.5 lg:inset-x-7"
+          className="fixed inset-x-0 top-0 z-[70] mx-auto w-full max-w-[1880px] rounded-b-[22px] border-b border-[#d9ece8] bg-white/96 px-3 py-2 shadow-[0_14px_44px_rgba(7,63,66,0.10)] backdrop-blur sm:rounded-b-[24px] sm:px-4 sm:py-2.5"
         >
           <div className="grid min-h-[48px] grid-cols-[112px_minmax(0,1fr)_44px] items-center gap-2 sm:min-h-[56px] sm:grid-cols-[150px_minmax(0,1fr)_auto] sm:gap-4 lg:grid-cols-[210px_minmax(340px,1fr)_230px]">
             <a

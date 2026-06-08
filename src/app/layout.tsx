@@ -3,6 +3,7 @@ import { Noto_Serif_Display, Plus_Jakarta_Sans } from "next/font/google";
 import type { ReactNode } from "react";
 
 import { AppProviders } from "@/components/providers/app-providers";
+import { BackToTopProgress } from "@/components/ui/back-to-top-progress";
 import { siteConfig } from "@/config/site";
 
 import "./globals.css";
@@ -43,7 +44,10 @@ export default function RootLayout({
       className={`${plusJakartaSans.variable} ${notoSerifDisplay.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <AppProviders>{children}</AppProviders>
+        <AppProviders>
+          {children}
+          <BackToTopProgress />
+        </AppProviders>
       </body>
     </html>
   );
