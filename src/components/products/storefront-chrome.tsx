@@ -5,7 +5,6 @@ import {
   ArrowRight,
   ChevronDown,
   Headphones,
-  Menu,
   Minus,
   Plus,
   Search,
@@ -15,8 +14,9 @@ import {
   X,
 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { ReactNode } from "react";
+import type { FormEvent, ReactNode } from "react";
 
 import { useCartStore } from "@/store/cart-store";
 
@@ -77,10 +77,12 @@ const formatCurrency = (value: number) =>
   }).format(value);
 
 export function StorefrontHeader() {
+  const router = useRouter();
   const items = useCartStore((state) => state.items);
   const navCloseTimerRef = useRef<number | null>(null);
   const [openNavLabel, setOpenNavLabel] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const cartCount = items.reduce((total, item) => total + item.quantity, 0);
   const clearNavCloseTimer = useCallback(() => {
     if (navCloseTimerRef.current !== null) {
@@ -126,35 +128,75 @@ export function StorefrontHeader() {
     };
   }, [isMobileMenuOpen]);
 
+  const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const cleanQuery = searchQuery.trim();
+
+    router.push(
+      cleanQuery
+        ? `/products?q=${encodeURIComponent(cleanQuery)}`
+        : "/products",
+    );
+  };
+
   return (
     <header className="sticky top-0 z-50 border-b border-[#d9ece8] bg-[#f8fffd]/95 backdrop-blur">
-      <div className="mx-auto flex h-16 w-full max-w-[1480px] items-center gap-2.5 px-3 sm:h-[72px] sm:px-6 lg:px-8">
-        <button
-          type="button"
-          aria-expanded={isMobileMenuOpen}
-          aria-label="Mở menu"
-          onClick={() => setIsMobileMenuOpen(true)}
-          className="grid size-10 shrink-0 place-items-center rounded-full border border-[#d7e8e5] bg-white text-[#073f42] lg:hidden"
-        >
-          <Menu className="size-5" />
-        </button>
+      <div className="mx-auto flex w-full max-w-[1480px] flex-col gap-2 px-3 py-2 sm:px-6 lg:h-[72px] lg:flex-row lg:items-center lg:gap-2.5 lg:px-8 lg:py-0">
+        <div className="flex min-w-0 items-center gap-2.5">
+          <Link
+            href="/"
+            className="flex min-w-0 shrink-0 items-center gap-2 text-[#073f42]"
+            aria-label="3FStore về trang chủ"
+          >
+            <span className="grid size-10 place-items-center overflow-hidden rounded-2xl bg-white shadow-sm sm:size-11">
+              <img
+                src="/logo/logo.webp"
+                alt=""
+                className="h-full w-full object-contain p-1"
+              />
+            </span>
+            <span className="hidden text-[26px] leading-none font-black tracking-tight sm:block">
+              3FStore
+            </span>
+          </Link>
 
-        <Link
-          href="/"
-          className="flex min-w-0 shrink-0 items-center gap-2 text-[#073f42]"
-          aria-label="3FStore về trang chủ"
-        >
-          <span className="grid size-10 place-items-center overflow-hidden rounded-2xl bg-white shadow-sm sm:size-11">
-            <img
-              src="/logo/logo.webp"
-              alt=""
-              className="h-full w-full object-contain p-1"
+          <form
+            className="ml-auto flex h-10 min-w-0 flex-1 items-center gap-2 rounded-full border border-[#d7e8e5] bg-white px-3 text-[#073f42] shadow-sm lg:hidden"
+            onSubmit={handleSearchSubmit}
+          >
+            <button
+              type="submit"
+              aria-label="Tìm kiếm sản phẩm"
+              className="grid size-6 shrink-0 place-items-center text-[#0d7773]"
+            >
+              <Search className="size-4" aria-hidden />
+            </button>
+            <label className="sr-only" htmlFor="mobile-store-search">
+              Tìm sản phẩm
+            </label>
+            <input
+              id="mobile-store-search"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              placeholder="Tìm pate, cát..."
+              type="search"
+              className="min-w-0 flex-1 bg-transparent text-sm font-bold outline-none placeholder:text-[#7da09e]"
             />
-          </span>
-          <span className="hidden text-[26px] leading-none font-black tracking-tight sm:block">
-            3FStore
-          </span>
-        </Link>
+          </form>
+
+          <Link
+            href="/cart"
+            aria-label={`Giỏ hàng có ${cartCount} sản phẩm`}
+            className="relative grid size-10 shrink-0 place-items-center rounded-full border border-[#d7e8e5] bg-white text-[#073f42] lg:hidden"
+          >
+            <ShoppingBag className="size-5" />
+            {cartCount > 0 ? (
+              <span className="absolute -top-1 -right-1 grid min-w-5 place-items-center rounded-full bg-[#ff4f3c] px-1 text-xs font-black text-white">
+                {cartCount}
+              </span>
+            ) : null}
+          </Link>
+        </div>
 
         <nav
           aria-label="Điều hướng cửa hàng"
@@ -224,14 +266,31 @@ export function StorefrontHeader() {
           <Link href="/admin/analytics">Báo cáo</Link>
         </nav>
 
-        <div className="ml-auto hidden h-11 max-w-md flex-1 items-center gap-3 rounded-full border border-[#d7e8e5] bg-white px-4 shadow-sm md:flex">
-          <Search className="size-5 text-[#0d7773]" />
-          <span className="truncate text-sm font-bold text-[#72908e]">
-            Tìm pate, cát vệ sinh, snack, phụ kiện...
-          </span>
-        </div>
+        <form
+          className="ml-auto hidden h-11 max-w-md flex-1 items-center gap-3 rounded-full border border-[#d7e8e5] bg-white px-4 shadow-sm lg:flex"
+          onSubmit={handleSearchSubmit}
+        >
+          <button
+            type="submit"
+            aria-label="Tìm kiếm sản phẩm"
+            className="grid size-7 shrink-0 place-items-center text-[#0d7773]"
+          >
+            <Search className="size-5" aria-hidden />
+          </button>
+          <label className="sr-only" htmlFor="desktop-store-search">
+            Tìm sản phẩm
+          </label>
+          <input
+            id="desktop-store-search"
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+            placeholder="Tìm pate, cát vệ sinh, snack, phụ kiện..."
+            type="search"
+            className="min-w-0 flex-1 bg-transparent text-sm font-bold text-[#073f42] outline-none placeholder:text-[#72908e]"
+          />
+        </form>
 
-        <div className="ml-auto flex shrink-0 items-center gap-2 md:ml-0">
+        <div className="ml-auto hidden shrink-0 items-center gap-2 md:ml-0 lg:flex">
           <Link
             href="/products"
             aria-label="Mở trang sản phẩm"
@@ -259,6 +318,28 @@ export function StorefrontHeader() {
             ) : null}
           </Link>
         </div>
+
+        <nav
+          aria-label="Menu nhanh"
+          className="-mx-1 flex [scrollbar-width:none] gap-2 overflow-x-auto px-1 pb-0.5 text-sm font-black whitespace-nowrap text-[#315f5d] lg:hidden [&::-webkit-scrollbar]:hidden"
+        >
+          {navGroups.map((group) => (
+            <Link
+              key={group.label}
+              href={group.href}
+              className="rounded-full border border-[#d7e8e5] bg-white px-3 py-2"
+            >
+              {group.label}
+            </Link>
+          ))}
+          <button
+            type="button"
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="rounded-full border border-[#d7e8e5] bg-white px-3 py-2"
+          >
+            Thêm
+          </button>
+        </nav>
       </div>
 
       {isMobileMenuOpen ? (

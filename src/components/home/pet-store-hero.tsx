@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useRef, useState } from "react";
-import type { KeyboardEvent, ReactNode } from "react";
+import type { FormEvent, ReactNode } from "react";
 import gsap from "gsap";
 import {
   ArrowUpRight,
@@ -117,7 +118,16 @@ const primaryNav = [
 
 const utilityNav = ["Giao hàng", "Đổi trả", "Hỏi đáp"];
 
+const mobileNav = [
+  { label: "Sản phẩm", href: "/products", highlight: true },
+  { label: "Combo", href: "/#bundle-save" },
+  { label: "Review", href: "/#proof" },
+  { label: "Dịch vụ", href: "/#services" },
+  { label: "Cẩm nang", href: "/#care-journey" },
+] as const;
+
 export function PetStoreHero() {
+  const router = useRouter();
   const addItem = useCartStore((state) => state.addItem);
   const lastSearchQueryRef = useRef("");
   const navCloseTimerRef = useRef<number | null>(null);
@@ -428,10 +438,17 @@ export function PetStoreHero() {
     });
   };
 
-  const handleSearchKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      trackSearch(event.currentTarget.value);
-    }
+  const handleSearchSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const cleanQuery = String(formData.get("site-search") ?? "").trim();
+
+    trackSearch(cleanQuery);
+    router.push(
+      cleanQuery
+        ? `/products?q=${encodeURIComponent(cleanQuery)}`
+        : "/products",
+    );
   };
 
   const clearNavCloseTimer = useCallback(() => {
@@ -517,23 +534,26 @@ export function PetStoreHero() {
           data-header
           className="fixed inset-x-0 top-0 z-[70] mx-auto w-full max-w-[1880px] rounded-b-[22px] border-b border-[#d9ece8] bg-white/96 px-3 py-2 shadow-[0_14px_44px_rgba(7,63,66,0.10)] backdrop-blur sm:rounded-b-[24px] sm:px-4 sm:py-2.5"
         >
-          <div className="grid min-h-[48px] grid-cols-[112px_minmax(0,1fr)_44px] items-center gap-2 sm:min-h-[56px] sm:grid-cols-[150px_minmax(0,1fr)_auto] sm:gap-4 lg:grid-cols-[210px_minmax(340px,1fr)_230px]">
+          <div className="grid min-h-[48px] grid-cols-[64px_minmax(0,1fr)_44px] items-center gap-2 sm:min-h-[56px] sm:grid-cols-[112px_minmax(0,1fr)_auto] sm:gap-4 lg:grid-cols-[150px_minmax(340px,1fr)_230px]">
             <a
               href="#"
-              className="relative block h-[44px] w-[108px] sm:h-[56px] sm:w-[150px]"
+              className="relative block h-11 w-16 sm:h-12 sm:w-28 lg:w-36"
               aria-label="3FStore"
             >
               <Image
                 src="/logo/logo.webp"
                 alt="3FStore"
                 fill
-                sizes="170px"
+                sizes="(min-width: 1024px) 144px, (min-width: 640px) 112px, 64px"
                 className="object-contain object-left"
                 priority
               />
             </a>
 
-            <div className="flex min-w-0 items-center rounded-full bg-[#f3f6f5] px-3 py-2 shadow-[inset_0_0_0_1px_rgba(8,63,66,0.03)] sm:px-4 sm:py-2.5">
+            <form
+              className="flex min-w-0 items-center rounded-full bg-[#f3f6f5] px-3 py-2 shadow-[inset_0_0_0_1px_rgba(8,63,66,0.03)] sm:px-4 sm:py-2.5"
+              onSubmit={handleSearchSubmit}
+            >
               <button
                 data-track-action="true"
                 data-track-id="header:category-select"
@@ -549,6 +569,7 @@ export function PetStoreHero() {
               </label>
               <input
                 id="site-search"
+                name="site-search"
                 data-track-action="true"
                 data-track-id="hero:search"
                 data-track-section="hero"
@@ -556,12 +577,22 @@ export function PetStoreHero() {
                 placeholder="Tìm đồ cho boss"
                 type="search"
                 onBlur={(event) => trackSearch(event.currentTarget.value)}
-                onKeyDown={handleSearchKeyDown}
               />
-            </div>
+              <button
+                type="submit"
+                aria-label="Tìm kiếm sản phẩm"
+                className="grid size-8 shrink-0 place-items-center rounded-full bg-white text-[#073f42] shadow-sm transition hover:text-[#ff4f2e] sm:size-9"
+              >
+                <Search className="size-4" aria-hidden />
+              </button>
+            </form>
 
             <div className="flex justify-self-end md:items-center md:gap-2.5">
-              <HeaderIcon className="hidden md:grid" label="Tìm kiếm">
+              <HeaderIcon
+                className="hidden md:grid"
+                href="/products"
+                label="Tìm kiếm"
+              >
                 <Search className="size-5" />
               </HeaderIcon>
               <HeaderIcon className="hidden md:grid" label="Tài khoản">
@@ -581,7 +612,27 @@ export function PetStoreHero() {
           </div>
 
           <div className="mt-2 flex min-h-9 flex-wrap items-center justify-between gap-3 sm:mt-3">
-            <nav className="-mx-1 flex w-full min-w-0 [scrollbar-width:none] items-center gap-2 overflow-x-auto px-1 pb-0.5 text-sm font-black whitespace-nowrap text-[#173e40] sm:flex-wrap sm:gap-x-6 sm:overflow-visible sm:pb-0 xl:w-auto [&::-webkit-scrollbar]:hidden">
+            <nav
+              aria-label="Menu nhanh mobile"
+              className="-mx-1 flex w-full min-w-0 [scrollbar-width:none] items-center gap-2 overflow-x-auto px-1 pb-0.5 text-sm font-black whitespace-nowrap text-[#173e40] sm:hidden [&::-webkit-scrollbar]:hidden"
+            >
+              {mobileNav.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={cn(
+                    "inline-flex h-10 items-center rounded-[14px] border border-[#d7e8e5] bg-white px-3 transition-colors active:scale-[0.98]",
+                    "highlight" in item && item.highlight
+                      ? "border-[#ffb8aa] bg-[#fff3ef] text-[#ff4f2e]"
+                      : "text-[#073f42]",
+                  )}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+
+            <nav className="hidden w-full min-w-0 items-center gap-x-6 text-sm font-black whitespace-nowrap text-[#173e40] sm:flex sm:flex-wrap xl:w-auto">
               {primaryNav.map((item) => {
                 const isOpen = openNavLabel === item.label;
 
@@ -621,7 +672,7 @@ export function PetStoreHero() {
                     </button>
                     <div
                       className={cn(
-                        "fixed inset-x-3 top-[116px] z-50 pt-2 transition duration-150 sm:absolute sm:inset-x-auto sm:top-full sm:left-0 sm:w-72",
+                        "absolute top-full left-0 z-50 w-72 pt-2 transition duration-150",
                         isOpen
                           ? "visible translate-y-0 opacity-100"
                           : "pointer-events-none invisible translate-y-1 opacity-0",

@@ -450,7 +450,7 @@ export function ProductListPage({
 
             {visibleProducts.length > 0 ? (
               <>
-                <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
+                <div className="grid grid-cols-2 gap-2.5 sm:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
                   {visibleProducts.map((product) => (
                     <ProductCard
                       key={product.id}
@@ -732,7 +732,7 @@ function ProductCard({
       data-track-category={product.category}
       data-track-brand={product.brand}
       data-track-price={product.price}
-      className="group grid min-w-0 grid-cols-[116px_minmax(0,1fr)] overflow-hidden rounded-[20px] border border-[#d9e9e6] bg-white shadow-[0_12px_34px_rgba(7,63,66,0.07)] transition hover:-translate-y-0.5 hover:border-[#b9dcd7] sm:flex sm:flex-col sm:rounded-[22px] sm:shadow-[0_14px_42px_rgba(7,63,66,0.07)]"
+      className="group flex min-w-0 flex-col overflow-hidden rounded-[14px] border border-[#d9e9e6] bg-white shadow-[0_8px_22px_rgba(7,63,66,0.06)] transition hover:-translate-y-0.5 hover:border-[#b9dcd7] sm:rounded-[16px]"
     >
       <div className="relative aspect-square overflow-hidden bg-white">
         <Link
@@ -766,7 +766,7 @@ function ProductCard({
           )}
         </Link>
         {discount > 0 ? (
-          <span className="absolute top-2 left-2 z-10 rounded-full bg-[#ff4f3c] px-2 py-0.5 text-[11px] font-black text-white sm:top-3 sm:left-3 sm:px-2.5 sm:py-1 sm:text-xs">
+          <span className="absolute top-1.5 left-1.5 z-10 rounded-full bg-[#ff4f3c] px-2 py-0.5 text-[10px] font-black text-white sm:top-2 sm:left-2 sm:text-xs">
             -{discount}%
           </span>
         ) : null}
@@ -774,7 +774,7 @@ function ProductCard({
           type="button"
           onClick={onWishlist}
           aria-label={wished ? "Bỏ yêu thích" : "Thêm yêu thích"}
-          className={`absolute top-2 right-2 z-10 grid size-8 place-items-center rounded-full border bg-white transition sm:top-3 sm:right-3 sm:size-9 ${
+          className={`absolute top-1.5 right-1.5 z-10 grid size-8 place-items-center rounded-full border bg-white transition sm:top-2 sm:right-2 sm:size-9 ${
             wished
               ? "border-[#ff4f3c] text-[#ff4f3c]"
               : "border-[#d7e8e5] text-[#0b5557]"
@@ -784,13 +784,13 @@ function ProductCard({
         </button>
       </div>
 
-      <div className="flex min-w-0 flex-1 flex-col gap-2 p-3 sm:gap-3 sm:p-4">
+      <div className="flex min-w-0 flex-1 flex-col gap-2 p-2.5 sm:gap-3 sm:p-4">
         <div className="min-w-0">
-          <div className="mb-2 flex items-center justify-between gap-2">
-            <span className="max-w-[128px] truncate rounded-full bg-[#e9f8f5] px-2 py-0.5 text-[10px] font-black text-[#0d7773] sm:max-w-none sm:px-2.5 sm:py-1 sm:text-[11px]">
+          <div className="mb-1.5 flex items-center justify-between gap-1.5 sm:mb-2 sm:gap-2">
+            <span className="min-w-0 truncate rounded-full bg-[#e9f8f5] px-2 py-0.5 text-[10px] font-black text-[#0d7773] sm:px-2.5 sm:py-1 sm:text-[11px]">
               {product.category}
             </span>
-            <span className="inline-flex items-center gap-1 text-xs font-black text-[#f4b400]">
+            <span className="inline-flex shrink-0 items-center gap-0.5 text-[11px] font-black text-[#f4b400] sm:gap-1 sm:text-xs">
               <Star className="size-3.5" fill="currentColor" />
               {Math.max(4.6, Math.min(5, 4.7 + product.sold / 10000)).toFixed(
                 1,
@@ -812,7 +812,7 @@ function ProductCard({
                 price: product.price,
               })
             }
-            className="line-clamp-2 text-[13px] leading-[1.35] font-black text-[#073f42] sm:min-h-11 sm:text-sm sm:leading-[1.45]"
+            className="line-clamp-2 min-h-[38px] text-[13px] leading-[1.45] font-black text-[#073f42] sm:min-h-11 sm:text-sm sm:leading-[1.45]"
             title={product.shortName}
           >
             {cardTitle}
@@ -820,24 +820,24 @@ function ProductCard({
         </div>
 
         <div className="mt-auto border-t border-[#e1eeeb] pt-2 sm:pt-3">
-          <div className="mb-2 flex items-end justify-between gap-2 sm:mb-3">
+          <div className="mb-2 flex items-end justify-between gap-1.5 sm:mb-3 sm:gap-2">
             <div className="min-w-0">
               {product.compareAtPrice ? (
-                <p className="text-xs font-bold text-[#9aa7a5] line-through">
+                <p className="truncate text-[11px] font-bold text-[#9aa7a5] line-through sm:text-xs">
                   {formatCurrency(product.compareAtPrice)}
                 </p>
               ) : null}
-              <p className="text-lg font-black text-[#111827] sm:text-xl">
+              <p className="truncate text-base font-black text-[#111827] sm:text-xl">
                 {formatCurrency(product.price)}
               </p>
             </div>
             <button
               type="button"
               onClick={onQuickView}
-              className="grid size-9 shrink-0 place-items-center rounded-full border border-[#d7e8e5] text-[#073f42] transition hover:border-[#ff4f3c] hover:text-[#ff4f3c] sm:size-10"
+              className="grid size-8 shrink-0 place-items-center rounded-full border border-[#d7e8e5] text-[#073f42] transition hover:border-[#ff4f3c] hover:text-[#ff4f3c] sm:size-10"
             >
               <span className="sr-only">Xem nhanh</span>
-              <Eye className="size-[18px] sm:size-5" />
+              <Eye className="size-4 sm:size-5" />
             </button>
           </div>
 
@@ -846,7 +846,7 @@ function ProductCard({
               type="button"
               aria-label="Thêm giỏ hàng"
               onClick={onQuickAdd}
-              className="inline-flex h-10 w-full min-w-0 items-center justify-center gap-1.5 rounded-full bg-[#ff4f3c] px-2 text-[13px] font-black whitespace-nowrap text-white shadow-[0_10px_24px_rgba(255,79,60,0.20)] transition hover:bg-[#e84231] sm:h-11 sm:gap-2 sm:px-3 sm:text-sm sm:shadow-[0_12px_28px_rgba(255,79,60,0.22)]"
+              className="inline-flex h-9 w-full min-w-0 items-center justify-center gap-1 rounded-[12px] bg-[#ff4f3c] px-1.5 text-[12px] font-black whitespace-nowrap text-white shadow-[0_8px_18px_rgba(255,79,60,0.18)] transition hover:bg-[#e84231] sm:h-11 sm:gap-2 sm:rounded-[14px] sm:px-3 sm:text-sm"
             >
               <ShoppingBag className="size-4" />
               <span>Thêm giỏ hàng</span>

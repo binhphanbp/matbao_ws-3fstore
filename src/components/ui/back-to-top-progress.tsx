@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, PawPrint } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 export function BackToTopProgress() {
@@ -81,16 +81,10 @@ export function BackToTopProgress() {
             behavior: prefersReducedMotion ? "auto" : "smooth",
           });
         }}
-        className="pointer-events-auto fixed right-4 bottom-[calc(6rem+env(safe-area-inset-bottom))] grid size-14 translate-y-5 scale-90 place-items-center rounded-full border border-white/80 bg-[conic-gradient(#ff4f3c_var(--scroll-angle),#e4f5f2_0deg)] p-1 text-[#073f42] opacity-0 shadow-[0_18px_48px_rgba(7,63,66,0.22)] transition duration-300 hover:-translate-y-0.5 data-[visible=true]:translate-y-0 data-[visible=true]:scale-100 data-[visible=true]:opacity-100 sm:right-6 sm:bottom-6 sm:size-16"
+        className="pointer-events-auto fixed right-4 bottom-[calc(6rem+env(safe-area-inset-bottom))] grid size-12 translate-y-4 scale-95 place-items-center rounded-full bg-[conic-gradient(#ff4f3c_var(--scroll-angle),#dcefeb_0deg)] p-[3px] text-[#073f42] opacity-0 shadow-[0_12px_28px_rgba(7,63,66,0.18)] transition duration-300 hover:-translate-y-0.5 data-[visible=true]:translate-y-0 data-[visible=true]:scale-100 data-[visible=true]:opacity-100 sm:right-6 sm:bottom-6 sm:size-13"
       >
-        <span className="grid size-full place-items-center rounded-full bg-white">
-          <span className="relative grid size-10 place-items-center rounded-full bg-[#eafdfe] text-[#073f42] sm:size-11">
-            <PawPrint
-              className="absolute -top-1 -right-1 size-5 rotate-12 fill-[#ffb39f] text-[#ff4f3c]"
-              aria-hidden
-            />
-            <ArrowUp className="size-5" strokeWidth={2.5} aria-hidden />
-          </span>
+        <span className="grid size-full place-items-center rounded-full border border-[#d9ece8] bg-[#f8fffd] text-[#073f42]">
+          <ArrowUp className="size-5" strokeWidth={2.4} aria-hidden />
         </span>
       </button>
     </div>
