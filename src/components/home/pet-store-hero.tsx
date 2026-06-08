@@ -515,7 +515,7 @@ export function PetStoreHero() {
       <div className="mx-auto max-w-[1880px]">
         <header
           data-header
-          className="sticky top-0 z-[70] mb-3 rounded-[22px] border border-[#d9ece8] bg-white/95 px-3 py-2 shadow-[0_14px_44px_rgba(7,63,66,0.10)] backdrop-blur sm:mb-5 sm:rounded-[24px] sm:px-4 sm:py-2.5"
+          className="fixed inset-x-3 top-3 z-[70] mx-auto max-w-[1880px] rounded-[22px] border border-[#d9ece8] bg-white/95 px-3 py-2 shadow-[0_14px_44px_rgba(7,63,66,0.10)] backdrop-blur sm:inset-x-6 sm:top-5 sm:rounded-[24px] sm:px-4 sm:py-2.5 lg:inset-x-7"
         >
           <div className="grid min-h-[48px] grid-cols-[112px_minmax(0,1fr)_44px] items-center gap-2 sm:min-h-[56px] sm:grid-cols-[150px_minmax(0,1fr)_auto] sm:gap-4 lg:grid-cols-[210px_minmax(340px,1fr)_230px]">
             <a
@@ -621,7 +621,7 @@ export function PetStoreHero() {
                     </button>
                     <div
                       className={cn(
-                        "absolute top-full left-0 z-50 w-72 pt-2 transition duration-150",
+                        "fixed inset-x-3 top-[116px] z-50 pt-2 transition duration-150 sm:absolute sm:inset-x-auto sm:top-full sm:left-0 sm:w-72",
                         isOpen
                           ? "visible translate-y-0 opacity-100"
                           : "pointer-events-none invisible translate-y-1 opacity-0",
@@ -673,6 +673,11 @@ export function PetStoreHero() {
             </nav>
           </div>
         </header>
+
+        <div
+          className="h-[112px] sm:h-[128px] lg:h-[124px]"
+          aria-hidden="true"
+        />
 
         <main
           data-hero-visual

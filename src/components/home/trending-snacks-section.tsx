@@ -122,7 +122,7 @@ export function TrendingSnacksSection({
                 id="trending-snacks-title"
                 className="origin-left scale-x-[0.9] text-[31px] leading-none font-black tracking-[-0.045em] text-[#151515] italic [word-spacing:0.12em] sm:text-[41px]"
               >
-                SNACK HOT CHO BOSS
+                MÓN THƯỞNG HOT
               </h2>
             </div>
             <p className="mt-1.5 text-[14px] font-bold text-[#786b62]">

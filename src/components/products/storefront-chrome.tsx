@@ -221,7 +221,7 @@ export function StorefrontHeader() {
               </div>
             );
           })}
-          <Link href="/admin/analytics">Analytics</Link>
+          <Link href="/admin/analytics">Báo cáo</Link>
         </nav>
 
         <div className="ml-auto hidden h-11 max-w-md flex-1 items-center gap-3 rounded-full border border-[#d7e8e5] bg-white px-4 shadow-sm md:flex">
@@ -353,7 +353,7 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
               onClick={onClose}
               className="flex min-h-12 items-center justify-between rounded-[22px] border border-[#d7e8e5] px-4 text-sm font-black text-[#073f42]"
             >
-              Analytics
+              Báo cáo
               <ArrowRight className="size-4" />
             </Link>
           </nav>

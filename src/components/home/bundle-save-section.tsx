@@ -234,9 +234,9 @@ export function BundleSaveSection({
                   </span>
                   <h2
                     id="bundle-save-title"
-                    className="text-[38px] leading-none font-black tracking-[-0.04em] text-[#171717] italic sm:text-[50px]"
+                    className="text-[34px] leading-none font-black tracking-[-0.04em] text-[#171717] italic sm:text-[48px]"
                   >
-                    BUNDLE & SAVE
+                    COMBO TIẾT KIỆM
                   </h2>
                 </div>
                 <p className="mt-2 text-[15px] font-semibold text-[#7e7068]">

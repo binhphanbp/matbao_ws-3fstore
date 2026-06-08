@@ -58,10 +58,10 @@ const demoPassword =
   process.env.NEXT_PUBLIC_ADMIN_DEMO_PASSWORD ?? "3fstore-demo";
 
 const tabItems: Array<{ id: DashboardTab; label: string }> = [
-  { id: "overview", label: "Overview" },
-  { id: "heatmaps", label: "Heatmaps" },
-  { id: "insights", label: "Insights" },
-  { id: "exports", label: "Exports" },
+  { id: "overview", label: "Tổng quan" },
+  { id: "heatmaps", label: "Bản đồ nhiệt" },
+  { id: "insights", label: "Insight" },
+  { id: "exports", label: "Xuất dữ liệu" },
 ];
 
 const deviceOptions: Array<"all" | DeviceType> = [
@@ -84,21 +84,21 @@ const sourceOptions: Array<"all" | TrafficSource> = [
 const rangeOptions: DateRangeKey[] = ["7d", "30d", "60d"];
 const heatmapModes: Array<{ value: HeatmapMode; label: string }> = [
   { value: "click", label: "Click/Tap" },
-  { value: "scroll", label: "Scroll Depth" },
-  { value: "attention", label: "Attention" },
-  { value: "pointer", label: "Pointer Density" },
-  { value: "dead", label: "Dead Clicks" },
-  { value: "rage", label: "Rage Clicks" },
-  { value: "element", label: "Element Heatmap" },
+  { value: "scroll", label: "Độ sâu cuộn" },
+  { value: "attention", label: "Thời gian chú ý" },
+  { value: "pointer", label: "Mật độ rê chuột" },
+  { value: "dead", label: "Click hụt" },
+  { value: "rage", label: "Click liên tục" },
+  { value: "element", label: "Theo phần tử" },
 ];
 
 const pageMapSections = [
-  { id: "hero", label: "Hero", top: 0, height: 22 },
-  { id: "bundle", label: "Bundle", top: 22, height: 23 },
-  { id: "snacks", label: "Snack", top: 45, height: 18 },
-  { id: "care-journey", label: "Care", top: 63, height: 14 },
-  { id: "services", label: "Services", top: 77, height: 13 },
-  { id: "proof", label: "Reviews", top: 90, height: 10 },
+  { id: "hero", label: "Mở đầu", top: 0, height: 22 },
+  { id: "bundle", label: "Combo", top: 22, height: 23 },
+  { id: "snacks", label: "Món thưởng", top: 45, height: 18 },
+  { id: "care-journey", label: "Chăm sóc", top: 63, height: 14 },
+  { id: "services", label: "Dịch vụ", top: 77, height: 13 },
+  { id: "proof", label: "Đánh giá", top: 90, height: 10 },
 ];
 
 function formatNumber(value: number) {
@@ -157,11 +157,11 @@ export function AnalyticsDashboard({
               <Lock className="size-7" aria-hidden />
             </div>
             <h1 className="text-3xl font-black tracking-[-0.03em]">
-              3FStore Analytics
+              Báo cáo 3FStore
             </h1>
             <p className="mt-3 text-sm leading-6 font-semibold text-[#607b7a]">
-              Dashboard demo cho tracking, funnel, heatmaps và insight ngành
-              hàng.
+              Báo cáo demo cho tracking, phễu, bản đồ nhiệt và insight ngành
+              hàng thú cưng.
             </p>
             <div className="mt-8">
               <label
@@ -282,7 +282,7 @@ function AnalyticsDashboardContent({
               Live demo + 60 ngày seed data
             </p>
             <h1 className="mt-3 text-4xl font-black tracking-[-0.04em] sm:text-5xl">
-              3FStore Analytics
+              Báo cáo 3FStore
             </h1>
             <p className="mt-2 max-w-3xl text-sm leading-6 font-semibold text-[#607b7a]">
               Theo dõi hành vi mua hàng, heatmaps và insight tối ưu doanh thu
@@ -317,7 +317,7 @@ function AnalyticsDashboardContent({
           <div
             className="flex flex-wrap gap-2"
             role="tablist"
-            aria-label="Analytics tabs"
+            aria-label="Tab báo cáo"
           >
             {tabItems.map((tab) => (
               <button
@@ -915,7 +915,7 @@ function ExportsPanel({
   return (
     <section className="grid gap-5 lg:grid-cols-[360px_1fr]">
       <article className="rounded-[24px] border border-[#dce8e5] bg-white p-5">
-        <PanelTitle icon={Download} title="Exports" />
+        <PanelTitle icon={Download} title="Xuất dữ liệu" />
         <p className="mt-3 text-sm leading-6 font-semibold text-[#607b7a]">
           Xuất raw events hoặc CSV để demo cho khách cách đội vận hành có thể
           phân tích sâu hơn bằng BI/Sheets.
