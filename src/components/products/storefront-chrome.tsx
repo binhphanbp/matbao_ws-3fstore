@@ -3,6 +3,7 @@
 
 import {
   ArrowRight,
+  ChevronDown,
   Headphones,
   Menu,
   Minus,
@@ -79,6 +80,7 @@ export function StorefrontHeader() {
   const items = useCartStore((state) => state.items);
   const navCloseTimerRef = useRef<number | null>(null);
   const [openNavLabel, setOpenNavLabel] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const cartCount = items.reduce((total, item) => total + item.quantity, 0);
   const clearNavCloseTimer = useCallback(() => {
     if (navCloseTimerRef.current !== null) {
@@ -103,23 +105,46 @@ export function StorefrontHeader() {
     }, 160);
   }, [clearNavCloseTimer]);
 
+  useEffect(() => {
+    if (!isMobileMenuOpen) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <header className="sticky top-0 z-50 border-b border-[#d9ece8] bg-[#f8fffd]/95 backdrop-blur">
-      <div className="mx-auto flex h-[72px] w-full max-w-[1480px] items-center gap-3 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 w-full max-w-[1480px] items-center gap-2.5 px-3 sm:h-[72px] sm:px-6 lg:px-8">
         <button
           type="button"
+          aria-expanded={isMobileMenuOpen}
           aria-label="Mở menu"
-          className="grid size-10 place-items-center rounded-full border border-[#d7e8e5] bg-white text-[#073f42] lg:hidden"
+          onClick={() => setIsMobileMenuOpen(true)}
+          className="grid size-10 shrink-0 place-items-center rounded-full border border-[#d7e8e5] bg-white text-[#073f42] lg:hidden"
         >
           <Menu className="size-5" />
         </button>
 
         <Link
           href="/"
-          className="flex shrink-0 items-center gap-2.5 text-[#073f42]"
+          className="flex min-w-0 shrink-0 items-center gap-2 text-[#073f42]"
           aria-label="3FStore về trang chủ"
         >
-          <span className="grid size-11 place-items-center overflow-hidden rounded-2xl bg-white shadow-sm">
+          <span className="grid size-10 place-items-center overflow-hidden rounded-2xl bg-white shadow-sm sm:size-11">
             <img
               src="/logo/logo.webp"
               alt=""
@@ -235,7 +260,106 @@ export function StorefrontHeader() {
           </Link>
         </div>
       </div>
+
+      {isMobileMenuOpen ? (
+        <MobileMenu onClose={() => setIsMobileMenuOpen(false)} />
+      ) : null}
     </header>
+  );
+}
+
+function MobileMenu({ onClose }: { onClose: () => void }) {
+  return (
+    <div
+      className="fixed inset-0 z-[80] bg-[#073f42]/45 backdrop-blur-sm lg:hidden"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+      <section className="flex h-full w-[min(88vw,380px)] flex-col bg-white shadow-[0_28px_90px_rgba(7,63,66,0.28)]">
+        <div className="flex items-center justify-between border-b border-[#d9ece8] px-4 py-3">
+          <Link
+            href="/"
+            onClick={onClose}
+            className="inline-flex items-center gap-2 text-[#073f42]"
+          >
+            <span className="grid size-10 place-items-center overflow-hidden rounded-2xl bg-[#f5fbfa]">
+              <img
+                src="/logo/logo.webp"
+                alt=""
+                className="h-full w-full object-contain p-1"
+              />
+            </span>
+            <span className="text-xl font-black">3FStore</span>
+          </Link>
+          <button
+            type="button"
+            aria-label="Đóng menu"
+            onClick={onClose}
+            className="grid size-10 place-items-center rounded-full border border-[#d7e8e5]"
+          >
+            <X className="size-5" />
+          </button>
+        </div>
+
+        <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4">
+          <Link
+            href="/products"
+            onClick={onClose}
+            className="mb-4 flex h-12 items-center gap-3 rounded-full bg-[#f3faf8] px-4 text-sm font-black text-[#073f42]"
+          >
+            <Search className="size-5 text-[#0d7773]" />
+            Tìm sản phẩm nhanh
+          </Link>
+
+          <nav aria-label="Menu mobile" className="grid gap-3">
+            {navGroups.map((group) => (
+              <details
+                key={group.label}
+                className="group rounded-[22px] border border-[#d7e8e5] bg-white open:bg-[#f8fcfb]"
+                open={group.label === "Sản phẩm"}
+              >
+                <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between px-4 text-sm font-black text-[#073f42] [&::-webkit-details-marker]:hidden">
+                  {group.label}
+                  <ChevronDown className="size-4 transition group-open:rotate-180" />
+                </summary>
+                <div className="grid gap-1 border-t border-[#e1eeeb] p-2">
+                  <Link
+                    href={group.href}
+                    onClick={onClose}
+                    className="flex items-center justify-between rounded-2xl bg-[#073f42] px-3 py-2.5 text-sm font-black text-white"
+                  >
+                    Xem tất cả
+                    <ArrowRight className="size-4" />
+                  </Link>
+                  {group.items.map(([label, href]) => (
+                    <Link
+                      key={label}
+                      href={href}
+                      onClick={onClose}
+                      className="flex items-center justify-between rounded-2xl px-3 py-2.5 text-sm font-black text-[#315f5d] hover:bg-[#eef8f6]"
+                    >
+                      {label}
+                      <ArrowRight className="size-4" />
+                    </Link>
+                  ))}
+                </div>
+              </details>
+            ))}
+            <Link
+              href="/admin/analytics"
+              onClick={onClose}
+              className="flex min-h-12 items-center justify-between rounded-[22px] border border-[#d7e8e5] px-4 text-sm font-black text-[#073f42]"
+            >
+              Analytics
+              <ArrowRight className="size-4" />
+            </Link>
+          </nav>
+        </div>
+      </section>
+    </div>
   );
 }
 

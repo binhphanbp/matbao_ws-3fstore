@@ -28,14 +28,14 @@ export function CartPage() {
 
   return (
     <StorefrontPageShell>
-      <main className="mx-auto grid w-full max-w-[1480px] gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[minmax(0,1fr)_380px] lg:px-8">
-        <section className="min-w-0 rounded-[30px] border border-[#d7e8e5] bg-white p-5 shadow-[0_18px_60px_rgba(7,63,66,0.08)]">
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+      <main className="mx-auto grid w-full max-w-[1480px] gap-4 px-3 pt-4 pb-32 sm:gap-6 sm:px-6 sm:py-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:px-8 lg:pb-8">
+        <section className="min-w-0 rounded-[24px] border border-[#d7e8e5] bg-white p-4 shadow-[0_14px_48px_rgba(7,63,66,0.07)] sm:rounded-[30px] sm:p-5 sm:shadow-[0_18px_60px_rgba(7,63,66,0.08)]">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3 sm:mb-6">
             <div>
               <p className="text-sm font-black tracking-[0.14em] text-[#0d7773] uppercase">
                 Checkout demo
               </p>
-              <h1 className="mt-2 text-3xl font-black text-[#073f42]">
+              <h1 className="mt-1 text-2xl font-black text-[#073f42] sm:mt-2 sm:text-3xl">
                 Giỏ hàng của bạn
               </h1>
             </div>
@@ -51,11 +51,11 @@ export function CartPage() {
           </div>
 
           {items.length > 0 ? (
-            <div className="grid gap-4">
+            <div className="grid gap-3 sm:gap-4">
               {items.map((item) => (
                 <article
                   key={item.id}
-                  className="grid gap-4 rounded-[24px] border border-[#dcebe8] bg-[#f8fcfb] p-4 sm:grid-cols-[120px_minmax(0,1fr)_160px]"
+                  className="grid grid-cols-[92px_minmax(0,1fr)] gap-3 rounded-[22px] border border-[#dcebe8] bg-[#f8fcfb] p-3 sm:grid-cols-[120px_minmax(0,1fr)_160px] sm:gap-4 sm:rounded-[24px] sm:p-4"
                 >
                   <div className="aspect-square overflow-hidden rounded-[20px] bg-white">
                     {item.image ? (
@@ -71,17 +71,17 @@ export function CartPage() {
                     )}
                   </div>
                   <div className="min-w-0">
-                    <p className="line-clamp-2 text-lg leading-7 font-black text-[#073f42]">
+                    <p className="line-clamp-2 text-sm leading-5 font-black text-[#073f42] sm:text-lg sm:leading-7">
                       {item.name}
                     </p>
-                    <p className="mt-2 text-sm font-bold text-[#6d8a88]">
+                    <p className="mt-1 text-xs font-bold text-[#6d8a88] sm:mt-2 sm:text-sm">
                       {item.category}
                     </p>
-                    <p className="mt-3 text-xl font-black text-[#ff4f3c]">
+                    <p className="mt-2 text-lg font-black text-[#ff4f3c] sm:mt-3 sm:text-xl">
                       {formatCurrency(item.price)}
                     </p>
                   </div>
-                  <div className="flex items-center justify-between gap-3 sm:flex-col sm:items-end">
+                  <div className="col-span-2 flex items-center justify-between gap-3 sm:col-span-1 sm:flex-col sm:items-end">
                     <div className="flex h-11 items-center rounded-full border border-[#d7e8e5] bg-white">
                       <button
                         type="button"
@@ -120,7 +120,7 @@ export function CartPage() {
               ))}
             </div>
           ) : (
-            <div className="grid min-h-[420px] place-items-center rounded-[26px] border border-dashed border-[#bdded9] bg-[#f8fcfb] text-center">
+            <div className="grid min-h-[320px] place-items-center rounded-[24px] border border-dashed border-[#bdded9] bg-[#f8fcfb] px-5 text-center sm:min-h-[420px] sm:rounded-[26px]">
               <div>
                 <ShoppingBag className="mx-auto size-14 text-[#9ab1af]" />
                 <p className="mt-4 text-2xl font-black text-[#073f42]">
@@ -137,7 +137,7 @@ export function CartPage() {
           )}
         </section>
 
-        <aside className="self-start rounded-[30px] border border-[#d7e8e5] bg-white p-5 shadow-[0_18px_60px_rgba(7,63,66,0.08)] lg:sticky lg:top-24">
+        <aside className="hidden self-start rounded-[30px] border border-[#d7e8e5] bg-white p-5 shadow-[0_18px_60px_rgba(7,63,66,0.08)] lg:sticky lg:top-24 lg:block">
           <h2 className="text-2xl font-black text-[#073f42]">Tóm tắt đơn</h2>
           <div className="mt-5 grid gap-3 text-sm font-bold text-[#587a78]">
             <div className="flex justify-between">
@@ -175,6 +175,25 @@ export function CartPage() {
             Tiếp tục mua
           </Link>
         </aside>
+
+        {items.length > 0 ? (
+          <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#d5e8e4] bg-white/96 px-3 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-18px_40px_rgba(7,63,66,0.12)] backdrop-blur lg:hidden">
+            <div className="mx-auto flex max-w-[720px] items-center gap-3">
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-black text-[#66817f]">Tổng cộng</p>
+                <p className="truncate text-xl font-black text-[#111827]">
+                  {formatCurrency(total)}
+                </p>
+              </div>
+              <button
+                type="button"
+                className="h-12 shrink-0 rounded-full bg-[#ff4f3c] px-6 text-sm font-black text-white shadow-[0_14px_35px_rgba(255,79,60,0.25)]"
+              >
+                Thanh toán nhanh
+              </button>
+            </div>
+          </div>
+        ) : null}
       </main>
     </StorefrontPageShell>
   );

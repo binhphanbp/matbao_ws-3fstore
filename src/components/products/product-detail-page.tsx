@@ -196,26 +196,26 @@ export function ProductDetailPage({
 
   return (
     <StorefrontPageShell>
-      <main className="pb-28 lg:pb-0" data-track-section="product-detail">
-        <section className="mx-auto w-full max-w-[1480px] px-4 py-5 sm:px-6 lg:px-8">
+      <main className="pb-32 lg:pb-0" data-track-section="product-detail">
+        <section className="mx-auto w-full max-w-[1480px] px-3 py-4 sm:px-6 sm:py-5 lg:px-8">
           <Link
             href="/products"
-            className="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-black text-[#0c595b] shadow-sm transition hover:text-[#ff4f3c]"
+            className="mb-3 inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-sm font-black text-[#0c595b] shadow-sm transition hover:text-[#ff4f3c] sm:mb-4 sm:px-4"
           >
             <ChevronLeft className="size-4" />
             Quay lại sản phẩm
           </Link>
 
-          <div className="grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.95fr)]">
-            <div className="min-w-0 rounded-[32px] border border-[#d3e9e5] bg-white p-4 shadow-[0_24px_80px_rgba(7,63,66,0.08)] sm:p-6">
-              <div className="grid gap-4 md:grid-cols-[92px_minmax(0,1fr)]">
-                <div className="order-2 flex gap-2 overflow-x-auto pb-1 md:order-1 md:flex-col md:overflow-visible md:pb-0">
+          <div className="grid gap-4 sm:gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.95fr)]">
+            <div className="min-w-0 rounded-[24px] border border-[#d3e9e5] bg-white p-3 shadow-[0_18px_58px_rgba(7,63,66,0.07)] sm:rounded-[32px] sm:p-6 sm:shadow-[0_24px_80px_rgba(7,63,66,0.08)]">
+              <div className="grid gap-3 sm:gap-4 md:grid-cols-[92px_minmax(0,1fr)]">
+                <div className="order-2 flex [scrollbar-width:none] gap-2 overflow-x-auto pb-1 md:order-1 md:flex-col md:overflow-visible md:pb-0 [&::-webkit-scrollbar]:hidden">
                   {images.slice(0, 8).map((image) => (
                     <button
                       key={image}
                       type="button"
                       onClick={() => setSelectedImage(image)}
-                      className={`size-20 shrink-0 rounded-2xl border bg-[#f4faf8] p-2 transition md:size-[86px] ${
+                      className={`size-16 shrink-0 rounded-2xl border bg-[#f4faf8] p-1.5 transition sm:size-20 sm:p-2 md:size-[86px] ${
                         selectedImage === image
                           ? "border-[#ff4f3c]"
                           : "border-[#d8e8e5] hover:border-[#0d7773]"
@@ -230,10 +230,10 @@ export function ProductDetailPage({
                   ))}
                 </div>
 
-                <div className="order-1 min-w-0 overflow-hidden rounded-[28px] bg-[#eef8f6] p-6 md:order-2">
+                <div className="order-1 min-w-0 overflow-hidden rounded-[22px] bg-[#eef8f6] p-3 sm:rounded-[28px] sm:p-6 md:order-2">
                   <div className="relative aspect-square">
                     {discount > 0 ? (
-                      <span className="absolute top-0 left-0 z-10 rounded-full bg-[#ff4f3c] px-4 py-2 text-sm font-black text-white">
+                      <span className="absolute top-0 left-0 z-10 rounded-full bg-[#ff4f3c] px-3 py-1.5 text-xs font-black text-white sm:px-4 sm:py-2 sm:text-sm">
                         Tiết kiệm {discount}%
                       </span>
                     ) : null}
@@ -254,7 +254,7 @@ export function ProductDetailPage({
             </div>
 
             <aside className="min-w-0 lg:sticky lg:top-6 lg:self-start">
-              <div className="rounded-[32px] border border-[#d3e9e5] bg-white p-5 shadow-[0_24px_80px_rgba(7,63,66,0.08)] sm:p-7">
+              <div className="rounded-[24px] border border-[#d3e9e5] bg-white p-4 shadow-[0_18px_58px_rgba(7,63,66,0.07)] sm:rounded-[32px] sm:p-7 sm:shadow-[0_24px_80px_rgba(7,63,66,0.08)]">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="rounded-full bg-[#e9f8f5] px-3 py-1 text-xs font-black text-[#0d7773]">
                     {product.category}
@@ -269,11 +269,11 @@ export function ProductDetailPage({
                   ) : null}
                 </div>
 
-                <h1 className="mt-4 text-3xl leading-tight font-black tracking-normal text-[#073f42] sm:text-4xl">
+                <h1 className="mt-3 text-2xl leading-tight font-black tracking-normal text-[#073f42] sm:mt-4 sm:text-4xl">
                   {product.shortName}
                 </h1>
 
-                <div className="mt-3 flex flex-wrap items-center gap-3 text-sm font-bold text-[#66817f]">
+                <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-bold text-[#66817f] sm:gap-3 sm:text-sm">
                   <span className="inline-flex items-center gap-1 text-[#f4b400]">
                     <Star className="size-4" fill="currentColor" />
                     4.9
@@ -282,14 +282,14 @@ export function ProductDetailPage({
                   <span>Giao nhanh trong ngày</span>
                 </div>
 
-                <div className="mt-5 rounded-[24px] bg-[#f5fbfa] p-4">
+                <div className="mt-4 rounded-[22px] bg-[#f5fbfa] p-3 sm:mt-5 sm:rounded-[24px] sm:p-4">
                   {compareAtPrice ? (
                     <p className="text-base font-bold text-[#9aa7a5] line-through">
                       {formatCurrency(compareAtPrice)}
                     </p>
                   ) : null}
                   <div className="flex flex-wrap items-end gap-3">
-                    <p className="text-4xl font-black text-[#111827]">
+                    <p className="text-3xl font-black text-[#111827] sm:text-4xl">
                       {formatCurrency(price)}
                     </p>
                     {discount > 0 ? (
@@ -301,11 +301,11 @@ export function ProductDetailPage({
                 </div>
 
                 {product.variants.length > 0 ? (
-                  <div className="mt-5">
+                  <div className="mt-4 sm:mt-5">
                     <p className="mb-3 text-sm font-black text-[#073f42]">
                       Chọn phân loại
                     </p>
-                    <div className="grid max-h-56 gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
+                    <div className="grid max-h-44 gap-2 overflow-y-auto pr-1 sm:max-h-56 sm:grid-cols-2">
                       {product.variants.slice(0, 16).map((variant) => (
                         <button
                           key={variant.id}
@@ -329,7 +329,7 @@ export function ProductDetailPage({
                   </div>
                 ) : null}
 
-                <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+                <div className="mt-4 flex flex-col gap-3 sm:mt-5 sm:flex-row">
                   <label className="shrink-0">
                     <span className="mb-2 block text-sm font-black text-[#073f42]">
                       Số lượng
@@ -366,14 +366,14 @@ export function ProductDetailPage({
                     </div>
                   </label>
 
-                  <div className="grid flex-1 gap-3 sm:grid-cols-2 sm:items-end">
+                  <div className="grid flex-1 gap-2 sm:grid-cols-2 sm:items-end sm:gap-3">
                     <button
                       type="button"
                       onClick={() => addToCart("add")}
                       className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-[#ff4f3c] bg-white px-5 text-sm font-black text-[#ff4f3c] transition hover:bg-[#fff0ee]"
                     >
                       <ShoppingBag className="size-5" />
-                      Thêm vào giỏ
+                      Thêm giỏ hàng
                     </button>
                     <button
                       type="button"
@@ -391,7 +391,7 @@ export function ProductDetailPage({
                   </p>
                 ) : null}
 
-                <div className="mt-5 grid gap-2 sm:grid-cols-3">
+                <div className="mt-4 grid grid-cols-3 gap-2 sm:mt-5">
                   <TrustBadge
                     icon={<Truck className="size-5" />}
                     label="Giao nhanh"
@@ -409,13 +409,13 @@ export function ProductDetailPage({
             </aside>
           </div>
 
-          <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
-            <section className="rounded-[32px] border border-[#d3e9e5] bg-white p-5 shadow-[0_18px_60px_rgba(7,63,66,0.06)] sm:p-7">
+          <div className="mt-4 grid gap-4 sm:mt-6 sm:gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+            <section className="rounded-[24px] border border-[#d3e9e5] bg-white p-4 shadow-[0_14px_45px_rgba(7,63,66,0.05)] sm:rounded-[32px] sm:p-7 sm:shadow-[0_18px_60px_rgba(7,63,66,0.06)]">
               <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-[#e7fbf7] px-4 py-2 text-sm font-black text-[#0b6b68]">
                 <Sparkles className="size-4" />
                 Thông tin sản phẩm
               </div>
-              <h2 className="text-2xl font-black text-[#073f42]">
+              <h2 className="text-xl font-black text-[#073f42] sm:text-2xl">
                 Thông tin sản phẩm
               </h2>
               <div className="mt-5 grid gap-3 text-sm leading-7 font-semibold text-[#426765]">
@@ -425,8 +425,8 @@ export function ProductDetailPage({
               </div>
             </section>
 
-            <section className="rounded-[32px] border border-[#d3e9e5] bg-white p-5 shadow-[0_18px_60px_rgba(7,63,66,0.06)] sm:p-7">
-              <h2 className="text-2xl font-black text-[#073f42]">
+            <section className="rounded-[24px] border border-[#d3e9e5] bg-white p-4 shadow-[0_14px_45px_rgba(7,63,66,0.05)] sm:rounded-[32px] sm:p-7 sm:shadow-[0_18px_60px_rgba(7,63,66,0.06)]">
+              <h2 className="text-xl font-black text-[#073f42] sm:text-2xl">
                 Điểm chốt đơn nhanh
               </h2>
               <div className="mt-5 grid gap-3">
@@ -449,9 +449,9 @@ export function ProductDetailPage({
           </div>
 
           {relatedProducts.length > 0 ? (
-            <section className="mt-6 rounded-[32px] border border-[#d3e9e5] bg-white p-5 shadow-[0_18px_60px_rgba(7,63,66,0.06)] sm:p-7">
+            <section className="mt-4 rounded-[24px] border border-[#d3e9e5] bg-white p-4 shadow-[0_14px_45px_rgba(7,63,66,0.05)] sm:mt-6 sm:rounded-[32px] sm:p-7 sm:shadow-[0_18px_60px_rgba(7,63,66,0.06)]">
               <div className="mb-5 flex items-center justify-between gap-3">
-                <h2 className="text-2xl font-black text-[#073f42]">
+                <h2 className="text-xl font-black text-[#073f42] sm:text-2xl">
                   Sản phẩm nên mua kèm
                 </h2>
                 <Link
@@ -490,8 +490,8 @@ export function ProductDetailPage({
           ) : null}
         </section>
 
-        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#d5e8e4] bg-white/95 p-3 shadow-[0_-18px_40px_rgba(7,63,66,0.12)] backdrop-blur lg:hidden">
-          <div className="mx-auto flex max-w-[720px] items-center gap-3">
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#d5e8e4] bg-white/96 px-3 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-18px_40px_rgba(7,63,66,0.12)] backdrop-blur lg:hidden">
+          <div className="mx-auto grid max-w-[720px] grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2">
             <div className="min-w-0 flex-1">
               <p className="text-xs font-black text-[#66817f]">Tổng tạm tính</p>
               <p className="truncate text-xl font-black text-[#111827]">
@@ -500,8 +500,15 @@ export function ProductDetailPage({
             </div>
             <button
               type="button"
+              onClick={() => addToCart("add")}
+              className="h-12 shrink-0 rounded-full border border-[#ff4f3c] bg-white px-4 text-xs font-black text-[#ff4f3c]"
+            >
+              Thêm giỏ hàng
+            </button>
+            <button
+              type="button"
               onClick={() => addToCart("buy")}
-              className="h-12 shrink-0 rounded-full bg-[#ff4f3c] px-6 text-sm font-black text-white shadow-[0_14px_35px_rgba(255,79,60,0.25)]"
+              className="h-12 shrink-0 rounded-full bg-[#ff4f3c] px-5 text-sm font-black text-white shadow-[0_14px_35px_rgba(255,79,60,0.25)]"
             >
               Mua ngay
             </button>

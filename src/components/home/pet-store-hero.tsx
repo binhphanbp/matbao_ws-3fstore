@@ -474,7 +474,7 @@ export function PetStoreHero() {
   return (
     <div
       ref={scopeRef}
-      className="min-h-[100dvh] bg-[#fbfffe] px-4 py-5 text-[#083f42] sm:px-6 lg:px-7"
+      className="min-h-[100dvh] bg-[#fbfffe] px-3 py-3 text-[#083f42] sm:px-6 sm:py-5 lg:px-7"
     >
       <div
         data-page-intro
@@ -515,12 +515,12 @@ export function PetStoreHero() {
       <div className="mx-auto max-w-[1880px]">
         <header
           data-header
-          className="sticky top-0 z-[70] mb-5 rounded-[24px] border border-[#d9ece8] bg-white/95 px-3 py-2.5 shadow-[0_16px_54px_rgba(7,63,66,0.10)] backdrop-blur sm:px-4"
+          className="sticky top-0 z-[70] mb-3 rounded-[22px] border border-[#d9ece8] bg-white/95 px-3 py-2 shadow-[0_14px_44px_rgba(7,63,66,0.10)] backdrop-blur sm:mb-5 sm:rounded-[24px] sm:px-4 sm:py-2.5"
         >
-          <div className="grid min-h-[56px] items-center gap-4 lg:grid-cols-[210px_minmax(340px,1fr)_230px]">
+          <div className="grid min-h-[48px] grid-cols-[112px_minmax(0,1fr)_44px] items-center gap-2 sm:min-h-[56px] sm:grid-cols-[150px_minmax(0,1fr)_auto] sm:gap-4 lg:grid-cols-[210px_minmax(340px,1fr)_230px]">
             <a
               href="#"
-              className="relative block h-[56px] w-[150px]"
+              className="relative block h-[44px] w-[108px] sm:h-[56px] sm:w-[150px]"
               aria-label="3FStore"
             >
               <Image
@@ -533,12 +533,12 @@ export function PetStoreHero() {
               />
             </a>
 
-            <div className="flex min-w-0 items-center rounded-full bg-[#f3f6f5] px-3 py-2.5 shadow-[inset_0_0_0_1px_rgba(8,63,66,0.03)] sm:px-4">
+            <div className="flex min-w-0 items-center rounded-full bg-[#f3f6f5] px-3 py-2 shadow-[inset_0_0_0_1px_rgba(8,63,66,0.03)] sm:px-4 sm:py-2.5">
               <button
                 data-track-action="true"
                 data-track-id="header:category-select"
                 data-track-section="header"
-                className="flex min-w-24 items-center justify-between border-r border-[#d9e5e2] pr-3 text-sm font-bold text-[#183f41] sm:min-w-[7.5rem] sm:pr-4"
+                className="hidden min-w-24 items-center justify-between border-r border-[#d9e5e2] pr-3 text-sm font-bold text-[#183f41] sm:flex sm:min-w-[7.5rem] sm:pr-4"
                 type="button"
               >
                 Tất cả
@@ -552,22 +552,23 @@ export function PetStoreHero() {
                 data-track-action="true"
                 data-track-id="hero:search"
                 data-track-section="hero"
-                className="min-w-0 flex-1 bg-transparent px-4 text-sm font-medium text-[#183f41] outline-none placeholder:text-[#78918f] sm:px-6"
-                placeholder="Tìm pate, hạt, đồ chơi, spa thú cưng"
+                className="min-w-0 flex-1 bg-transparent px-1 text-[13px] font-medium text-[#183f41] outline-none placeholder:text-[#78918f] sm:px-6 sm:text-sm"
+                placeholder="Tìm đồ cho boss"
                 type="search"
                 onBlur={(event) => trackSearch(event.currentTarget.value)}
                 onKeyDown={handleSearchKeyDown}
               />
             </div>
 
-            <div className="hidden justify-self-end md:flex md:items-center md:gap-2.5">
-              <HeaderIcon label="Tìm kiếm">
+            <div className="flex justify-self-end md:items-center md:gap-2.5">
+              <HeaderIcon className="hidden md:grid" label="Tìm kiếm">
                 <Search className="size-5" />
               </HeaderIcon>
-              <HeaderIcon label="Tài khoản">
+              <HeaderIcon className="hidden md:grid" label="Tài khoản">
                 <UserRound className="size-5" />
               </HeaderIcon>
               <HeaderIcon
+                className="size-11 md:size-12"
                 href="/cart"
                 label={`Giỏ hàng có ${cartCount} sản phẩm`}
               >
@@ -579,8 +580,8 @@ export function PetStoreHero() {
             </div>
           </div>
 
-          <div className="mt-3 flex min-h-9 flex-wrap items-center justify-between gap-3">
-            <nav className="grid w-full min-w-0 grid-cols-2 items-center gap-x-4 gap-y-2 text-sm font-black text-[#173e40] sm:flex sm:flex-wrap sm:gap-x-6 xl:w-auto">
+          <div className="mt-2 flex min-h-9 flex-wrap items-center justify-between gap-3 sm:mt-3">
+            <nav className="-mx-1 flex w-full min-w-0 [scrollbar-width:none] items-center gap-2 overflow-x-auto px-1 pb-0.5 text-sm font-black whitespace-nowrap text-[#173e40] sm:flex-wrap sm:gap-x-6 sm:overflow-visible sm:pb-0 xl:w-auto [&::-webkit-scrollbar]:hidden">
               {primaryNav.map((item) => {
                 const isOpen = openNavLabel === item.label;
 
@@ -606,7 +607,7 @@ export function PetStoreHero() {
                       aria-expanded={isOpen}
                       type="button"
                       className={cn(
-                        "inline-flex items-center gap-1 rounded-full px-1.5 py-1 transition-colors hover:text-[#ff4f2e]",
+                        "inline-flex h-9 items-center gap-1 rounded-full bg-[#f3faf8] px-3 transition-colors hover:text-[#ff4f2e] sm:h-auto sm:bg-transparent sm:px-1.5 sm:py-1",
                         isOpen && "text-[#ff4f2e]",
                       )}
                       onClick={() =>
@@ -676,7 +677,7 @@ export function PetStoreHero() {
         <main
           data-hero-visual
           data-track-section="hero"
-          className="relative overflow-hidden rounded-[22px] bg-[#eafdfe] shadow-[inset_0_0_0_1px_rgba(7,88,93,0.06)] lg:min-h-[760px] xl:min-h-[805px]"
+          className="relative overflow-hidden rounded-[20px] bg-[#eafdfe] shadow-[inset_0_0_0_1px_rgba(7,88,93,0.06)] sm:rounded-[22px] lg:min-h-[760px] xl:min-h-[805px]"
         >
           <div className="pointer-events-none absolute top-[18%] right-[13.5%] size-32 rounded-full bg-[#bde9e2]" />
           <div className="pointer-events-none absolute top-[42%] right-[5.5%] size-14 rounded-full bg-[#bde9e2]" />
@@ -684,14 +685,14 @@ export function PetStoreHero() {
           <div className="pointer-events-none absolute top-[29%] left-[18%] hidden h-24 w-28 rounded-[34px] bg-white/20 lg:block" />
           <div className="pointer-events-none absolute bottom-[21%] left-[5%] hidden size-24 rounded-[28px] bg-white/18 lg:block" />
 
-          <div className="grid min-h-[760px] gap-2 px-6 py-8 sm:px-10 lg:grid-cols-[40%_40%_20%] lg:px-12 lg:py-12 xl:px-16">
+          <div className="grid min-h-[660px] gap-2 px-4 py-6 sm:min-h-[760px] sm:px-10 sm:py-8 lg:grid-cols-[40%_40%_20%] lg:px-12 lg:py-12 xl:px-16">
             <section
-              className="relative order-2 min-h-[520px] lg:order-1 lg:min-h-0"
+              className="relative order-2 min-h-[330px] sm:min-h-[520px] lg:order-1 lg:min-h-0"
               aria-label="Thú cưng nổi bật"
             >
               <div
                 data-main-pet
-                className="absolute top-[2%] left-[2%] w-[77%] max-w-[520px]"
+                className="absolute top-[3%] left-[7%] w-[70%] max-w-[420px] sm:top-[2%] sm:left-[2%] sm:w-[77%] sm:max-w-[520px]"
               >
                 <div className="pointer-events-none absolute -bottom-8 -left-5 h-[calc(100%+46px)] w-[calc(100%+38px)] rounded-[47%_47%_43%_43%/35%_35%_47%_47%] border-2 border-[#8ed8d5]" />
                 <div className="relative aspect-[0.76] overflow-hidden rounded-[47%_47%_43%_43%/35%_35%_47%_47%] bg-[#b7e6e7] shadow-[0_34px_80px_rgba(8,83,88,0.13)]">
@@ -711,10 +712,10 @@ export function PetStoreHero() {
               <div
                 data-float
                 data-pop
-                className="absolute top-[6%] left-[66%] z-20 grid size-28 place-items-center rounded-full border-4 border-white bg-[#ffe19b] text-[#73590d] shadow-[0_24px_42px_rgba(132,105,20,0.16)] xl:size-32"
+                className="absolute top-[4%] left-[64%] z-20 grid size-20 place-items-center rounded-full border-4 border-white bg-[#ffe19b] text-[#73590d] shadow-[0_20px_34px_rgba(132,105,20,0.14)] sm:top-[6%] sm:size-28 sm:shadow-[0_24px_42px_rgba(132,105,20,0.16)] xl:size-32"
               >
                 <ArrowUpRight
-                  className="size-12"
+                  className="size-9 sm:size-12"
                   strokeWidth={1.8}
                   aria-hidden
                 />
@@ -732,7 +733,7 @@ export function PetStoreHero() {
             </section>
 
             <section className="relative z-10 order-1 flex flex-col justify-center pt-4 lg:order-2 lg:pt-0">
-              <h1 className="max-w-[760px] text-[48px] leading-[1.07] font-black tracking-normal text-[#073f42] sm:text-[68px] lg:text-[58px] xl:text-[74px] 2xl:text-[88px]">
+              <h1 className="max-w-[760px] text-[42px] leading-[1.08] font-black tracking-normal text-[#073f42] sm:text-[68px] lg:text-[58px] xl:text-[74px] 2xl:text-[88px]">
                 <span className="block overflow-hidden py-1">
                   <span data-headline-line className="block whitespace-nowrap">
                     Chăm sóc tốt
@@ -755,7 +756,7 @@ export function PetStoreHero() {
 
               <p
                 data-reveal
-                className="mt-6 max-w-[520px] text-lg leading-8 font-bold text-[#3a6566]"
+                className="mt-4 max-w-[520px] text-base leading-7 font-bold text-[#3a6566] sm:mt-6 sm:text-lg sm:leading-8"
               >
                 Đồ ăn, phụ kiện và dịch vụ chăm sóc giúp thú cưng luôn khỏe mạnh
                 mỗi ngày.
@@ -763,13 +764,13 @@ export function PetStoreHero() {
 
               <div
                 data-reveal
-                className="mt-9 flex flex-wrap items-center gap-5"
+                className="mt-6 flex flex-wrap items-center gap-3 sm:mt-9 sm:gap-5"
               >
                 <Button
                   data-track-action="true"
                   data-track-id="hero:collection-cta"
                   data-track-section="hero"
-                  className="h-[58px] rounded-full bg-[#ff4f2e] px-10 text-[15px] font-black text-white shadow-[0_24px_44px_rgba(255,79,46,0.24)] hover:bg-[#e94427]"
+                  className="h-12 rounded-full bg-[#ff4f2e] px-6 text-sm font-black text-white shadow-[0_18px_34px_rgba(255,79,46,0.22)] hover:bg-[#e94427] sm:h-[58px] sm:px-10 sm:text-[15px] sm:shadow-[0_24px_44px_rgba(255,79,46,0.24)]"
                   onClick={handleHeroAddItem}
                 >
                   Tất cả bộ sưu tập
@@ -780,7 +781,7 @@ export function PetStoreHero() {
                   data-track-section="hero"
                   variant="secondary"
                   size="icon"
-                  className="size-[58px] rounded-full border-[#ff9f8c] bg-transparent text-[#ff4f2e] hover:bg-white/70"
+                  className="size-12 rounded-full border-[#ff9f8c] bg-transparent text-[#ff4f2e] hover:bg-white/70 sm:size-[58px]"
                   aria-label="Thêm vào yêu thích"
                 >
                   <Heart className="size-6" strokeWidth={1.8} />
@@ -789,7 +790,7 @@ export function PetStoreHero() {
 
               <div
                 data-reveal
-                className="mt-16 flex flex-wrap items-center gap-6"
+                className="mt-8 flex flex-wrap items-center gap-3 sm:mt-16 sm:gap-6"
                 aria-label="Sản phẩm gợi ý"
               >
                 {productPicks.map((product) => (
@@ -804,7 +805,7 @@ export function PetStoreHero() {
                     data-track-product-name={product.name}
                     data-track-section="hero"
                     className={cn(
-                      "grid size-[86px] place-items-center rounded-full border-2 transition-transform hover:-translate-y-1",
+                      "grid size-16 place-items-center rounded-full border-2 transition-transform hover:-translate-y-1 sm:size-[86px]",
                       product.className,
                     )}
                     aria-label={product.name}
@@ -934,24 +935,28 @@ function HeaderIcon({
   label,
   children,
   href,
+  className,
 }: {
   label: string;
   children: ReactNode;
   href?: string;
+  className?: string;
 }) {
-  const className =
-    "relative grid size-12 place-items-center rounded-full border border-[#d8e7e4] bg-white text-[#073f42] transition-colors hover:border-[#ffb6a5] hover:text-[#ff4f2e]";
+  const iconClassName = cn(
+    "relative grid size-12 place-items-center rounded-full border border-[#d8e7e4] bg-white text-[#073f42] transition-colors hover:border-[#ffb6a5] hover:text-[#ff4f2e]",
+    className,
+  );
 
   if (href) {
     return (
-      <Link className={className} aria-label={label} href={href}>
+      <Link className={iconClassName} aria-label={label} href={href}>
         {children}
       </Link>
     );
   }
 
   return (
-    <button className={className} aria-label={label} type="button">
+    <button className={iconClassName} aria-label={label} type="button">
       {children}
     </button>
   );

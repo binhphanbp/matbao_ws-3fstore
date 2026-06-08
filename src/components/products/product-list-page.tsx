@@ -346,22 +346,22 @@ export function ProductListPage({
     <StorefrontPageShell>
       <main data-track-section="products-list">
         <section className="border-b border-[#d9ece8] bg-white">
-          <div className="mx-auto grid w-full max-w-[1480px] gap-5 px-4 py-6 sm:px-6 lg:grid-cols-[1fr_420px] lg:px-8">
+          <div className="mx-auto grid w-full max-w-[1480px] gap-3 px-3 py-4 sm:gap-5 sm:px-6 sm:py-6 lg:grid-cols-[1fr_420px] lg:px-8">
             <div className="min-w-0">
-              <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#e7fbf7] px-4 py-2 text-xs font-black text-[#0b6b68]">
+              <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-[#e7fbf7] px-3 py-1.5 text-[11px] font-black text-[#0b6b68] sm:mb-3 sm:px-4 sm:py-2 sm:text-xs">
                 <PackageSearch className="size-4" />
                 Chọn nhanh, chốt gọn
               </div>
-              <h1 className="text-3xl leading-tight font-black tracking-normal text-[#073f42] sm:text-4xl lg:text-5xl">
+              <h1 className="text-2xl leading-tight font-black tracking-normal text-[#073f42] sm:text-4xl lg:text-5xl">
                 Chọn nhanh cho boss
               </h1>
-              <p className="mt-3 max-w-2xl text-sm leading-6 font-semibold text-[#587a78] sm:text-base">
+              <p className="mt-3 hidden max-w-2xl text-sm leading-6 font-semibold text-[#587a78] sm:block sm:text-base">
                 Danh sách được tối ưu để khách lọc nhanh bên trái, so sánh trên
                 grid, xem nhanh ngay tại trang và thêm giỏ trong một chạm.
               </p>
             </div>
 
-            <div className="self-end rounded-[26px] border border-[#d7e8e5] bg-[#f3faf8] p-3">
+            <div className="self-end rounded-[22px] border border-[#d7e8e5] bg-[#f3faf8] p-2.5 sm:rounded-[26px] sm:p-3">
               <label
                 htmlFor="product-search"
                 className="mb-2 block text-sm font-black text-[#073f42]"
@@ -383,7 +383,7 @@ export function ProductListPage({
           </div>
         </section>
 
-        <section className="mx-auto grid w-full max-w-[1480px] gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[286px_minmax(0,1fr)] lg:px-8">
+        <section className="mx-auto grid w-full max-w-[1480px] gap-4 px-3 py-4 sm:gap-6 sm:px-6 sm:py-6 lg:grid-cols-[286px_minmax(0,1fr)] lg:px-8">
           <ProductFilters
             categories={categories}
             brands={brands}
@@ -397,13 +397,13 @@ export function ProductListPage({
           />
 
           <div className="min-w-0">
-            <div className="sticky top-20 z-30 mb-4 rounded-[24px] border border-[#d7ebe8] bg-white/95 p-3 shadow-[0_14px_50px_rgba(7,63,66,0.08)] backdrop-blur">
-              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                <div className="flex flex-wrap items-center gap-2 text-sm font-bold text-[#5f7c7b]">
+            <div className="sticky top-16 z-30 mb-3 rounded-[20px] border border-[#d7ebe8] bg-white/96 p-2.5 shadow-[0_12px_38px_rgba(7,63,66,0.08)] backdrop-blur sm:top-[72px] sm:mb-4 sm:rounded-[24px] sm:p-3">
+              <div className="flex flex-col gap-2 sm:gap-3 md:flex-row md:items-center md:justify-between">
+                <div className="flex items-center gap-2 text-xs font-bold text-[#5f7c7b] sm:flex-wrap sm:text-sm">
                   <button
                     type="button"
                     onClick={() => setMobileFiltersOpen(true)}
-                    className="inline-flex h-10 items-center gap-2 rounded-full border border-[#d7e8e5] bg-white px-4 text-sm font-black text-[#073f42] lg:hidden"
+                    className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full bg-[#073f42] px-3 text-sm font-black text-white lg:hidden"
                   >
                     <Filter className="size-4" />
                     Lọc
@@ -413,14 +413,14 @@ export function ProductListPage({
                       </span>
                     ) : null}
                   </button>
-                  <span>
+                  <span className="min-w-0 truncate">
                     <strong className="text-[#073f42]">
                       {filteredProducts.length}
                     </strong>{" "}
-                    sản phẩm phù hợp
+                    sản phẩm
                   </span>
                   <span className="hidden text-[#9ab1af] sm:inline">/</span>
-                  <span>
+                  <span className="shrink-0">
                     Trang {currentPage}/{totalPages}
                   </span>
                 </div>
@@ -450,7 +450,7 @@ export function ProductListPage({
 
             {visibleProducts.length > 0 ? (
               <>
-                <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+                <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-3 2xl:grid-cols-4">
                   {visibleProducts.map((product) => (
                     <ProductCard
                       key={product.id}
@@ -487,15 +487,27 @@ export function ProductListPage({
       </main>
 
       {mobileFiltersOpen ? (
-        <div className="fixed inset-0 z-[70] bg-[#073f42]/35 p-4 lg:hidden">
-          <div className="ml-auto h-full max-w-sm overflow-y-auto rounded-[28px] bg-white p-4 shadow-2xl">
-            <div className="mb-4 flex items-center justify-between">
-              <p className="text-lg font-black text-[#073f42]">Bộ lọc</p>
+        <div
+          className="fixed inset-0 z-[70] bg-[#073f42]/40 lg:hidden"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) {
+              setMobileFiltersOpen(false);
+            }
+          }}
+        >
+          <div className="absolute inset-x-0 bottom-0 max-h-[88dvh] overflow-y-auto rounded-t-[28px] bg-white p-4 shadow-[0_-24px_80px_rgba(7,63,66,0.22)]">
+            <div className="sticky top-0 z-10 mb-4 flex items-center justify-between bg-white pb-3">
+              <div>
+                <p className="text-lg font-black text-[#073f42]">Bộ lọc</p>
+                <p className="mt-0.5 text-xs font-bold text-[#7b9694]">
+                  Chọn xong sẽ đóng để xem sản phẩm ngay.
+                </p>
+              </div>
               <button
                 type="button"
                 aria-label="Đóng bộ lọc"
                 onClick={() => setMobileFiltersOpen(false)}
-                className="grid size-10 place-items-center rounded-full border border-[#d7e8e5]"
+                className="grid size-10 shrink-0 place-items-center rounded-full border border-[#d7e8e5]"
               >
                 <X className="size-5" />
               </button>
@@ -533,7 +545,7 @@ export function ProductListPage({
       {toast ? (
         <div
           role="status"
-          className="fixed right-5 bottom-5 z-[95] flex max-w-md items-center gap-3 rounded-[22px] border-2 border-[#ffb4a8] bg-[#ff4f3c] px-5 py-4 text-base font-black text-white shadow-[0_24px_70px_rgba(255,79,60,0.34)]"
+          className="fixed right-3 bottom-3 left-3 z-[95] flex items-center gap-3 rounded-[20px] border-2 border-[#ffb4a8] bg-[#ff4f3c] px-4 py-3 text-sm font-black text-white shadow-[0_24px_70px_rgba(255,79,60,0.34)] sm:right-5 sm:bottom-5 sm:left-auto sm:max-w-md sm:rounded-[22px] sm:px-5 sm:py-4 sm:text-base"
         >
           <CheckCircle2 className="size-6 shrink-0" />
           <span>{toast}</span>
@@ -720,27 +732,41 @@ function ProductCard({
       data-track-category={product.category}
       data-track-brand={product.brand}
       data-track-price={product.price}
-      className="group flex min-w-0 flex-col overflow-hidden rounded-[22px] border border-[#d9e9e6] bg-white shadow-[0_14px_42px_rgba(7,63,66,0.07)] transition hover:-translate-y-0.5 hover:border-[#b9dcd7]"
+      className="group grid min-w-0 grid-cols-[116px_minmax(0,1fr)] overflow-hidden rounded-[20px] border border-[#d9e9e6] bg-white shadow-[0_12px_34px_rgba(7,63,66,0.07)] transition hover:-translate-y-0.5 hover:border-[#b9dcd7] sm:flex sm:flex-col sm:rounded-[22px] sm:shadow-[0_14px_42px_rgba(7,63,66,0.07)]"
     >
-      <Link
-        href={`/products/${product.slug}`}
-        aria-label="Mở chi tiết sản phẩm"
-        onClick={() =>
-          trackAnalyticsEvent("product_click", {
-            sectionId: "products-list",
-            elementId: "product-image-link",
-            productId: product.id,
-            productName: product.shortName,
-            category: product.category,
-            brand: product.brand,
-            audience: product.audience,
-            price: product.price,
-          })
-        }
-        className="relative block aspect-square overflow-hidden bg-white"
-      >
+      <div className="relative aspect-square overflow-hidden bg-white">
+        <Link
+          href={`/products/${product.slug}`}
+          aria-label="Mở chi tiết sản phẩm"
+          onClick={() =>
+            trackAnalyticsEvent("product_click", {
+              sectionId: "products-list",
+              elementId: "product-image-link",
+              productId: product.id,
+              productName: product.shortName,
+              category: product.category,
+              brand: product.brand,
+              audience: product.audience,
+              price: product.price,
+            })
+          }
+          className="block h-full w-full"
+        >
+          {product.image ? (
+            <img
+              src={product.image}
+              alt={product.shortName}
+              className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+              loading="lazy"
+            />
+          ) : (
+            <div className="grid h-full place-items-center rounded-3xl bg-white text-2xl font-black text-[#8fb7b2]">
+              3F
+            </div>
+          )}
+        </Link>
         {discount > 0 ? (
-          <span className="absolute top-3 left-3 z-10 rounded-full bg-[#ff4f3c] px-2.5 py-1 text-xs font-black text-white">
+          <span className="absolute top-2 left-2 z-10 rounded-full bg-[#ff4f3c] px-2 py-0.5 text-[11px] font-black text-white sm:top-3 sm:left-3 sm:px-2.5 sm:py-1 sm:text-xs">
             -{discount}%
           </span>
         ) : null}
@@ -748,7 +774,7 @@ function ProductCard({
           type="button"
           onClick={onWishlist}
           aria-label={wished ? "Bỏ yêu thích" : "Thêm yêu thích"}
-          className={`absolute top-3 right-3 z-10 grid size-9 place-items-center rounded-full border bg-white transition ${
+          className={`absolute top-2 right-2 z-10 grid size-8 place-items-center rounded-full border bg-white transition sm:top-3 sm:right-3 sm:size-9 ${
             wished
               ? "border-[#ff4f3c] text-[#ff4f3c]"
               : "border-[#d7e8e5] text-[#0b5557]"
@@ -756,24 +782,12 @@ function ProductCard({
         >
           <Heart className="size-4" fill={wished ? "currentColor" : "none"} />
         </button>
-        {product.image ? (
-          <img
-            src={product.image}
-            alt={product.shortName}
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-            loading="lazy"
-          />
-        ) : (
-          <div className="grid h-full place-items-center rounded-3xl bg-white text-2xl font-black text-[#8fb7b2]">
-            3F
-          </div>
-        )}
-      </Link>
+      </div>
 
-      <div className="flex flex-1 flex-col gap-3 p-4">
+      <div className="flex min-w-0 flex-1 flex-col gap-2 p-3 sm:gap-3 sm:p-4">
         <div className="min-w-0">
           <div className="mb-2 flex items-center justify-between gap-2">
-            <span className="truncate rounded-full bg-[#e9f8f5] px-2.5 py-1 text-[11px] font-black text-[#0d7773]">
+            <span className="max-w-[128px] truncate rounded-full bg-[#e9f8f5] px-2 py-0.5 text-[10px] font-black text-[#0d7773] sm:max-w-none sm:px-2.5 sm:py-1 sm:text-[11px]">
               {product.category}
             </span>
             <span className="inline-flex items-center gap-1 text-xs font-black text-[#f4b400]">
@@ -798,32 +812,32 @@ function ProductCard({
                 price: product.price,
               })
             }
-            className="line-clamp-2 min-h-11 text-sm leading-[1.45] font-black text-[#073f42]"
+            className="line-clamp-2 text-[13px] leading-[1.35] font-black text-[#073f42] sm:min-h-11 sm:text-sm sm:leading-[1.45]"
             title={product.shortName}
           >
             {cardTitle}
           </Link>
         </div>
 
-        <div className="mt-auto border-t border-[#e1eeeb] pt-3">
-          <div className="mb-3 flex items-end justify-between gap-2">
+        <div className="mt-auto border-t border-[#e1eeeb] pt-2 sm:pt-3">
+          <div className="mb-2 flex items-end justify-between gap-2 sm:mb-3">
             <div className="min-w-0">
               {product.compareAtPrice ? (
                 <p className="text-xs font-bold text-[#9aa7a5] line-through">
                   {formatCurrency(product.compareAtPrice)}
                 </p>
               ) : null}
-              <p className="text-xl font-black text-[#111827]">
+              <p className="text-lg font-black text-[#111827] sm:text-xl">
                 {formatCurrency(product.price)}
               </p>
             </div>
             <button
               type="button"
               onClick={onQuickView}
-              className="grid size-10 shrink-0 place-items-center rounded-full border border-[#d7e8e5] text-[#073f42] transition hover:border-[#ff4f3c] hover:text-[#ff4f3c]"
+              className="grid size-9 shrink-0 place-items-center rounded-full border border-[#d7e8e5] text-[#073f42] transition hover:border-[#ff4f3c] hover:text-[#ff4f3c] sm:size-10"
             >
               <span className="sr-only">Xem nhanh</span>
-              <Eye className="size-5" />
+              <Eye className="size-[18px] sm:size-5" />
             </button>
           </div>
 
@@ -832,7 +846,7 @@ function ProductCard({
               type="button"
               aria-label="Thêm giỏ hàng"
               onClick={onQuickAdd}
-              className="inline-flex h-11 w-full min-w-0 items-center justify-center gap-2 rounded-full bg-[#ff4f3c] px-3 text-sm font-black whitespace-nowrap text-white shadow-[0_12px_28px_rgba(255,79,60,0.22)] transition hover:bg-[#e84231]"
+              className="inline-flex h-10 w-full min-w-0 items-center justify-center gap-1.5 rounded-full bg-[#ff4f3c] px-2 text-[13px] font-black whitespace-nowrap text-white shadow-[0_10px_24px_rgba(255,79,60,0.20)] transition hover:bg-[#e84231] sm:h-11 sm:gap-2 sm:px-3 sm:text-sm sm:shadow-[0_12px_28px_rgba(255,79,60,0.22)]"
             >
               <ShoppingBag className="size-4" />
               <span>Thêm giỏ hàng</span>
@@ -864,17 +878,17 @@ function ProductPagination({
   return (
     <nav
       aria-label="Phân trang sản phẩm"
-      className="mt-6 flex flex-wrap items-center justify-center gap-2 rounded-[24px] border border-[#d7e8e5] bg-white p-3"
+      className="mt-5 flex flex-wrap items-center justify-center gap-2 rounded-[22px] border border-[#d7e8e5] bg-white p-2.5 sm:mt-6 sm:rounded-[24px] sm:p-3"
     >
       <button
         type="button"
         aria-label="Trang trước"
         disabled={currentPage <= 1}
         onClick={() => onPageChange(currentPage - 1)}
-        className="inline-flex h-11 items-center gap-2 rounded-full border border-[#d7e8e5] px-4 text-sm font-black text-[#073f42] disabled:cursor-not-allowed disabled:opacity-40"
+        className="inline-flex h-10 items-center gap-1 rounded-full border border-[#d7e8e5] px-3 text-sm font-black text-[#073f42] disabled:cursor-not-allowed disabled:opacity-40 sm:h-11 sm:gap-2 sm:px-4"
       >
         <ChevronLeft className="size-4" />
-        Trang trước
+        <span className="hidden sm:inline">Trang trước</span>
       </button>
 
       {pages.map((page, index) => {
@@ -892,7 +906,7 @@ function ProductPagination({
               type="button"
               aria-current={currentPage === page ? "page" : undefined}
               onClick={() => onPageChange(page)}
-              className={`grid size-11 place-items-center rounded-full text-sm font-black ${
+              className={`grid size-10 place-items-center rounded-full text-sm font-black sm:size-11 ${
                 currentPage === page
                   ? "bg-[#073f42] text-white"
                   : "border border-[#d7e8e5] bg-white text-[#073f42] hover:border-[#ff4f3c]"
@@ -909,9 +923,9 @@ function ProductPagination({
         aria-label="Trang sau"
         disabled={currentPage >= totalPages}
         onClick={() => onPageChange(currentPage + 1)}
-        className="inline-flex h-11 items-center gap-2 rounded-full border border-[#d7e8e5] px-4 text-sm font-black text-[#073f42] disabled:cursor-not-allowed disabled:opacity-40"
+        className="inline-flex h-10 items-center gap-1 rounded-full border border-[#d7e8e5] px-3 text-sm font-black text-[#073f42] disabled:cursor-not-allowed disabled:opacity-40 sm:h-11 sm:gap-2 sm:px-4"
       >
-        Trang sau
+        <span className="hidden sm:inline">Trang sau</span>
         <ChevronRight className="size-4" />
       </button>
     </nav>
@@ -931,7 +945,7 @@ function QuickViewDialog({
 
   return (
     <div
-      className="fixed inset-0 z-[75] grid place-items-center bg-[#073f42]/45 p-4"
+      className="fixed inset-0 z-[75] grid items-end bg-[#073f42]/45 sm:place-items-center sm:p-4"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) {
           onClose();
@@ -942,11 +956,11 @@ function QuickViewDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="quick-view-title"
-        className="grid max-h-[92vh] w-full max-w-3xl overflow-hidden rounded-[30px] bg-white shadow-[0_30px_90px_rgba(7,63,66,0.24)] md:grid-cols-[0.9fr_1.1fr]"
+        className="grid max-h-[88dvh] w-full overflow-hidden rounded-t-[30px] bg-white shadow-[0_30px_90px_rgba(7,63,66,0.24)] sm:max-w-3xl sm:rounded-[30px] md:grid-cols-[0.9fr_1.1fr]"
       >
-        <div className="relative bg-[#eef8f6] p-6">
+        <div className="relative bg-[#eef8f6] p-4 sm:p-6">
           {discount > 0 ? (
-            <span className="absolute top-5 left-5 rounded-full bg-[#ff4f3c] px-3 py-1 text-xs font-black text-white">
+            <span className="absolute top-4 left-4 rounded-full bg-[#ff4f3c] px-3 py-1 text-xs font-black text-white sm:top-5 sm:left-5">
               -{discount}%
             </span>
           ) : null}
@@ -954,7 +968,7 @@ function QuickViewDialog({
             <img
               src={product.image}
               alt={product.shortName}
-              className="mx-auto aspect-square h-full max-h-[360px] w-full object-contain"
+              className="mx-auto aspect-square h-full max-h-[220px] w-full object-contain sm:max-h-[360px]"
             />
           ) : (
             <div className="grid aspect-square place-items-center rounded-3xl bg-white text-4xl font-black text-[#8fb7b2]">
@@ -963,7 +977,7 @@ function QuickViewDialog({
           )}
         </div>
 
-        <div className="overflow-y-auto p-5 sm:p-6">
+        <div className="overflow-y-auto p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:p-6">
           <div className="mb-3 flex items-start justify-between gap-4">
             <div className="min-w-0">
               <p className="mb-2 inline-flex rounded-full bg-[#e9f8f5] px-3 py-1 text-xs font-black text-[#0d7773]">
@@ -971,7 +985,7 @@ function QuickViewDialog({
               </p>
               <h2
                 id="quick-view-title"
-                className="text-2xl leading-tight font-black text-[#073f42]"
+                className="text-xl leading-tight font-black text-[#073f42] sm:text-2xl"
               >
                 Xem nhanh sản phẩm
               </h2>
@@ -986,25 +1000,25 @@ function QuickViewDialog({
             </button>
           </div>
 
-          <p className="line-clamp-3 text-lg leading-7 font-black text-[#073f42]">
+          <p className="line-clamp-2 text-base leading-6 font-black text-[#073f42] sm:line-clamp-3 sm:text-lg sm:leading-7">
             {product.shortName}
           </p>
-          <p className="mt-3 line-clamp-3 text-sm leading-6 font-semibold text-[#587a78]">
+          <p className="mt-2 line-clamp-2 text-sm leading-6 font-semibold text-[#587a78] sm:mt-3 sm:line-clamp-3">
             {product.shortDescription}
           </p>
 
-          <div className="mt-5 rounded-[22px] bg-[#f5fbfa] p-4">
+          <div className="mt-4 rounded-[20px] bg-[#f5fbfa] p-3 sm:mt-5 sm:rounded-[22px] sm:p-4">
             {product.compareAtPrice ? (
               <p className="text-sm font-bold text-[#9aa7a5] line-through">
                 {formatCurrency(product.compareAtPrice)}
               </p>
             ) : null}
-            <p className="text-3xl font-black text-[#111827]">
+            <p className="text-2xl font-black text-[#111827] sm:text-3xl">
               {formatCurrency(product.price)}
             </p>
           </div>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+          <div className="mt-4 grid gap-2 sm:mt-5 sm:grid-cols-2 sm:gap-3">
             <button
               type="button"
               onClick={onBuy}
@@ -1028,8 +1042,8 @@ function QuickViewDialog({
 
 function EmptyProducts({ onReset }: { onReset: () => void }) {
   return (
-    <div className="rounded-[28px] border border-dashed border-[#bdded9] bg-white p-10 text-center">
-      <p className="text-2xl font-black text-[#073f42]">
+    <div className="rounded-[24px] border border-dashed border-[#bdded9] bg-white p-6 text-center sm:rounded-[28px] sm:p-10">
+      <p className="text-xl font-black text-[#073f42] sm:text-2xl">
         Chưa có sản phẩm phù hợp
       </p>
       <p className="mx-auto mt-3 max-w-xl text-sm leading-6 font-semibold text-[#66817f]">
